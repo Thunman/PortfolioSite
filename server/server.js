@@ -4,6 +4,8 @@ import { MongoClient } from "mongodb";
 import express from "express";
 import https from "https";
 import fs from "fs";
+import { Console } from "console";
+import { getSystemErrorMap } from "util";
 
 const mongoURL = process.env.MONGOURI;
 const client = new MongoClient(mongoURL);
@@ -33,4 +35,21 @@ async function startServer() {
     }
 }
 
+async function stopServer() {
+    try {
+        await server.close();
+        console.log("Server stopped");
+    } catch (error) {
+        console.log("Error stopping server: " + error);
+    }
+}
+
 startServer();
+
+console.log("To stop server, type 'stop'");
+process.stdin.on("data", (data) => {
+    if (data.toString().trim().toLowerCase() === "stop") {
+        stopServer();
+        process.exit();
+    }
+});
