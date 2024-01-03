@@ -2,7 +2,7 @@
 Learn by doing FullStack
 ## Description
 
-Will eventually be a full stack application with a react frontend and a node/expres backend
+Will eventually be a full stack application with a react frontend and a node/express backend
 
 ## Installation
 
