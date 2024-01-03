@@ -4,8 +4,7 @@ import { MongoClient } from "mongodb";
 import express from "express";
 import https from "https";
 import fs from "fs";
-import { Console } from "console";
-import { getSystemErrorMap } from "util";
+
 
 const mongoURL = process.env.MONGOURI;
 const client = new MongoClient(mongoURL);
