@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import express from "express";
 import https from "https";
 import fs from "fs";
+import userRouter from "../server/routes/userRoutes.js";
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ const client = new MongoClient(mongoURL);
 
 
 const app = express();
+app.use(express.json());
+app.use(("api/users"), userRouter);
 const port = process.env.PORT || 3000;
 const options = {
     key: fs.readFileSync(process.env.KEYPATH),
