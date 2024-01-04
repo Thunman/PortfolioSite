@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-dotenv.config();
 import { MongoClient } from "mongodb";
 import express from "express";
 import https from "https";
 import fs from "fs";
 
+dotenv.config();
 
 const mongoURL = process.env.MONGOURI;
 const client = new MongoClient(mongoURL);
@@ -36,7 +36,7 @@ async function startServer() {
 
 async function stopServer() {
     try {
-        await server.close();
+        server.close();
         console.log("Server stopped");
     } catch (error) {
         console.log("Error stopping server: " + error);
