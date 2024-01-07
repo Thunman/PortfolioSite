@@ -1,0 +1,55 @@
+<!-- FILEPATH: /home/thunman-server/learnByDoingFullStack/client/newUser.html -->
+
+<form action="/register" method="post" id="registrationForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="passwordConfirm">Confirm Password:</label>
+    <input type="password" id="passwordConfirm" name="passwordConfirm" required><br><br>
+
+    <input type="submit" value="Register">
+</form><br><br>
+<a href="/login.html">Back to Login</a>
+
+<script>
+
+    const registrationForm = document.getElementById("registrationForm");
+    registrationForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const userName = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPWD = document.getElementById("passwordConfirm").value
+        
+        if (confirmPWD !== password) alert("Password does not match");
+        else {
+            fetch("/api/users/register", {
+                method: "POST",
+                body: JSON.stringify({ userName, email, password }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(response => {
+                    alert(response.message)
+                })
+                .catch(error => {
+                    alert(response.message)
+                });
+            document.getElementById("registrationForm").reset();
+
+        }
+
+    });
+        
+
+
+</script>

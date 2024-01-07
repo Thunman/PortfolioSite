@@ -1,24 +1,23 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../model/userModel.js';
 import dotenv from 'dotenv';
-import { client } from '../server.js';
+import User from '../model/userModel.js';
 dotenv.config();
-
+const dbName = process.env.DBNAME;
 const userController = {
-
+    
     registerUser: async (req, res) => {
         try {
-            const usersCollection = client.db("learnByDoingMongo").collection("users");
+            
             const{userName, email, password} = req.body;
-            const existingUser = await usersCollection.findOne({email});
+            const existingUser = await User.findOne({email});
             if(existingUser) {
                 return res.status(400).json({message: "User already exists"});
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = new User({userName, email, password: hashedPassword});
-            await usersCollection.insertOne(newUser);
+            await newUser.save();
             res.status(201).json({message: "User created"});
         } catch (error) {
             console.error(error.message);
@@ -29,7 +28,8 @@ const userController = {
     loginUser: async(req, res) => {
         try {
             const { email, password } = req.body;
-            const user = await User.findOne({ email });
+            const usersCollection = client.db("learnByDoing").collection("users");
+            const user = await usersCollection.findOne({ email });
             if (!user) {
                 return res.status(400).json({ message: "Invalid email" });
             }

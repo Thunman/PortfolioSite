@@ -1,4 +1,4 @@
-import { startServer, stopServer, app, client } from "./src/server.js";
+import { startServer, stopServer, app } from "./src/server.js";
 
 startServer();
 

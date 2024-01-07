@@ -5,17 +5,16 @@ import https from "https";
 import fs from "fs";
 import userRouter from "../src/routes/userRoutes.js";
 import path from "path";
-
+import mongoose from "mongoose";
 
 dotenv.config();
 
 const mongoURL = process.env.MONGOURI;
-const client = new MongoClient(mongoURL);
-
 
 const app = express();
 app.use(express.json());
-app.use(("/api/users"), userRouter);
+app.use("/api/users", userRouter);
+
 app.get("/", (req, res) => {
     res.sendFile(path.resolve("../client/newUser.html"));
 });
@@ -29,7 +28,7 @@ const server = https.createServer(options, app);
 
 const startServer = async () => {
     try {
-        await client.connect();
+        await mongoose.connect(mongoURL);
         console.log("Connected to MongoDB");
         server.listen(port, (error) => {
             if (error) {
@@ -52,6 +51,6 @@ const stopServer = async () => {
     }
 }
 
-export {startServer, stopServer, app, client}
+export {startServer, stopServer, app}
 
 
