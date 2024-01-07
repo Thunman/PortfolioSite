@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import User from '../model/userModel.js';
 dotenv.config();
-const dbName = process.env.DBNAME;
+
+
 const userController = {
     
     registerUser: async (req, res) => {
@@ -28,8 +29,7 @@ const userController = {
     loginUser: async(req, res) => {
         try {
             const { email, password } = req.body;
-            const usersCollection = client.db("learnByDoing").collection("users");
-            const user = await usersCollection.findOne({ email });
+            const user = await User.findOne(email)
             if (!user) {
                 return res.status(400).json({ message: "Invalid email" });
             }
