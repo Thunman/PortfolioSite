@@ -3,7 +3,9 @@ import { MongoClient } from "mongodb";
 import express from "express";
 import https from "https";
 import fs from "fs";
-import userRouter from "../server/routes/userRoutes.js";
+import userRouter from "../src/routes/userRoutes.js";
+import path from "path";
+
 
 dotenv.config();
 
@@ -13,7 +15,11 @@ const client = new MongoClient(mongoURL);
 
 const app = express();
 app.use(express.json());
-app.use(("api/users"), userRouter);
+app.use(("/api/users"), userRouter);
+app.get("/", (req, res) => {
+    res.sendFile(path.resolve("../client/newUser.html"));
+});
+
 const port = process.env.PORT || 3000;
 const options = {
     key: fs.readFileSync(process.env.KEYPATH),
@@ -21,7 +27,7 @@ const options = {
 };
 const server = https.createServer(options, app);
 
-async function startServer() {
+const startServer = async () => {
     try {
         await client.connect();
         console.log("Connected to MongoDB");
@@ -37,7 +43,7 @@ async function startServer() {
     }
 }
 
-async function stopServer() {
+const stopServer = async () => {
     try {
         server.close();
         console.log("Server stopped");
@@ -46,12 +52,6 @@ async function stopServer() {
     }
 }
 
-startServer();
+export {startServer, stopServer, app, client}
 
-console.log("To stop server, type 'stop'");
-process.stdin.on("data", (data) => {
-    if (data.toString().trim().toLowerCase() === "stop") {
-        stopServer();
-        process.exit();
-    }
-});
+
