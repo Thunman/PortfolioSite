@@ -1,8 +1,6 @@
 import React, { useState, FormEvent } from "react";
-import styled from "styled-components";
 import * as Styles from "../styles/styles"
-import { response } from "express";
-import { error } from "console";
+
 
 const Login: React.FC = () => {
 
@@ -12,7 +10,7 @@ const Login: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        
+
         console.log(`logging in with username ${email} and password ${password}`);
 
         const loginUrl = "https://192.168.50.225:3000/api/users/login";
@@ -45,6 +43,42 @@ const Login: React.FC = () => {
     };
 
     return (
+
+
+        <Styles.StyledContainer>
+            <Styles.StyledFormContainer>
+                <Styles.StyledForm onSubmit={handleSubmit}>
+                    <Styles.StyledInput
+                        className="bg-gray-100 focus:ring-gray-500 focus:border-gray-500"
+                        placeholder="Email"
+                        type="text"
+                        id="userName"
+                        value={email}
+                        onChange={(e) => setUserName(e.target.value)}
+                        required
+                    />
+                    <Styles.StyledInput
+                        className="bg-gray-100 focus:ring-gray-500 focus:border-gray-500"
+                        placeholder="Password"
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <Styles.StyledButton type="submit">Submit</Styles.StyledButton>
+                </Styles.StyledForm>
+            </Styles.StyledFormContainer>
+            <div className="absolute top-0 left-0 w-full h-10 shadow-md bg-gray-700" />
+        </Styles.StyledContainer>
+
+
+
+
+
+
+
+        /*
         <>
             <Styles.GlobalStyle />
             <Styles.Container>
@@ -73,7 +107,7 @@ const Login: React.FC = () => {
                 </Styles.Form>
             </Styles.Container>
         </>
-
+        */
     );
 
 

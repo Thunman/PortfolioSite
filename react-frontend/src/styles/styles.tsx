@@ -1,75 +1,66 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
-body {
-  background-color: #F3EEE9;
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-}
-`;
-
-
-const Container = styled.div`
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+const StyledContainer = styled.div`
   display: flex;
-  justify-content: center;
+  height: 100vh;
+  width: 100%;
   align-items: center;
-  height: 200px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  justify-content: center;
+  background: linear-gradient(to bottom, #475569, #1a202c);
+  position: relative;
 `;
 
-const Header = styled.h2`
-  text-align: center;
-  color: #333;
+const StyledFormContainer = styled.div`
+  width: 100%;
+  max-width: 320px;
+  padding: 2rem;
+  background: #fff;
+  border: 4px solid #475569;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 `;
 
-const Form = styled.form`
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 `;
 
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  color: #555;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-`;
-
-const Button = styled.button`
+const StyledButton = styled.button`
+  background: #475569;
+  color: white;
+  &:hover {
+    background: #1a202c;
+  };
   padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  font-size: 16px
+  border: 4px solid #475569;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  
 `;
+
+const StyledInput = styled.input`
+padding: 8px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 3px;
+background-color: #f7fafc; /* bg-gray-100 */
+
+&:focus {
+  outline: none;
+  border-color: #6b7280; /* focus:border-gray-500 */
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5); /* focus:ring-gray-500 */
+}
+`;
+
 
 export {
-    GlobalStyle,
-    Container,
-    Header,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Button
+    StyledContainer,
+    StyledButton,
+    StyledForm,
+    StyledFormContainer,
+    StyledInput
+
 }
+
