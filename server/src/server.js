@@ -20,10 +20,11 @@ const app = express();
 app.use(express.json());
 app.use("/api/users", userRouter);
 
-app.use(express.static(resolve(__dirname, '../../client')));
+app.use(express.static(resolve(__dirname, '../../react-frontend/build')));
+/*
 app.get("/", (req, res) => {
     res.sendFile(path.resolve("../client/newUser.html"));
-});
+});*/
 
 const port = process.env.PORT || 3000;
 const options = {
