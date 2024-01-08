@@ -1,11 +1,16 @@
 import dotenv from "dotenv";
-import { MongoClient } from "mongodb";
 import express from "express";
 import https from "https";
 import fs from "fs";
-import userRouter from "../src/routes/userRoutes.js";
+import userRouter from "./routes/users.js";
 import path from "path";
 import mongoose from "mongoose";
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 dotenv.config();
 
@@ -15,6 +20,7 @@ const app = express();
 app.use(express.json());
 app.use("/api/users", userRouter);
 
+app.use(express.static(resolve(__dirname, '../../client')));
 app.get("/", (req, res) => {
     res.sendFile(path.resolve("../client/newUser.html"));
 });
@@ -32,25 +38,22 @@ const startServer = async () => {
         console.log("Connected to MongoDB");
         server.listen(port, (error) => {
             if (error) {
-                console.log("Thunman f'ed up. Error: ", error);
+                console.error(error);
             } else {
-                console.log("Server is running on port: ", port);
+                console.log(`server is running on port: ${port}`);
             }
         });
     } catch (error) {
-        console.log("Error connecting to DB " + error);
+        console.error(error);
     }
-}
+};
 
 const stopServer = async () => {
     try {
         server.close();
-        console.log("Server stopped");
     } catch (error) {
-        console.log("Error stopping server: " + error);
+        console.error(error);
     }
-}
+};
 
-export {startServer, stopServer, app}
-
-
+export {startServer, stopServer};
