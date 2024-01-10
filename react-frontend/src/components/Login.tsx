@@ -1,10 +1,8 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import * as Styles from "../styles/styles"
 import { Link } from "react-router-dom"
+import { LoginProps } from "./interface";
 
-interface LoginProps {
-    setIsLoggedIn: (isLoggedIn: boolean) => void;
-}
 
 
 const Login: React.FC<LoginProps> = (props) => {
