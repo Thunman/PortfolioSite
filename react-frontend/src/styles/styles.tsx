@@ -71,23 +71,24 @@ position: relative;
 width: 100%;
 padding: 0;
 margin: 0;
+
 `;
 
 const Tooltip = styled.div`
   visibility: hidden;
-  width: 120px;
-  background-color: black;
+  width: 120%;
+  background-color: #475569;
   color: #fff;
+
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
   position: absolute;
-  z-index: 1;
   bottom: 100%;
   left: 50%;
-  margin-left: -60px;
+  transform: translateX(-50%);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 2.5s;
 
   ${TooltipContainer}:hover &,
   ${TooltipContainer}:focus-within & {
