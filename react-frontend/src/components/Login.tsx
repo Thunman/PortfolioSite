@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import * as Styles from "../styles/styles"
+import { Link } from "react-router-dom"
 
 
 const Login: React.FC = () => {
@@ -9,7 +10,6 @@ const Login: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
 
         console.log(`logging in with username ${email} and password ${password}`);
 
@@ -36,20 +36,15 @@ const Login: React.FC = () => {
             .catch(error => {
                 console.error(error);
             })
-
-
         setUserName("");
         setPassword("");
     };
 
     return (
-
-
         <Styles.container>
             <Styles.formContainer>
                 <Styles.form onSubmit={handleSubmit}>
                     <Styles.input
-
                         placeholder="Email"
                         type="text"
                         id="userName"
@@ -58,7 +53,6 @@ const Login: React.FC = () => {
                         required
                     />
                     <Styles.input
-
                         placeholder="Password"
                         type="password"
                         id="password"
@@ -67,6 +61,7 @@ const Login: React.FC = () => {
                         required
                     />
                     <Styles.button type="submit">Submit</Styles.button>
+                    <Styles.button as={Link} to="/register">Register</Styles.button>
                 </Styles.form>
             </Styles.formContainer>
         </Styles.container>

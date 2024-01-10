@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as Styles from "../styles/styles";
+import { Link } from "react-router-dom";
 
 
 
@@ -101,6 +102,7 @@ const Register: React.FC = () => {
                         </div>
                     </Styles.TooltipContainer>
                     <Styles.button type="submit">Submit</Styles.button>
+                    <Styles.button as={Link} to="/">Login</Styles.button>
                 </Styles.form>
             </Styles.formContainer>
         </Styles.container>
