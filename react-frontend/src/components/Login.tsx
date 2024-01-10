@@ -45,11 +45,11 @@ const Login: React.FC = () => {
     return (
 
 
-        <Styles.StyledContainer>
-            <Styles.StyledFormContainer>
-                <Styles.StyledForm onSubmit={handleSubmit}>
-                    <Styles.StyledInput
-                        className="bg-gray-100 focus:ring-gray-500 focus:border-gray-500"
+        <Styles.container>
+            <Styles.formContainer>
+                <Styles.form onSubmit={handleSubmit}>
+                    <Styles.input
+                        
                         placeholder="Email"
                         type="text"
                         id="userName"
@@ -57,8 +57,8 @@ const Login: React.FC = () => {
                         onChange={(e) => setUserName(e.target.value)}
                         required
                     />
-                    <Styles.StyledInput
-                        className="bg-gray-100 focus:ring-gray-500 focus:border-gray-500"
+                    <Styles.input
+                        
                         placeholder="Password"
                         type="password"
                         id="password"
@@ -66,50 +66,13 @@ const Login: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <Styles.StyledButton type="submit">Submit</Styles.StyledButton>
-                </Styles.StyledForm>
-            </Styles.StyledFormContainer>
+                    <Styles.button type="submit">Submit</Styles.button>
+                </Styles.form>
+            </Styles.formContainer>
             <div className="absolute top-0 left-0 w-full h-10 shadow-md bg-gray-700" />
-        </Styles.StyledContainer>
+        </Styles.container>
 
+    )
 
-
-
-
-
-
-        /*
-        <>
-            <Styles.GlobalStyle />
-            <Styles.Container>
-                <Styles.Form onSubmit={handleSubmit}>
-                    <Styles.FormGroup>
-                        <Styles.Label htmlFor="userName">Email </Styles.Label>
-                        <Styles.Input
-                            type="text"
-                            id="userName"
-                            value={email}
-                            onChange={(e) => setUserName(e.target.value)}
-                            required
-                        />
-                    </Styles.FormGroup>
-                    <Styles.FormGroup>
-                        <Styles.Label htmlFor="password">Password </Styles.Label>
-                        <Styles.Input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </Styles.FormGroup>
-                    <Styles.Button type="submit">Submit</Styles.Button>
-                </Styles.Form>
-            </Styles.Container>
-        </>
-        */
-    );
-
-
-};
+    }
 export default Login;

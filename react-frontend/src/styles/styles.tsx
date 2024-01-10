@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-const StyledContainer = styled.div`
+const container = styled.div`
   display: flex;
   height: 100vh;
   width: 100%;
@@ -10,7 +10,7 @@ const StyledContainer = styled.div`
   position: relative;
 `;
 
-const StyledFormContainer = styled.div`
+const formContainer = styled.div`
   width: 100%;
   max-width: 320px;
   padding: 2rem;
@@ -20,13 +20,13 @@ const StyledFormContainer = styled.div`
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 `;
 
-const StyledForm = styled.form`
+const form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
-const StyledButton = styled.button`
+const button = styled.button`
   background: #475569;
   color: white;
   &:hover {
@@ -40,27 +40,39 @@ const StyledButton = styled.button`
   
 `;
 
-const StyledInput = styled.input`
+const input = styled.input`
 padding: 8px;
 font-size: 16px;
 border: 1px solid #ccc;
 border-radius: 3px;
-background-color: #f7fafc; /* bg-gray-100 */
+background-color: #f7fafc;
 
 &:focus {
   outline: none;
-  border-color: #6b7280; /* focus:border-gray-500 */
-  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5); /* focus:ring-gray-500 */
+  border-color: #6b7280;
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5);
 }
+`;
+
+const div = styled.div`
+postion: absolute;
+top: 50;
+left: 50;
+width: 100%;
+height: 10px;
+box-shadow: 0px 0px 2px -2px rgba(0, 0, 0, 0.25);
+background-color: #4a5568;
+
 `;
 
 
 export {
-    StyledContainer,
-    StyledButton,
-    StyledForm,
-    StyledFormContainer,
-    StyledInput
+    container,
+    button,
+    form,
+    formContainer,
+    input,
+    div
 
 }
 
