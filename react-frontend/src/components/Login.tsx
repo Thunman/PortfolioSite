@@ -1,9 +1,14 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import * as Styles from "../styles/styles"
 import { Link } from "react-router-dom"
 
+interface LoginProps {
+    setIsLoggedIn: (isLoggedIn: boolean) => void;
+}
 
-const Login: React.FC = () => {
+
+const Login: React.FC<LoginProps> = (props) => {
+    //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [email, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -29,6 +34,9 @@ const Login: React.FC = () => {
             .then(data => {
                 if (data.token) {
                     localStorage.setItem("token", data.token);
+                    localStorage.setItem("isLoggedIn", "true")
+                    props.setIsLoggedIn(true);
+
                 } else {
                     console.error("Login failed:", data.message);
                 }
@@ -38,6 +46,9 @@ const Login: React.FC = () => {
             })
         setUserName("");
         setPassword("");
+        localStorage.setItem("isLoggedIn", "true");
+        props.setIsLoggedIn(true);
+        
     };
 
     return (
