@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 
-const container = styled.div`
+const Container = styled.div`
   display: flex;
   height: 100vh;
   width: 100%;
@@ -10,7 +10,7 @@ const container = styled.div`
   position: relative;
 `;
 
-const formContainer = styled.div`
+const FormContainer = styled.div`
   width: 100%;
   max-width: 320px;
   padding: 2rem;
@@ -20,13 +20,13 @@ const formContainer = styled.div`
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 `;
 
-const form = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
-const button = styled.button`
+const Button = styled.button`
   background: #475569;
   color: white;
   &:hover {
@@ -39,7 +39,7 @@ const button = styled.button`
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 `;
 
-const input = styled.input`
+const Input = styled.input`
 padding: 8px;
 margin: 0;
 font-size: 16px;
@@ -56,7 +56,7 @@ width: 100%;
 }
 `;
 
-const div = styled.div`
+const Div = styled.div`
 position: absolute;
 top: 50;
 left: 50;
@@ -97,12 +97,12 @@ const Tooltip = styled.div`
   }`;
 
 export {
-  container,
-  button,
-  form,
-  formContainer,
-  input,
-  div,
+  Container,
+  Button,
+  Form,
+  FormContainer,
+  Input,
+  Div,
   Tooltip,
   TooltipContainer
 }

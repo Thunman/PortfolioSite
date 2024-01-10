@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import * as Styles from "../styles/styles";
 import { Link } from "react-router-dom";
 
-
-
-
-
 const Register: React.FC = () => {
 
     const [email, setEmail] = useState<string>("");
@@ -52,10 +48,10 @@ const Register: React.FC = () => {
     };
 
     return (
-        <Styles.container>
-            <Styles.formContainer>
-                <Styles.form onSubmit={handleSubmit}>
-                    <Styles.input
+        <Styles.Container>
+            <Styles.FormContainer>
+                <Styles.Form onSubmit={handleSubmit}>
+                    <Styles.Input
                         placeholder="Email"
                         type="email"
                         id="email"
@@ -63,7 +59,7 @@ const Register: React.FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                    <Styles.input
+                    <Styles.Input
                         placeholder="Username"
                         type="text"
                         id="userName"
@@ -71,7 +67,7 @@ const Register: React.FC = () => {
                         onChange={(e => setUserName(e.target.value))}
                         required
                     />
-                    <Styles.input
+                    <Styles.Input
                         placeholder="Password"
                         type="password"
                         id="password"
@@ -81,7 +77,7 @@ const Register: React.FC = () => {
                     />
                     <Styles.TooltipContainer>
                         <div>
-                            <Styles.input
+                            <Styles.Input
                                 placeholder="Confirm Password"
                                 type="password"
                                 id="confirmPassword"
@@ -101,11 +97,11 @@ const Register: React.FC = () => {
                             {tooltip && <Styles.Tooltip>{tooltip}</Styles.Tooltip>}
                         </div>
                     </Styles.TooltipContainer>
-                    <Styles.button type="submit">Submit</Styles.button>
-                    <Styles.button as={Link} to="/">Login</Styles.button>
-                </Styles.form>
-            </Styles.formContainer>
-        </Styles.container>
+                    <Styles.Button type="submit">Submit</Styles.Button>
+                    <Styles.Button as={Link} to="/">Login</Styles.Button>
+                </Styles.Form>
+            </Styles.FormContainer>
+        </Styles.Container>
     );
 };
 

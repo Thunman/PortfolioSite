@@ -41,10 +41,10 @@ const Login: React.FC = () => {
     };
 
     return (
-        <Styles.container>
-            <Styles.formContainer>
-                <Styles.form onSubmit={handleSubmit}>
-                    <Styles.input
+        <Styles.Container>
+            <Styles.FormContainer>
+                <Styles.Form onSubmit={handleSubmit}>
+                    <Styles.Input
                         placeholder="Email"
                         type="text"
                         id="userName"
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
                         onChange={(e) => setUserName(e.target.value)}
                         required
                     />
-                    <Styles.input
+                    <Styles.Input
                         placeholder="Password"
                         type="password"
                         id="password"
@@ -60,11 +60,11 @@ const Login: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <Styles.button type="submit">Submit</Styles.button>
-                    <Styles.button as={Link} to="/register">Register</Styles.button>
-                </Styles.form>
-            </Styles.formContainer>
-        </Styles.container>
+                    <Styles.Button type="submit">Submit</Styles.Button>
+                    <Styles.Button as={Link} to="/register">Register</Styles.Button>
+                </Styles.Form>
+            </Styles.FormContainer>
+        </Styles.Container>
     );
 };
 export default Login;
