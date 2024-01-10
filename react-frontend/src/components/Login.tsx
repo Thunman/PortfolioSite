@@ -49,7 +49,7 @@ const Login: React.FC = () => {
             <Styles.formContainer>
                 <Styles.form onSubmit={handleSubmit}>
                     <Styles.input
-                        
+
                         placeholder="Email"
                         type="text"
                         id="userName"
@@ -58,7 +58,7 @@ const Login: React.FC = () => {
                         required
                     />
                     <Styles.input
-                        
+
                         placeholder="Password"
                         type="password"
                         id="password"
@@ -69,10 +69,7 @@ const Login: React.FC = () => {
                     <Styles.button type="submit">Submit</Styles.button>
                 </Styles.form>
             </Styles.formContainer>
-            <div className="absolute top-0 left-0 w-full h-10 shadow-md bg-gray-700" />
         </Styles.container>
-
-    )
-
-    }
+    );
+};
 export default Login;
