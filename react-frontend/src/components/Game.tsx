@@ -19,7 +19,7 @@ const Game = () => {
     const [start, setStart] = useState(false);
 
     const handleClick = (id: number) => {
-        
+        console.log(circles);
         removeCircle(id);
         console.log(circles)
         setTimeout(() => {
@@ -30,10 +30,11 @@ const Game = () => {
         setScore(score + 1);
     }
     const addCircle = () => {
-        setCircles([...circles, { color: randomColorPicker(), id: circles.length, top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%` }]);
+        setCircles(circles => [...circles, { color: randomColorPicker(), id: Math.random(), top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%` }]);
     }
     const removeCircle = (id: number) => {
-        setCircles(circles.filter(circle => circle.id !== id));
+        console.log(id)
+        setCircles(circles => circles.filter(circle => circle.id !== id));
     }
 
     const startGame = () => {
