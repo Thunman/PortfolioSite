@@ -30,6 +30,7 @@ const port = process.env.PORT || 3000;
 const options = {
     key: fs.readFileSync(process.env.KEYPATH),
     cert: fs.readFileSync(process.env.CERTPATH),
+    passphrase: process.env.SSLPHRASE,
 };
 const server = https.createServer(options, app);
 

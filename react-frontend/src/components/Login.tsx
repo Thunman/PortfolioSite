@@ -6,7 +6,7 @@ import { LoginProps } from "./interface";
 
 
 const Login: React.FC<LoginProps> = (props) => {
-    //const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
 
     const [email, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");

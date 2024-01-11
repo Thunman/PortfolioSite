@@ -1,6 +1,6 @@
 /server/.env
 /server/node_modules
-/server/ssl
+/server/src/ssl
 /server/.babelrc
 /server/__tests__
 ```

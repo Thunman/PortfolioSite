@@ -16,7 +16,7 @@ const Register: React.FC = () => {
             setTooltip("Passwords must match");
             console.log("mismatch");
         } else {
-            const registerUrl = "https://192.168.50.225:3000/api/users/register"
+            const registerUrl = "https://localhost:3001/api/users/register"
             const registerPayload = {
                 email: email,
                 userName: userName,
@@ -44,6 +44,7 @@ const Register: React.FC = () => {
             setEmail("");
             setUserName("");
             setPassword("");
+            setConfirmPassword("");
         };
     };
 
@@ -101,7 +102,7 @@ const Register: React.FC = () => {
                     <Styles.Button as={Link} to="/">Login</Styles.Button>
                 </Styles.Form>
             </Styles.FormContainer>
-        </Styles.Container>
+        </Styles.Container >
     );
 };
 
