@@ -17,7 +17,7 @@ const FormContainer = styled.div`
   background: #fff;
   border: 4px solid #475569;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
 const Form = styled.form`
@@ -31,12 +31,15 @@ const Button = styled.button`
   color: white;
   &:hover {
     background: #1a202c;
+    border: 4px solid #1a202c;
   };
   padding: 10px;
   font-size: 16px;
   border: 4px solid #475569;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  margin-right: 10px;
+
 `;
 
 const Input = styled.input`

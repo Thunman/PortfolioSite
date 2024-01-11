@@ -31,7 +31,7 @@ const Landing: React.FC<LoginProps> = (props) => {
         <Styles.Container>
             <Styles.FormContainer >
                 <animated.div style={fade}>Hello World!</animated.div><br />
-                <Styles.Button as={Link} to="/game">Game</Styles.Button>
+                <Styles.Button as={Link} to="/game" style={{textDecoration: 'none'}}>Game</Styles.Button>
                 <Styles.Button type="submit" onClick={handleSubmit}>Log Out</Styles.Button>
             </Styles.FormContainer>
         </Styles.Container>
