@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './components/Landing';
+import Game from "./components/Game"
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
         {isLoggedIn && (
           <Routes>
             <Route path='/' element={<Landing setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/game" element={<Game />} />
           </Routes>
         )}
       </Router>
