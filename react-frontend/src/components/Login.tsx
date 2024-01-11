@@ -7,7 +7,6 @@ import { LoginProps } from "./interface";
 function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
     const handleClick = () => {
         alert("Mock CAPTCHA completed");
-
         onCompleted();
     };
 
@@ -45,6 +44,7 @@ const Login: React.FC<LoginProps> = (props) => {
                     localStorage.setItem("isLoggedIn", "true")
                     props.setIsLoggedIn(true);
                     setFailedAttempts(0);
+                    setUserName("");
 
                 } else {
                     alert(data.message);
@@ -55,8 +55,13 @@ const Login: React.FC<LoginProps> = (props) => {
             .catch(error => {
                 console.error(error);
             })
-        setUserName("");
+        
         setPassword("");
+
+        /*  Uncomment the below code to set logged in to true no matter what credentials are submitted
+            usefull to test frontend functionality without having acces to the backend */
+
+
         //localStorage.setItem("isLoggedIn", "true");
         //props.setIsLoggedIn(true);
 

@@ -14,7 +14,7 @@ const Register: React.FC = () => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setTooltip("Passwords must match");
-            console.log("mismatch");
+            console.log("missmatch");
         } else {
             const registerUrl = "https://localhost:3001/api/users/register"
             const registerPayload = {
