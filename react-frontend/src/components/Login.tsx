@@ -4,16 +4,26 @@ import { Link } from "react-router-dom"
 import { LoginProps } from "./interface";
 
 
+function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
+    const handleClick = () => {
+        alert("Mock CAPTCHA completed");
+
+        onCompleted();
+    };
+
+    return <button onClick={handleClick}>Complete CAPTCHA</button>;
+}
 
 const Login: React.FC<LoginProps> = (props) => {
-    
+
+    const [failedAttempts, setFailedAttempts] = useState<number>(0);
 
     const [email, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
+        console.log(failedAttempts);
         console.log(`logging in with username ${email} and password ${password}`);
 
         const loginUrl = "https://localhost:3001/api/users/login";
@@ -34,8 +44,11 @@ const Login: React.FC<LoginProps> = (props) => {
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("isLoggedIn", "true")
                     props.setIsLoggedIn(true);
+                    setFailedAttempts(0);
 
                 } else {
+                    alert(data.message);
+                    setFailedAttempts(failedAttempts + 1);
                     console.error("Login failed:", data.message);
                 }
             })
@@ -44,8 +57,9 @@ const Login: React.FC<LoginProps> = (props) => {
             })
         setUserName("");
         setPassword("");
-        
-        
+        //localStorage.setItem("isLoggedIn", "true");
+        //props.setIsLoggedIn(true);
+
     };
 
     return (
@@ -68,7 +82,11 @@ const Login: React.FC<LoginProps> = (props) => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <Styles.Button type="submit">Submit</Styles.Button>
+                    {failedAttempts >= 5 ? (
+                        <MockCaptcha onCompleted={() => setFailedAttempts(0)} />
+                    ) : (
+                        <Styles.Button type="submit">Submit</Styles.Button>
+                    )}
                     <Styles.Button as={Link} to="/register">Register</Styles.Button>
                 </Styles.Form>
             </Styles.FormContainer>
