@@ -16,7 +16,7 @@ const Login: React.FC<LoginProps> = (props) => {
 
         console.log(`logging in with username ${email} and password ${password}`);
 
-        const loginUrl = "https://192.168.50.225:3000/api/users/login";
+        const loginUrl = "https://localhost:3001/api/users/login";
         const loginPayload = {
             email: email,
             password: password
@@ -44,8 +44,7 @@ const Login: React.FC<LoginProps> = (props) => {
             })
         setUserName("");
         setPassword("");
-        localStorage.setItem("isLoggedIn", "true");
-        props.setIsLoggedIn(true);
+        
         
     };
 
