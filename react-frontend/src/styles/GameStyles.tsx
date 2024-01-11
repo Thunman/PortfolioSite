@@ -1,3 +1,4 @@
+
 import styled from 'styled-components';
 
 export const GameContainer = styled.div`
@@ -17,11 +18,13 @@ export const Circle = styled.div<{ randomColor: string, top: string, left: strin
     position: absolute;
     top: ${(props) => props.top};
     left: ${(props) => props.left};
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background-color: ${(props) => props.randomColor};
 `;
+
+
 
 export const GameBackground = styled.div`
     display: flex;
@@ -56,6 +59,25 @@ export const Score = styled.button`
     position: absolute;
     
     top: 20px;
+    display: flex;
+    justify-content: center;
+    background: #475569;
+    color: white;
+    &:hover {
+        background: #1a202c;
+        border: 4px solid #1a202c;
+    }
+    padding: 10px;
+    font-size: 16px;
+    border: 4px solid #475569;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+`;
+
+export const Timer = styled.button`
+    position: absolute;
+    
+    left: 20px;
     display: flex;
     justify-content: center;
     background: #475569;

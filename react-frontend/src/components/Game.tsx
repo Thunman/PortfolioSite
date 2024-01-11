@@ -1,7 +1,5 @@
 // a simple browser game, it renders circles and when they are clicked they disapear and the score counter increments
 
-
-import * as Styles from "../styles/styles"
 import * as GameStyles from "../styles/GameStyles";
 import { useEffect, useState } from "react";
 
@@ -17,23 +15,26 @@ const Game = () => {
     const [score, setScore] = useState(0);
     const [circles, setCircles] = useState<Circle[]>([])
     const [start, setStart] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(5);
+
+    const resetGame = () => {
+        setStart(false);
+        setCircles([]);
+        setScore(0);
+        setTimeLeft(5);
+    };
 
     const handleClick = (id: number) => {
-        console.log(circles);
         removeCircle(id);
-        console.log(circles)
-        setTimeout(() => {
-            addCircle();
-            console.log(circles)
-        }, 500)
-        
+        addCircle();
+
         setScore(score + 1);
     }
     const addCircle = () => {
         setCircles(circles => [...circles, { color: randomColorPicker(), id: Math.random(), top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%` }]);
     }
     const removeCircle = (id: number) => {
-        console.log(id)
+
         setCircles(circles => circles.filter(circle => circle.id !== id));
     }
 
@@ -43,14 +44,27 @@ const Game = () => {
     }
 
     useEffect(() => {
-        if (start) {
-            const timeoutId = setTimeout(() => {
-                setStart(false);
-            }, 30000);
+        const saveState = () => {
+            // Save score and timeleft and circlesarray to database
+        };
+        window.addEventListener("beforeunload", saveState);
+        return () => window.removeEventListener("beforeunload", saveState);
 
-            return () => clearTimeout(timeoutId);
+    }, []);
+
+    useEffect(() => {
+        if (start && timeLeft > 0) {
+
+            const timerId = setInterval(() => {
+                setTimeLeft(timeLeft - 1);
+            }, 1000);
+
+            return () => clearInterval(timerId);
+        } else {
+            resetGame();
         }
-    }, [start]);
+    }, [start, timeLeft]);
+
 
 
     return (
@@ -66,9 +80,8 @@ const Game = () => {
                         onClick={() => handleClick(circle.id)}
                     />
                 ))}
-
-
-            </GameStyles.GameContainer><br />
+            </GameStyles.GameContainer>
+            <GameStyles.Timer>{timeLeft}</GameStyles.Timer>
             <GameStyles.Button onClick={startGame}>startGame</GameStyles.Button>
         </GameStyles.GameBackground>
 
@@ -85,3 +98,4 @@ const randomColorPicker = () => {
         default: return "white"
     }
 }
+
