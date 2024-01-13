@@ -2,13 +2,10 @@
 
 import * as GameStyles from "../styles/GameStyles";
 import { useEffect, useState } from "react";
+import { Circle, GameState } from "../components/GameTypes"
+import { saveState, randomColorPicker } from "../helpers/gameHelpers";
 
-interface Circle {
-    color: string;
-    id: number;
-    top: string;
-    left: string;
-}
+
 
 const Game = () => {
 
@@ -27,7 +24,6 @@ const Game = () => {
     const handleClick = (id: number) => {
         removeCircle(id);
         addCircle();
-
         setScore(score + 1);
     }
     const addCircle = () => {
@@ -42,35 +38,19 @@ const Game = () => {
         setStart(true);
         addCircle();
     }
-    const saveState = async () => {
-        const gameState = {
+
+
+    useEffect(() => {
+        const gameState: GameState ={
             score,
             timeLeft,
             circles
-        };
-        const email = localStorage.getItem("email");
-        const token = localStorage.getItem("token");
-        const response = await fetch("/api/users/saveGameState", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token})}`
-            },
-            body: JSON.stringify({
-                email,
-                gameState
-            })
-        });
-        const data = await response.json();
-        alert(data.message);
-    };
+            };
+        const handleUnload = () => saveState(gameState);
+        window.addEventListener("beforeunload", handleUnload);
+        return () => window.removeEventListener("beforeunload", handleUnload);
 
-    useEffect(() => {
-        
-        window.addEventListener("beforeunload", saveState);
-        return () => window.removeEventListener("beforeunload", saveState);
-
-    }, []);
+    }, [score, timeLeft, circles]);
 
     useEffect(() => {
         if (start && timeLeft > 0) {
@@ -109,13 +89,5 @@ const Game = () => {
 }
 export default Game;
 
-const randomColorPicker = () => {
-    let randomNr = Math.floor(Math.random() * 3) + 1;
-    switch (randomNr) {
-        case 1: return "red"
-        case 2: return "green"
-        case 3: return "blue"
-        default: return "white"
-    }
-}
+
 
