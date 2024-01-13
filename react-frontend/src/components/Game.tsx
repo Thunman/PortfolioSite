@@ -42,11 +42,31 @@ const Game = () => {
         setStart(true);
         addCircle();
     }
+    const saveState = async () => {
+        const gameState = {
+            score,
+            timeLeft,
+            circles
+        };
+        const email = localStorage.getItem("email");
+        const token = localStorage.getItem("token");
+        const response = await fetch("/api/users/saveGameState", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token})}`
+            },
+            body: JSON.stringify({
+                email,
+                gameState
+            })
+        });
+        const data = await response.json();
+        alert(data.message);
+    };
 
     useEffect(() => {
-        const saveState = () => {
-            // Save score and timeleft and circlesarray to database
-        };
+        
         window.addEventListener("beforeunload", saveState);
         return () => window.removeEventListener("beforeunload", saveState);
 

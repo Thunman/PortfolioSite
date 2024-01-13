@@ -41,7 +41,8 @@ const Login: React.FC<LoginProps> = (props) => {
             .then(data => {
                 if (data.token) {
                     localStorage.setItem("token", data.token);
-                    localStorage.setItem("isLoggedIn", "true")
+                    localStorage.setItem("isLoggedIn", "true");
+                    localStorage.setItem("email", email);
                     props.setIsLoggedIn(true);
                     setFailedAttempts(0);
                     setUserName("");
