@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import * as Styles from "../styles/styles";
 import { Link } from "react-router-dom";
-
+import { userSchema } from "../Schemas/joiSchemas";
+import { error } from "console";
 const Register: React.FC = () => {
 
     const [email, setEmail] = useState<string>("");
@@ -22,24 +23,30 @@ const Register: React.FC = () => {
                 userName: userName,
                 password: password
             };
-            fetch(registerUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(registerPayload)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data) {
-                        alert(data.message);
-                    } else {
-                        alert("no response from server");
-                    }
+            const { error } = userSchema.validate(registerPayload);
+            if (error) {
+                const errorMsgs = error.details.map(detail => detail.message).join(", ")
+                alert(errorMsgs);
+            } else {
+                fetch(registerUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(registerPayload)
                 })
-                .catch(error => {
-                    alert(error);
-                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            alert(data.message);
+                        } else {
+                            alert("no response from server");
+                        }
+                    })
+                    .catch(error => {
+                        alert(error);
+                    })
+            }
 
             setEmail("");
             setUserName("");

@@ -6,7 +6,8 @@ export const saveState = async (gameState: GameState) => {
     const { error } = gameStateSchema.validate(gameState);
 
     if (error) {
-        alert(error.details)
+        const errorMsgs = error.details.map(detail => detail.message).join(", ");
+        alert(errorMsgs)
     } else {
         const email = localStorage.getItem("email");
         const token = localStorage.getItem("token");
