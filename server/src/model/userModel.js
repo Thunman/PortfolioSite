@@ -18,6 +18,20 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     isAdmin: {type: Boolean, default: false},
+
+    gameState: {
+        score: { type: Number, default: 0 },
+        timeLeft: { type: Number, default: 0 },
+        circles: [
+          {
+            color: { type: String, default: "" },
+            id: { type: Number, default: 0 },
+            top: { type: String, default: "" },
+            left: { type: String, default: "" },
+          },
+        ],
+      },
+    },
     
 }, {timestamps: true});
 
