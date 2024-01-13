@@ -48,5 +48,26 @@ const userController = {
         }
     },
 
+    saveGameState: async (req, res) => {
+        try {
+            const { email, gameState, accessToken } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(400).json({ message: "User does not exist"});
+            }
+            if (req.userData.email !== email) {
+                return res.status(403).json({ message: "Unauthorized" });
+              }
+            user.gameState = gameState;
+            await user.save();
+            res.status(200).json({ message: "GameState saved"})
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Server error"})
+        }
+    }
+
 };
 export default userController;
