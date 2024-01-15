@@ -39,9 +39,7 @@ export const GameBackground = styled.div`
 `;
 
 export const Button = styled.button`
-    //position: absolute;
-    
-    //bottom: 20px;
+
     display: flex;
     justify-content: center;
     background: #475569;
@@ -58,9 +56,7 @@ export const Button = styled.button`
 `;
 
 export const Score = styled.button`
-    //position: absolute;
-    
-    //top: 20px;
+
     display: flex;
     justify-content: center;
     background: #475569;
@@ -77,9 +73,7 @@ export const Score = styled.button`
 `;
 
 export const Timer = styled.button`
-    //position: absolute;
-    
-    //left: 20px;
+
     display: flex;
     justify-content: center;
     background: #475569;
@@ -96,9 +90,7 @@ export const Timer = styled.button`
 `;
 
 export const HighScore = styled.button`
-    //position: absolute;
-    
-    //left: 20px;
+
     display: flex;
     justify-content: center;
     background: #475569;
@@ -120,3 +112,19 @@ export const GameButtonContainer = styled.div `
     justify-content: space-between;
     gap: 20px;
 `
+export const SaveGameButton = styled.button`
+
+    display: flex;
+    justify-content: center;
+    background: #475569;
+    color: white;
+    &:hover {
+        background: #1a202c;
+        border: 4px solid #1a202c;
+    }
+    padding: 10px;
+    font-size: 16px;
+    border: 4px solid #475569;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+`;

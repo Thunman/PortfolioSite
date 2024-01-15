@@ -44,18 +44,13 @@ const Game = () => {
         addCircle();
     }
 
+    const gameState: GameState = {
+        score,
+        timeLeft,
+        circles
+    }
 
-    useEffect(() => {
-        const gameState: GameState = {
-            score,
-            timeLeft,
-            circles
-        };
-        const handleUnload = () => saveState(gameState);
-        window.addEventListener("beforeunload", handleUnload);
-        return () => window.removeEventListener("beforeunload", handleUnload);
 
-    }, [score, timeLeft, circles]);
 
     useEffect(() => {
         if (start && timeLeft > 0) {
@@ -99,6 +94,7 @@ const Game = () => {
                 </AnimatePresence>
                 <GameStyles.Score>{score}</GameStyles.Score>
                 <GameStyles.Timer>{timeLeft}</GameStyles.Timer>
+                <GameStyles.SaveGameButton onClick={async () => await saveState(gameState)}>Save</GameStyles.SaveGameButton>
             </GameStyles.GameButtonContainer>
 
         </GameStyles.GameBackground>

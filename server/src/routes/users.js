@@ -8,6 +8,6 @@ const userRouter = express.Router();
 userRouter.post("/register", userController.registerUser);
 userRouter.post("/login", userController.loginUser);
 userRouter.get("/totalUsers", serverController.totalUsers);
-userRouter.put("/saveGameState", authMiddleware.verifyToken, userController.saveGameState)
+userRouter.put("/saveGameState",authMiddleware.verifyToken, userController.saveGameState)
 
 export default userRouter;

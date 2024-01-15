@@ -7,6 +7,7 @@ const authMiddleware = {
 
     verifyToken: (req, res, next) => {
         const authHeader = req.headers.authorization;
+        
         if (!authHeader || !authHeader.includes(" ")) {
             return res.status(401).json({ message: "Invalid header" });
         }

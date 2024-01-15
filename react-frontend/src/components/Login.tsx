@@ -63,8 +63,8 @@ const Login: React.FC<LoginProps> = (props) => {
             usefull to test frontend functionality without having acces to the backend */
 
 
-        localStorage.setItem("isLoggedIn", "true");
-        props.setIsLoggedIn(true);
+        //localStorage.setItem("isLoggedIn", "true");
+        //props.setIsLoggedIn(true);
 
     };
 

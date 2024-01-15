@@ -5,9 +5,10 @@ export const saveState = async (gameState: GameState) => {
     try {
         await gameStateSchema.validate(gameState);
 
-
+        
         const email = localStorage.getItem("email");
         const token = localStorage.getItem("token");
+
         const response = await fetch("/api/users/saveGameState", {
             method: "PUT",
             headers: {
@@ -16,10 +17,12 @@ export const saveState = async (gameState: GameState) => {
             },
             body: JSON.stringify({
                 email,
+                token,
                 gameState
             })
         });
         const data = await response.json();
+        
         alert(data.message);
 
 

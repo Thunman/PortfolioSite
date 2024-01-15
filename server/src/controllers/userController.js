@@ -40,7 +40,7 @@ const userController = {
             if (!isCorrectPassword) {
                 return res.status(400).json({ message: "Invalid Password" });
             }
-            const accessToken = jwt.sign({ id: user._id, expiresIn: "1h" }, process.env.JWT_SECRET);
+            const accessToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {expiresIn: "1h"});
             res.status(200).json({ message: "Log in success", token: accessToken });
         } catch (error) {
             console.error(error.message);
@@ -51,12 +51,14 @@ const userController = {
     saveGameState: async (req, res) => {
         try {
             const { email, gameState, accessToken } = req.body;
+
             const user = await User.findOne({ email });
 
             if (!user) {
                 return res.status(400).json({ message: "User does not exist"});
             }
             if (req.userData.email !== email) {
+                console.log("email missmatch")
                 return res.status(403).json({ message: "Unauthorized" });
               }
             user.gameState = gameState;
@@ -65,7 +67,7 @@ const userController = {
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Server error"})
+            res.status(500).json({ message: "Server error, error from saveGameState"})
         }
     }
 
