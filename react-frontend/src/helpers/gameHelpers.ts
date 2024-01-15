@@ -1,14 +1,11 @@
 import { GameState } from "../components/GameTypes";
-import { gameStateSchema } from "../Schemas/joiSchemas";
+import { gameStateSchema } from "../Schemas/yupSchemas";
 
 export const saveState = async (gameState: GameState) => {
+    try {
+        await gameStateSchema.validate(gameState);
 
-    const { error } = gameStateSchema.validate(gameState);
 
-    if (error) {
-        const errorMsgs = error.details.map(detail => detail.message).join(", ");
-        alert(errorMsgs)
-    } else {
         const email = localStorage.getItem("email");
         const token = localStorage.getItem("token");
         const response = await fetch("/api/users/saveGameState", {
@@ -24,7 +21,11 @@ export const saveState = async (gameState: GameState) => {
         });
         const data = await response.json();
         alert(data.message);
-    };
+
+
+    } catch (error) {
+        alert(error)
+    }
 };
 
 

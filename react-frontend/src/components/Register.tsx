@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import * as Styles from "../styles/styles";
 import { Link } from "react-router-dom";
-import { userSchema } from "../Schemas/joiSchemas";
-import { error } from "console";
+import { userSchema } from "../Schemas/yupSchemas";
+
 const Register: React.FC = () => {
 
     const [email, setEmail] = useState<string>("");
@@ -11,7 +11,7 @@ const Register: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [tooltip, setTooltip] = useState<string>("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setTooltip("Passwords must match");
@@ -23,11 +23,10 @@ const Register: React.FC = () => {
                 userName: userName,
                 password: password
             };
-            const { error } = userSchema.validate(registerPayload);
-            if (error) {
-                const errorMsgs = error.details.map(detail => detail.message).join(", ")
-                alert(errorMsgs);
-            } else {
+
+            try {
+                await userSchema.validate(registerPayload);
+
                 fetch(registerUrl, {
                     method: "POST",
                     headers: {
@@ -37,23 +36,20 @@ const Register: React.FC = () => {
                 })
                     .then(response => response.json())
                     .then(data => {
-                        if (data) {
-                            alert(data.message);
-                        } else {
-                            alert("no response from server");
-                        }
+                        if (data) { alert(data.message) }
+                        else { alert("No response from server") }
                     })
-                    .catch(error => {
-                        alert(error);
-                    })
+            } catch (error) {
+                alert(error)
             }
+        }
 
-            setEmail("");
-            setUserName("");
-            setPassword("");
-            setConfirmPassword("");
-        };
+        setEmail("");
+        setUserName("");
+        setPassword("");
+        setConfirmPassword("");
     };
+
 
     return (
         <Styles.Container>
@@ -111,6 +107,35 @@ const Register: React.FC = () => {
             </Styles.FormContainer>
         </Styles.Container >
     );
-};
 
+}
 export default Register;
+
+
+
+/*
+const { error } = userSchema.validate(registerPayload);
+if (error) {
+    const errorMsgs = error.details.map(detail => detail.message).join(", ")
+    alert(errorMsgs);
+} else {
+    fetch(registerUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(registerPayload)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                alert(data.message);
+            } else {
+                alert("no response from server");
+            }
+        })
+        .catch(error => {
+            alert(error);
+        })
+}
+*/
