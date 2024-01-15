@@ -1,5 +1,33 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
+const StyledBackdrop = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #00000073;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+`;
+
+const StyledModal = styled(motion.div)`
+  width: clamp(50%, 700px, 90%);
+  height: min-content(50%, 900px);
+  margin: auto;
+  padding: 0 2rem;
+  border-radius: 12px;
+  z-index: 1000;
+  background: #000000c0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+`
 const Container = styled.div`
   display: flex;
   height: 100vh;
@@ -43,13 +71,13 @@ const Button = styled.button`
 `;
 
 const Input = styled.input`
-padding: 8px;
-margin: 0;
-font-size: 16px;
-border: 1px solid #ccc;
-border-radius: 3px;
-background-color: #f7fafc;
-width: 100%;
+  padding: 8px;
+  margin: 0;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f7fafc;
+  width: 100%;
 
 
 &:focus {
@@ -60,20 +88,20 @@ width: 100%;
 `;
 
 const Div = styled.div`
-position: absolute;
-top: 50;
-left: 50;
-width: 100%;
-height: 10px;
-box-shadow: 0px 0px 2px -2px rgba(0, 0, 0, 0.25);
-background-color: #4a5568;
+  position: absolute;
+  top: 50;
+  left: 50;
+  width: 100%;
+  height: 10px;
+  box-shadow: 0px 0px 2px -2px rgba(0, 0, 0, 0.25);
+  background-color: #4a5568;
 `;
 
 const TooltipContainer = styled.div`
-position: relative;
-width: 100%;
-padding: 0;
-margin: 0;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 
 `;
 
@@ -107,6 +135,8 @@ export {
   Input,
   Div,
   Tooltip,
-  TooltipContainer
+  TooltipContainer,
+  StyledBackdrop,
+  StyledModal
 }
 

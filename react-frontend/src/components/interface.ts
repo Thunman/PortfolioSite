@@ -1,5 +1,15 @@
+import { Children, MouseEventHandler, ReactNode } from "react";
 
-interface LoginProps {
+export interface LoginProps {
     setIsLoggedIn: (isLoggedIn: boolean) => void;
 };
-export type { LoginProps }
+
+export interface BackdropProps {
+    children: ReactNode;
+    onClick: MouseEventHandler<HTMLDivElement>;
+};
+
+export interface ModalProps {
+    text: string;
+    handleClose: MouseEventHandler<HTMLDivElement>
+};

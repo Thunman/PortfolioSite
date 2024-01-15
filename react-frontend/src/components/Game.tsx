@@ -4,7 +4,8 @@ import * as GameStyles from "../styles/GameStyles";
 import { useEffect, useState } from "react";
 import { Circle, GameState } from "../components/GameTypes"
 import { saveState, randomColorPicker } from "../helpers/gameHelpers";
-
+import Modal from "./Modal"
+import { AnimatePresence } from "framer-motion";
 
 
 const Game = () => {
@@ -13,6 +14,10 @@ const Game = () => {
     const [circles, setCircles] = useState<Circle[]>([])
     const [start, setStart] = useState(false);
     const [timeLeft, setTimeLeft] = useState(5);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openHighScore = () => setModalOpen(true);
+    const closeHighScore = () => setModalOpen(false);
 
     const resetGame = () => {
         setStart(false);
@@ -41,11 +46,11 @@ const Game = () => {
 
 
     useEffect(() => {
-        const gameState: GameState ={
+        const gameState: GameState = {
             score,
             timeLeft,
             circles
-            };
+        };
         const handleUnload = () => saveState(gameState);
         window.addEventListener("beforeunload", handleUnload);
         return () => window.removeEventListener("beforeunload", handleUnload);
@@ -69,20 +74,33 @@ const Game = () => {
 
     return (
         <GameStyles.GameBackground>
-            <GameStyles.Score>{score}</GameStyles.Score>
+
             <GameStyles.GameContainer>
                 {circles.map(circle => (
                     <GameStyles.Circle
                         key={circle.id}
                         top={circle.top}
                         left={circle.left}
-                        randomColor={circle.color}
+                        randomcolor={circle.color}
                         onClick={() => handleClick(circle.id)}
                     />
                 ))}
             </GameStyles.GameContainer>
-            <GameStyles.Timer>{timeLeft}</GameStyles.Timer>
-            <GameStyles.Button onClick={startGame}>startGame</GameStyles.Button>
+
+            <GameStyles.GameButtonContainer>
+                <GameStyles.Button onClick={startGame}>startGame</GameStyles.Button>
+                <GameStyles.HighScore onClick={() => (modalOpen ? closeHighScore() : openHighScore())}>HighScore</GameStyles.HighScore>
+                <AnimatePresence
+                    initial={false}
+                    mode="wait"
+                    onExitComplete={() => null}
+                >
+                    {modalOpen && <Modal handleClose={closeHighScore} text="no way this works"></Modal>}
+                </AnimatePresence>
+                <GameStyles.Score>{score}</GameStyles.Score>
+                <GameStyles.Timer>{timeLeft}</GameStyles.Timer>
+            </GameStyles.GameButtonContainer>
+
         </GameStyles.GameBackground>
 
     )
