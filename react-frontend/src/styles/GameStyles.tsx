@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 
-export const GameContainer = styled.div`
+export const StyledGameContainer = styled.div`
     position: relative;
     width: 80%;
     height: 80%;
@@ -14,7 +14,7 @@ export const GameContainer = styled.div`
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 `;
 
-export const Circle = styled.div<{ randomcolor: string, top: string, left: string }>`
+export const StyledCircle = styled.div<{ randomcolor: string, top: string, left: string }>`
     position: absolute;
     top: ${(props) => props.top};
     left: ${(props) => props.left};
@@ -26,7 +26,7 @@ export const Circle = styled.div<{ randomcolor: string, top: string, left: strin
 
 
 
-export const GameBackground = styled.div`
+export const StyledGameBackground = styled.div`
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -35,10 +35,10 @@ export const GameBackground = styled.div`
     justify-content: center;
     background: linear-gradient(to bottom, #475569, #1a202c);
     position: relative;
-    padding: 20px ;
+    
 `;
 
-export const Button = styled.button`
+export const StyledGameButton = styled.button`
 
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@ export const Button = styled.button`
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-export const Score = styled.button`
+export const StyledScore = styled.button`
 
     display: flex;
     justify-content: center;
@@ -72,7 +72,7 @@ export const Score = styled.button`
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-export const Timer = styled.button`
+export const StyledTimer = styled.button`
 
     display: flex;
     justify-content: center;
@@ -89,7 +89,7 @@ export const Timer = styled.button`
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-export const HighScore = styled.button`
+export const StyledHighScore = styled.button`
 
     display: flex;
     justify-content: center;
@@ -106,13 +106,13 @@ export const HighScore = styled.button`
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-export const GameButtonContainer = styled.div `
+export const StyledGameButtonContainer = styled.div `
     padding: 20px;
     display: flex;
     justify-content: space-between;
     gap: 20px;
 `
-export const SaveGameButton = styled.button`
+export const StyledSaveGameButton = styled.button`
 
     display: flex;
     justify-content: center;

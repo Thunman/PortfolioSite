@@ -112,30 +112,3 @@ const Register: React.FC = () => {
 export default Register;
 
 
-
-/*
-const { error } = userSchema.validate(registerPayload);
-if (error) {
-    const errorMsgs = error.details.map(detail => detail.message).join(", ")
-    alert(errorMsgs);
-} else {
-    fetch(registerUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(registerPayload)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data) {
-                alert(data.message);
-            } else {
-                alert("no response from server");
-            }
-        })
-        .catch(error => {
-            alert(error);
-        })
-}
-*/
