@@ -1,7 +1,7 @@
-import { GameState } from "../components/GameTypes";
+import { GameStateProps } from "../components/GameTypes";
 import { gameStateSchema } from "../Schemas/yupSchemas";
 
-export const saveState = async (gameState: GameState) => {
+export const saveState = async (gameState: GameStateProps) => {
     try {
         await gameStateSchema.validate(gameState);
 

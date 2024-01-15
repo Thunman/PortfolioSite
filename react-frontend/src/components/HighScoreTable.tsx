@@ -19,7 +19,7 @@ const Modal = ({ handleClose, text }: ModalProps) =>{
                 duration: 0.1,
                 type: "spring",
                 damping: 25,
-                stiffness: 500
+                stiffness: 250
             }
         },
         exit: {

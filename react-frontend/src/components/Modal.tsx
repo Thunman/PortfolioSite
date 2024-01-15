@@ -1,8 +1,9 @@
+
 import { StyledModal, StyledBackdrop } from "../styles/styles";
 import { ModalProps, BackdropProps } from "./interface";
 
-const Modal = ({ handleClose, text}: ModalProps) => {
-    
+const Modal = ({ handleClose, text }: ModalProps) => {
+
 
     const dropIn = {
         hidden: {
@@ -29,18 +30,15 @@ const Modal = ({ handleClose, text}: ModalProps) => {
     return (
         <StyledBackdrop
             onClick={handleClose}>
-                <StyledModal
-                    onClick={(e) => e.stopPropagation()}
-                    variants={dropIn}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                >
-                    <p>{text}</p>
-                </StyledModal>
-
-
-
+            <StyledModal
+                onClick={(e) => e.stopPropagation()}
+                variants={dropIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+            >
+                <p>{text}</p>
+            </StyledModal>
         </StyledBackdrop>
     )
 }
