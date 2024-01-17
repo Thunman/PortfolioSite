@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import User from '../model/userModel.js';
+import User, { HighScore } from '../model/userModel.js';
 dotenv.config();
 
 
@@ -68,6 +68,22 @@ const userController = {
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Server error, error from saveGameState"})
+        }
+    },
+    saveScore: async (req, res) => {
+        try {
+            const { email, score, accessToken } = req.body;
+            jwt.verify(accessToken, process.env.JWT_SECRET);
+            if (err) {
+                return res.status(403).json({ message: "Invalid token" });
+              } else {
+                const highScore = new HighScore({ email, score });
+                await highScore.save();
+              }
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Server error, error from saveScore"})
         }
     }
 
