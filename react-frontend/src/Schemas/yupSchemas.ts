@@ -17,3 +17,11 @@ export const gameStateSchema = yup.object({
         })
     ).required()
 });
+
+
+export const scoreSchema = yup.object({
+
+    email: yup.string().email().required(),
+    score: yup.number().required()
+
+});
