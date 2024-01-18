@@ -3,7 +3,7 @@
 import * as GameStyles from "../styles/GameStyles";
 import { useEffect, useState } from "react";
 import { CircleProps, GameStateProps } from "../components/GameTypes"
-import { saveState, randomColorPicker } from "../helpers/gameHelpers";
+import { saveState, randomColorPicker, saveScore } from "../helpers/gameHelpers";
 import Modal from "./Modal"
 import { AnimatePresence } from "framer-motion";
 
@@ -27,6 +27,10 @@ const Game = () => {
     };
 
     const handleClick = (id: number) => {
+        const circle = circles.find(circle => circle.id === id);
+        if (circle?.color === "white") {
+            whiteCircleClick();
+        }
         removeCircle(id);
         addCircle();
         setScore(score + 1);
@@ -37,7 +41,9 @@ const Game = () => {
     const removeCircle = (id: number) => {
         setCircles(circles => circles.filter(circle => circle.id !== id));
     }
-
+    const whiteCircleClick = () => {
+        setTimeLeft(timeLeft + 5);
+    }
     const startGame = () => {
         setStart(true);
         addCircle();
@@ -58,6 +64,7 @@ const Game = () => {
 
             return () => clearInterval(timerId);
         } else {
+            saveScore(score);
             resetGame();
         }
     }, [start, timeLeft]);

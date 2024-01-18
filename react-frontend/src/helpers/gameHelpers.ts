@@ -58,7 +58,12 @@ export const saveScore = async (score: number) => {
 
 
 export const randomColorPicker = () => {
-    let randomNr = Math.floor(Math.random() * 3) + 1;
+    let randomNr;
+    if (Math.random() < 0.1) {
+        randomNr = 0;
+    } else {
+        randomNr = Math.floor(Math.random() * 3) + 1;
+    }
     switch (randomNr) {
         case 1: return "red";
         case 2: return "green";
