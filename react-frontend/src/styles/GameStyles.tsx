@@ -5,13 +5,15 @@ export const StyledGameContainer = styled.div`
     position: relative;
     width: 80%;
     height: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: #553030;
     border: 4px solid #475569;
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    .full-canvas {
+            
+            width: 100%;
+            height: 100%;
+        }
 `;
 
 export const StyledCircle = styled.div<{ randomcolor: string, top: string, left: string }>`
