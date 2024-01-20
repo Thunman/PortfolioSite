@@ -1,11 +1,10 @@
 export type CircleProps = {
     color: string;
     id: number;
-    top: number;
-    left: number;
-    radius: number;
     x: number;
     y: number;
+    radius: number;
+
 };
 export type GameStateProps = {
     score: number;
