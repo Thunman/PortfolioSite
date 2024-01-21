@@ -7,8 +7,8 @@ import game from "./gameLogic"
 
 interface GameInstance {
     startGame: () => void;
-    timer: number;
-    score: number;
+    getScore: () => number;
+    getTimer: () => number;
 }
 
 const Game = () => {
@@ -25,7 +25,7 @@ const Game = () => {
         
         if (canvasRef.current) {
             
-            const instance = game(canvasRef.current, setScore, setTimer);
+            const instance = game(canvasRef.current);
             setGameInstance(instance);
         }
     }, []);

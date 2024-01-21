@@ -1,7 +1,7 @@
 import { randomColorPicker } from "../helpers/gameHelpers";
 import { CircleProps } from "./GameTypes";
 
-function game(canvas: HTMLCanvasElement, setScore: (score: number) => void, setTimer: (timer: number) => void) {
+function game(canvas: HTMLCanvasElement) {
 
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     canvas.width = canvas.clientWidth;
@@ -66,7 +66,7 @@ function game(canvas: HTMLCanvasElement, setScore: (score: number) => void, setT
     const removeCircle = (circle: CircleProps) => {
         if (circle.color === "gold") timer += 5;
         circles = circles.filter(c => c.id !== circle.id);
-        setScore(score++);
+        score ++;
     };
 
     const addCircle = () => {
@@ -87,7 +87,6 @@ function game(canvas: HTMLCanvasElement, setScore: (score: number) => void, setT
             if (!lastCircleTimestamp || timestamp - lastCircleTimestamp >= 1000) {
                 addCircle();
                 timer --;
-                setTimer(timer);
                 lastCircleTimestamp = timestamp;
                 
             }
@@ -104,6 +103,9 @@ function game(canvas: HTMLCanvasElement, setScore: (score: number) => void, setT
         timer = 15;
         requestAnimationFrame(gameLoop);
     }
-    return { startGame, timer, score }
+
+    const getTimer = () => timer;
+    const getScore = () => score; 
+    return { startGame, getTimer, getScore }
 }
 export default game;
