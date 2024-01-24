@@ -62,12 +62,14 @@ export const randomColorPicker = () => {
     if (Math.random() < 0.1) {
         randomNr = 0;
     } else {
-        randomNr = Math.floor(Math.random() * 3) + 1;
+        randomNr = Math.floor(Math.random() * 5) + 1;
     }
     switch (randomNr) {
-        case 1: return "red";
-        case 2: return "green";
-        case 3: return "blue";
-        default: return "white";
+        case 1: return "#FF6347"; 
+        case 2: return "#3CB371"; 
+        case 3: return "#1E90FF"; 
+        case 4: return "#9370DB"; 
+        case 5: return "#FFD700"; 
+        default: return "gold"; 
     }
 };
