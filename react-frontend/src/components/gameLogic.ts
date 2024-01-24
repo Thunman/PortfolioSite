@@ -11,6 +11,9 @@ function game(canvas: HTMLCanvasElement) {
     let timer = 0;
     let score = 0;
 
+    let rectangleX = canvas.width / 2 - 50;
+    let rectangleY = canvas.height - 75;
+
     let circles: CircleProps[] = [];
 
     const drawCircle = (circle: CircleProps) => {
@@ -30,11 +33,17 @@ function game(canvas: HTMLCanvasElement) {
         ctx.shadowOffsetY = 10;
     };
 
+    const drawRectangle = (x: number, y: number) => {
+        ctx.beginPath();
+        ctx.rect(x, y, 100, 50);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.stroke();
+    };
+
     const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        circles.forEach(circle => {
-            drawCircle(circle);
-        });
+        drawRectangle(rectangleX, rectangleY);
         requestAnimationFrame(animate);
     };
 
@@ -51,9 +60,21 @@ function game(canvas: HTMLCanvasElement) {
         });
     });
 
+    window.addEventListener("keydown", (e) => {
+        const speed = 25;
+        if(e.key === "ArrowLeft"){
+            rectangleX -= speed;
+        } else if(e.key === "ArrowRight"){
+            rectangleX += speed;
+        }
+
+    });
+
     const resetGame = () => {
         circles = [];
         start = false;
+        rectangleX = canvas.width / 2 - 50;
+        rectangleY = canvas.height - 75;
         circleId = 0;
         timer = 0;
         score = 0;
@@ -109,3 +130,15 @@ function game(canvas: HTMLCanvasElement) {
     return { startGame, getTimer, getScore }
 }
 export default game;
+
+
+    /*
+    const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        circles.forEach(circle => {
+            drawCircle(circle);
+        });
+        drawRectangle(rectangleX, rectangleY);
+        requestAnimationFrame(animate);
+    };
+    */
