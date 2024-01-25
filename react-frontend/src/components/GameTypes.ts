@@ -38,7 +38,6 @@ export type BrickProps = {
     y: number;
     width: number;
     height: number;
-    die?: (brickArray: BrickProps[]) => void;
     getColor: () => string;
 
 }

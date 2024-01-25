@@ -12,7 +12,7 @@ function game(canvas: HTMLCanvasElement) {
     let score = 0;
     let squareId = 0;
     let keys: { [key: string]: boolean } = {};
-    
+
 
 
 
@@ -40,9 +40,9 @@ function game(canvas: HTMLCanvasElement) {
         hp: 1,
         x: 50,
         y: 50,
-        width: 50,
+        width: 1450,
         height: 10,
-        getColor: function() {
+        getColor: function () {
             switch (this.hp) {
                 case 3:
                     return "red";
@@ -54,23 +54,16 @@ function game(canvas: HTMLCanvasElement) {
                     return "black";
             }
         },
-        die: function (bricks) {
-            if(this.hp <= 0) {
-                return bricks.filter(brick => brick.id !== this.id) 
-            } else {
-                return bricks
-            }
-        },
-        
+
     }
     const brick2: BrickProps = {
         id: 1,
         hp: 2,
         x: 50,
         y: 65,
-        width: 50,
+        width: 1450,
         height: 10,
-        getColor: function() {
+        getColor: function () {
             switch (this.hp) {
                 case 3:
                     return "red";
@@ -81,16 +74,17 @@ function game(canvas: HTMLCanvasElement) {
                 default:
                     return "black";
             }
-        }
+        },
+        
     }
     const brick3: BrickProps = {
         id: 2,
         hp: 3,
         x: 50,
         y: 80,
-        width: 50,
+        width: 1450,
         height: 10,
-        getColor: function() {
+        getColor: function () {
             switch (this.hp) {
                 case 3:
                     return "red";
@@ -101,7 +95,7 @@ function game(canvas: HTMLCanvasElement) {
                 default:
                     return "black";
             }
-        }
+        },
     }
     let bricks: BrickProps[] = [brick1, brick2, brick3];
 
@@ -133,7 +127,7 @@ function game(canvas: HTMLCanvasElement) {
         bricks.forEach(brick => {
             drawBrick(brick)
         })
-        
+
     };
 
 
@@ -167,16 +161,22 @@ function game(canvas: HTMLCanvasElement) {
         square.x += square.dx === "right" ? square.speed : -square.speed;
         square.y += square.dy === "down" ? square.speed : -square.speed;
 
-        const { hitSide, hitTop } = checkCollision(rectangle, square);
-        
-        const brickCollision = checkCollision(brick, square);
+        let { hitSide, hitTop, hitBrick } = checkCollision(rectangle, square);
 
-        if (brickCollision.hitTop || brickCollision.hitSide) {
-            brick.hp -= 1;
-            if (brick.hp <= 0) {
-                // remove brick or handle it being destroyed
+        bricks = bricks.filter((brick) => {
+            const brickCollision = checkCollision(brick, square)
+            if (brickCollision.hitBrick) {
+                hitBrick = true;
+                console.log("hit brick")
+                if (brick.hp <= 0) {
+                    console.log("DIE")
+                    return false; 
+                }
+                square.dx = square.dx === "left" ? "right" : "left";
+                square.dy = square.dy === "down" ? "up" : "down";
             }
-        }
+            return true; 
+        });
 
         if (hitTop) {
             square.dy = square.dy === "down" ? "up" : "down";
@@ -194,7 +194,7 @@ function game(canvas: HTMLCanvasElement) {
             square.dy = "down";
         } else if (square.y + square.sideLength > canvas.height) {
             square.dy = "up";
-            
+
         }
     };
 
@@ -208,12 +208,14 @@ function game(canvas: HTMLCanvasElement) {
         let hitSide = false;
         let hitBrick = false;
 
-        if("id" in rectangle){
-            hitBrick = true;
-            rectangle.hp -= 1;
-        }
+        
 
         if (withinHorizontalBounds && withinVerticalBounds) {
+            if ("id" in rectangle) {
+                console.log("id if")
+                hitBrick = true;
+                rectangle.hp -= 1;
+            }
 
             if (square.y + square.sideLength > rectangle.y && square.y < rectangle.y) {
                 hitTop = true;
@@ -227,7 +229,7 @@ function game(canvas: HTMLCanvasElement) {
         return { hitSide, hitTop, hitBrick };
     };
 
-    
+
 
     const addSquare = () => {
         const lastSquare = squares[squares.length - 1];
@@ -248,11 +250,18 @@ function game(canvas: HTMLCanvasElement) {
     const gameLoop = () => {
 
         if (start && timer > 0) {
+            
             if (keys["ArrowRight"] && rectangle.x < canvas.width - rectangle.width) {
                 rectangle.x += 15;
             }
             if (keys["ArrowLeft"] && rectangle.x > 0) {
                 rectangle.x -= 15;
+            }
+            if (keys["d"]) {
+                console.table(brick1);
+                console.table(brick2);
+                console.table(brick3);
+
             }
             animate();
             requestAnimationFrame(gameLoop);
@@ -262,10 +271,12 @@ function game(canvas: HTMLCanvasElement) {
 
     };
     const startGame = () => {
+        
         start = true;
         timer = 15;
         addSquare();
         requestAnimationFrame(gameLoop);
+        console.log(bricks);
     }
 
     const getTimer = () => timer;
