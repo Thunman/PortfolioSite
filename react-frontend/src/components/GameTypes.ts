@@ -30,3 +30,15 @@ export type GameStateProps = {
     timeLeft: number;
     circles: CircleProps[];
 };
+
+export type BrickProps = {
+    id: number;
+    hp: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    die?: (brickArray: BrickProps[]) => void;
+    getColor: () => string;
+
+}

@@ -1,5 +1,5 @@
 
-import { SquareProps, RectangleProps } from "./GameTypes";
+import { SquareProps, RectangleProps, BrickProps } from "./GameTypes";
 
 function game(canvas: HTMLCanvasElement) {
 
@@ -12,6 +12,7 @@ function game(canvas: HTMLCanvasElement) {
     let score = 0;
     let squareId = 0;
     let keys: { [key: string]: boolean } = {};
+    
 
 
 
@@ -23,9 +24,86 @@ function game(canvas: HTMLCanvasElement) {
         height: 50
     }
 
-
     let squares: SquareProps[] = [];
 
+
+    const drawBrick = (brick: BrickProps) => {
+        ctx.beginPath();
+        ctx.rect(brick.x, brick.y, brick.width, brick.height);
+        ctx.fillStyle = brick.getColor();
+        ctx.fill();
+        ctx.stroke();
+    };
+
+    const brick1: BrickProps = {
+        id: 0,
+        hp: 1,
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 10,
+        getColor: function() {
+            switch (this.hp) {
+                case 3:
+                    return "red";
+                case 2:
+                    return "yellow";
+                case 1:
+                    return "green";
+                default:
+                    return "black";
+            }
+        },
+        die: function (bricks) {
+            if(this.hp <= 0) {
+                return bricks.filter(brick => brick.id !== this.id) 
+            } else {
+                return bricks
+            }
+        },
+        
+    }
+    const brick2: BrickProps = {
+        id: 1,
+        hp: 2,
+        x: 50,
+        y: 65,
+        width: 50,
+        height: 10,
+        getColor: function() {
+            switch (this.hp) {
+                case 3:
+                    return "red";
+                case 2:
+                    return "yellow";
+                case 1:
+                    return "green";
+                default:
+                    return "black";
+            }
+        }
+    }
+    const brick3: BrickProps = {
+        id: 2,
+        hp: 3,
+        x: 50,
+        y: 80,
+        width: 50,
+        height: 10,
+        getColor: function() {
+            switch (this.hp) {
+                case 3:
+                    return "red";
+                case 2:
+                    return "yellow";
+                case 1:
+                    return "green";
+                default:
+                    return "black";
+            }
+        }
+    }
+    let bricks: BrickProps[] = [brick1, brick2, brick3];
 
 
     const drawSquare = (square: SquareProps) => {
@@ -52,7 +130,10 @@ function game(canvas: HTMLCanvasElement) {
             drawSquare(square);
 
         });
-        requestAnimationFrame(animate);
+        bricks.forEach(brick => {
+            drawBrick(brick)
+        })
+        
     };
 
 
@@ -87,13 +168,20 @@ function game(canvas: HTMLCanvasElement) {
         square.y += square.dy === "down" ? square.speed : -square.speed;
 
         const { hitSide, hitTop } = checkCollision(rectangle, square);
+        
+        const brickCollision = checkCollision(brick, square);
+
+        if (brickCollision.hitTop || brickCollision.hitSide) {
+            brick.hp -= 1;
+            if (brick.hp <= 0) {
+                // remove brick or handle it being destroyed
+            }
+        }
 
         if (hitTop) {
-            console.log("hit top rect")
             square.dy = square.dy === "down" ? "up" : "down";
         }
         if (hitSide) {
-            console.log("hit side")
             square.dx = square.dx === "left" ? "right" : "left"
         }
 
@@ -106,18 +194,24 @@ function game(canvas: HTMLCanvasElement) {
             square.dy = "down";
         } else if (square.y + square.sideLength > canvas.height) {
             square.dy = "up";
-            console.log("hit bottom of canvas")
+            
         }
     };
 
 
 
-    const checkCollision = (rectangle: RectangleProps, square: SquareProps) => {
+    const checkCollision = (rectangle: RectangleProps | BrickProps, square: SquareProps) => {
         const withinHorizontalBounds = square.x + square.sideLength > rectangle.x && square.x < rectangle.x + rectangle.width;
         const withinVerticalBounds = square.y + square.sideLength > rectangle.y && square.y < rectangle.y + rectangle.height;
 
         let hitTop = false;
         let hitSide = false;
+        let hitBrick = false;
+
+        if("id" in rectangle){
+            hitBrick = true;
+            rectangle.hp -= 1;
+        }
 
         if (withinHorizontalBounds && withinVerticalBounds) {
 
@@ -130,9 +224,10 @@ function game(canvas: HTMLCanvasElement) {
             }
         }
 
-        return { hitSide, hitTop };
+        return { hitSide, hitTop, hitBrick };
     };
 
+    
 
     const addSquare = () => {
         const lastSquare = squares[squares.length - 1];
@@ -144,7 +239,7 @@ function game(canvas: HTMLCanvasElement) {
             sideLength: 20,
             dx: "right",
             dy: "down",
-            speed: 0.01,
+            speed: 10,
         };
         squares.push(newSquare)
     };
@@ -180,13 +275,3 @@ function game(canvas: HTMLCanvasElement) {
 export default game;
 
 
-/*
-const animate = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    circles.forEach(circle => {
-        drawCircle(circle);
-    });
-    drawRectangle(rectangleX, rectangleY);
-    requestAnimationFrame(animate);
-};
-*/
