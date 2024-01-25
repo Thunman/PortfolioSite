@@ -8,7 +8,7 @@ import game from "./gameLogic"
 interface GameInstance {
     startGame: () => void;
     getScore: () => number;
-    getTimer: () => number;
+
 }
 
 const Game = () => {
