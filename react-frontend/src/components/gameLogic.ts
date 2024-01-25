@@ -11,6 +11,8 @@ function game(canvas: HTMLCanvasElement) {
     let timer = 0;
     let score = 0;
 
+    let keys: { [key: string]: boolean} = {};
+
     let rectangleX = canvas.width / 2 - 50;
     let rectangleY = canvas.height - 75;
 
@@ -61,14 +63,12 @@ function game(canvas: HTMLCanvasElement) {
     });
 
     window.addEventListener("keydown", (e) => {
-        const speed = 25;
-        if(e.key === "ArrowLeft"){
-            rectangleX -= speed;
-        } else if(e.key === "ArrowRight"){
-            rectangleX += speed;
-        }
-
+        keys[e.key] = true;
     });
+    window.addEventListener("keyup", (e) => {
+        keys[e.key] = false;
+    });
+
 
     const resetGame = () => {
         circles = [];
@@ -105,14 +105,13 @@ function game(canvas: HTMLCanvasElement) {
     const gameLoop = (timestamp: number) => {
         
         if (start && timer > 0) {
-            if (!lastCircleTimestamp || timestamp - lastCircleTimestamp >= 1000) {
-                addCircle();
-                timer --;
-                lastCircleTimestamp = timestamp;
-                
+            if (keys["ArrowRight"]) {
+                rectangleX += 5;
+            }
+            if (keys["ArrowLeft"]){
+                rectangleX -= 5;
             }
             animate();
-            
             requestAnimationFrame(gameLoop);
         } else {
             gameOver();
