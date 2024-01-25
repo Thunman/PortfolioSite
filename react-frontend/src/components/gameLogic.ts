@@ -1,66 +1,61 @@
-import { randomColorPicker } from "../helpers/gameHelpers";
-import { CircleProps } from "./GameTypes";
+
+import { SquareProps, RectangleProps } from "./GameTypes";
 
 function game(canvas: HTMLCanvasElement) {
 
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
-    let circleId = 0;
+
     let start = false;
     let timer = 0;
     let score = 0;
+    let squareId = 0;
+    let keys: { [key: string]: boolean } = {};
 
-    let keys: { [key: string]: boolean} = {};
 
-    let rectangleX = canvas.width / 2 - 50;
-    let rectangleY = canvas.height - 75;
 
-    let circles: CircleProps[] = [];
+    let rectangle: RectangleProps = {
+        color: "black",
+        x: canvas.width / 2,
+        y: canvas.height - 75,
+        width: 100,
+        height: 50
+    }
 
-    const drawCircle = (circle: CircleProps) => {
-        const gradient = ctx.createRadialGradient(circle.x, circle.y, 0, circle.x, circle.y, circle.radius);
-        gradient.addColorStop(0, '#cccccc');
-        gradient.addColorStop(1, circle.color);
-    
+
+    let squares: SquareProps[] = [];
+
+
+
+    const drawSquare = (square: SquareProps) => {
         ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = gradient;
+        ctx.rect(square.x, square.y, 20, 20);
+        ctx.fillStyle = square.color;
         ctx.fill();
         ctx.stroke();
-    
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        ctx.shadowBlur = 15;
-        ctx.shadowOffsetX = 10;
-        ctx.shadowOffsetY = 10;
     };
 
-    const drawRectangle = (x: number, y: number) => {
+    const drawRectangle = (rectangle: RectangleProps) => {
         ctx.beginPath();
-        ctx.rect(x, y, 100, 50);
-        ctx.fillStyle = 'white';
+        ctx.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        ctx.fillStyle = rectangle.color;
         ctx.fill();
         ctx.stroke();
     };
 
     const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawRectangle(rectangleX, rectangleY);
+        drawRectangle(rectangle);
+        squares.forEach(square => {
+            moveSquare(square);
+            drawSquare(square);
+
+        });
         requestAnimationFrame(animate);
     };
 
-    canvas.addEventListener('click', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        circles.forEach(circle => {
-            const distanceFromCenter = Math.sqrt(Math.pow(circle.x - x, 2) + Math.pow(circle.y - y, 2));
-            if (distanceFromCenter <= circle.radius) {
-                const clickedCircle = circles.find(c => c.id === circle.id);
-                if (clickedCircle) removeCircle(clickedCircle);
-            }
-        });
-    });
+
 
     window.addEventListener("keydown", (e) => {
         keys[e.key] = true;
@@ -71,11 +66,10 @@ function game(canvas: HTMLCanvasElement) {
 
 
     const resetGame = () => {
-        circles = [];
+
+        squares = [];
         start = false;
-        rectangleX = canvas.width / 2 - 50;
-        rectangleY = canvas.height - 75;
-        circleId = 0;
+        squareId = 0;
         timer = 0;
         score = 0;
     }
@@ -84,60 +78,115 @@ function game(canvas: HTMLCanvasElement) {
         alert("Game Over");
     }
 
-    const removeCircle = (circle: CircleProps) => {
-        if (circle.color === "gold") timer += 5;
-        circles = circles.filter(c => c.id !== circle.id);
-        score ++;
+
+
+    const moveSquare = (square: SquareProps) => {
+
+
+        square.x += square.dx === "right" ? square.speed : -square.speed;
+        square.y += square.dy === "down" ? square.speed : -square.speed;
+
+        const { hitSide, hitTop } = checkCollision(rectangle, square);
+
+        if (hitTop) {
+            console.log("hit top rect")
+            square.dy = square.dy === "down" ? "up" : "down";
+        }
+        if (hitSide) {
+            console.log("hit side")
+            square.dx = square.dx === "left" ? "right" : "left"
+        }
+
+        if (square.x < 0) {
+            square.dx = "right";
+        } else if (square.x + square.sideLength > canvas.width) {
+            square.dx = "left";
+        }
+        if (square.y < 0) {
+            square.dy = "down";
+        } else if (square.y + square.sideLength > canvas.height) {
+            square.dy = "up";
+            console.log("hit bottom of canvas")
+        }
     };
 
-    const addCircle = () => {
-        const newCircle: CircleProps = {
-            id: circleId++,
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: 20,
-            color: randomColorPicker(),
 
-        };
-        circles.push(newCircle);
-    }
-    let lastCircleTimestamp = 0;
-    const gameLoop = (timestamp: number) => {
-        
-        if (start && timer > 0) {
-            if (keys["ArrowRight"]) {
-                rectangleX += 5;
+
+    const checkCollision = (rectangle: RectangleProps, square: SquareProps) => {
+        const withinHorizontalBounds = square.x + square.sideLength > rectangle.x && square.x < rectangle.x + rectangle.width;
+        const withinVerticalBounds = square.y + square.sideLength > rectangle.y && square.y < rectangle.y + rectangle.height;
+
+        let hitTop = false;
+        let hitSide = false;
+
+        if (withinHorizontalBounds && withinVerticalBounds) {
+
+            if (square.y + square.sideLength > rectangle.y && square.y < rectangle.y) {
+                hitTop = true;
             }
-            if (keys["ArrowLeft"]){
-                rectangleX -= 5;
+
+            if (square.x + square.sideLength > rectangle.x && square.x < rectangle.x) {
+                hitSide = true;
+            }
+        }
+
+        return { hitSide, hitTop };
+    };
+
+
+    const addSquare = () => {
+        const lastSquare = squares[squares.length - 1];
+        const newSquare: SquareProps = {
+            id: squareId++,
+            x: lastSquare ? lastSquare.x : canvas.width / 2,
+            y: lastSquare ? lastSquare.y : canvas.height / 2,
+            color: "grey",
+            sideLength: 20,
+            dx: "right",
+            dy: "down",
+            speed: 0.01,
+        };
+        squares.push(newSquare)
+    };
+
+
+    const gameLoop = () => {
+
+        if (start && timer > 0) {
+            if (keys["ArrowRight"] && rectangle.x < canvas.width - rectangle.width) {
+                rectangle.x += 15;
+            }
+            if (keys["ArrowLeft"] && rectangle.x > 0) {
+                rectangle.x -= 15;
             }
             animate();
             requestAnimationFrame(gameLoop);
         } else {
             gameOver();
         }
-        
+
     };
     const startGame = () => {
         start = true;
         timer = 15;
+        addSquare();
         requestAnimationFrame(gameLoop);
     }
 
     const getTimer = () => timer;
-    const getScore = () => score; 
+    const getScore = () => score;
     return { startGame, getTimer, getScore }
 }
 export default game;
 
 
-    /*
-    const animate = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        circles.forEach(circle => {
-            drawCircle(circle);
-        });
-        drawRectangle(rectangleX, rectangleY);
-        requestAnimationFrame(animate);
-    };
-    */
+/*
+const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    circles.forEach(circle => {
+        drawCircle(circle);
+    });
+    drawRectangle(rectangleX, rectangleY);
+    requestAnimationFrame(animate);
+};
+*/
