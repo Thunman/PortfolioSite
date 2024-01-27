@@ -14,8 +14,10 @@ function game(canvas: HTMLCanvasElement) {
 
     let rectangle: RectangleProps = {
         color: "grey",
-        x: canvas.width / 2,
-        y: canvas.height - 50,
+        position: {
+            x: canvas.width / 2,
+            y: canvas.height -50,
+        },
         width: canvas.width * 0.1,
         height: 25
     }
@@ -57,8 +59,6 @@ function game(canvas: HTMLCanvasElement) {
             const newBrick: BrickProps = {
                 id: brickId,
                 hp: hp,
-                x: x,
-                y: y,
                 width: brickWidth,
                 height: brickHeight,
                 position: {
@@ -81,7 +81,7 @@ function game(canvas: HTMLCanvasElement) {
     }
     const drawBrick = (brick: BrickProps) => {
         ctx.beginPath();
-        ctx.rect(brick.x, brick.y, brick.width, brick.height);
+        ctx.rect(brick.position.x, brick.position.y, brick.width, brick.height);
         ctx.fillStyle = brick.getColor();
         ctx.fill();
         ctx.stroke();
@@ -112,15 +112,15 @@ function game(canvas: HTMLCanvasElement) {
     const drawRectangle = (rectangle: RectangleProps) => {
         const cornerRadius = 10;
         ctx.beginPath();
-        ctx.moveTo(rectangle.x + cornerRadius, rectangle.y);
-        ctx.lineTo(rectangle.x + rectangle.width - cornerRadius, rectangle.y);
-        ctx.arcTo(rectangle.x + rectangle.width, rectangle.y, rectangle.x + rectangle.width, rectangle.y + cornerRadius, cornerRadius);
-        ctx.lineTo(rectangle.x + rectangle.width, rectangle.y + rectangle.height - cornerRadius);
-        ctx.arcTo(rectangle.x + rectangle.width, rectangle.y + rectangle.height, rectangle.x + rectangle.width - cornerRadius, rectangle.y + rectangle.height, cornerRadius);
-        ctx.lineTo(rectangle.x + cornerRadius, rectangle.y + rectangle.height);
-        ctx.arcTo(rectangle.x, rectangle.y + rectangle.height, rectangle.x, rectangle.y + rectangle.height - cornerRadius, cornerRadius);
-        ctx.lineTo(rectangle.x, rectangle.y + cornerRadius);
-        ctx.arcTo(rectangle.x, rectangle.y, rectangle.x + cornerRadius, rectangle.y, cornerRadius);
+        ctx.moveTo(rectangle.position.x + cornerRadius, rectangle.position.y);
+        ctx.lineTo(rectangle.position.x + rectangle.width - cornerRadius, rectangle.position.y);
+        ctx.arcTo(rectangle.position.x + rectangle.width, rectangle.position.y, rectangle.position.x + rectangle.width, rectangle.position.y + cornerRadius, cornerRadius);
+        ctx.lineTo(rectangle.position.x + rectangle.width, rectangle.position.y + rectangle.height - cornerRadius);
+        ctx.arcTo(rectangle.position.x + rectangle.width, rectangle.position.y + rectangle.height, rectangle.position.x + rectangle.width - cornerRadius, rectangle.position.y + rectangle.height, cornerRadius);
+        ctx.lineTo(rectangle.position.x + cornerRadius, rectangle.position.y + rectangle.height);
+        ctx.arcTo(rectangle.position.x, rectangle.position.y + rectangle.height, rectangle.position.x, rectangle.position.y + rectangle.height - cornerRadius, cornerRadius);
+        ctx.lineTo(rectangle.position.x, rectangle.position.y + cornerRadius);
+        ctx.arcTo(rectangle.position.x, rectangle.position.y, rectangle.position.x + cornerRadius, rectangle.position.y, cornerRadius);
         ctx.closePath();
         ctx.fillStyle = rectangle.color;
         ctx.fill();
@@ -211,8 +211,8 @@ function game(canvas: HTMLCanvasElement) {
     };
 
     const checkCollision = (rectangle: RectangleProps | BrickProps, square: SquareProps & { size: number }) => {
-        const withinHorizontalBounds = square.position.x + square.size > rectangle.x && square.position.x < rectangle.x + rectangle.width;
-        const withinVerticalBounds = square.position.y + square.size > rectangle.y && square.position.y < rectangle.y + rectangle.height;
+        const withinHorizontalBounds = square.position.x + square.size > rectangle.position.x && square.position.x < rectangle.position.x + rectangle.width;
+        const withinVerticalBounds = square.position.y + square.size > rectangle.position.y && square.position.y < rectangle.position.y + rectangle.height;
 
         let hitTop = false;
         let hitSide = false;
@@ -223,10 +223,10 @@ function game(canvas: HTMLCanvasElement) {
                 hitBrick = true;
                 rectangle.hp -= 1;
             }
-            if (square.position.y + square.size > rectangle.y && square.position.y < rectangle.y) {
+            if (square.position.y + square.size > rectangle.position.y && square.position.y < rectangle.position.y) {
                 hitTop = true;
             }
-            if (square.position.x + square.size > rectangle.x && square.position.x < rectangle.x) {
+            if (square.position.x + square.size > rectangle.position.x && square.position.x < rectangle.position.x) {
                 hitSide = true;
             }
         }
@@ -255,11 +255,11 @@ function game(canvas: HTMLCanvasElement) {
 
     const gameLoop = () => {
         if (start) {
-            if (keys["ArrowRight"] && rectangle.x < canvas.width - rectangle.width) {
-                rectangle.x += 15;
+            if (keys["ArrowRight"] && rectangle.position.x < canvas.width - rectangle.width) {
+                rectangle.position.x += 15;
             }
-            if (keys["ArrowLeft"] && rectangle.x > 0) {
-                rectangle.x -= 15;
+            if (keys["ArrowLeft"] && rectangle.position.x > 0) {
+                rectangle.position.x -= 15;
             }
             animate();
             requestAnimationFrame(gameLoop);

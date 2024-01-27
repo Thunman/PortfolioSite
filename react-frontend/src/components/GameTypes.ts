@@ -23,8 +23,10 @@ export type SquareProps = {
 
 export type RectangleProps = {
      color: string;
-     x: number;
-     y: number;
+     position: {
+        x: number;
+        y: number;
+    };
      width: number;
      height: number;
 };
@@ -38,8 +40,6 @@ export type GameStateProps = {
 export type BrickProps = {
     id: number;
     hp: number;
-    x: number;
-    y: number;
     width: number;
     height: number;
     getColor: () => string;
