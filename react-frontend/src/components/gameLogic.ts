@@ -65,7 +65,6 @@ function game(canvas: HTMLCanvasElement) {
                     x: x,
                     y: y
                 },
-                size: brickWidth,
                 getColor() {
                     switch (this.hp) {
                         case 1: return "green";

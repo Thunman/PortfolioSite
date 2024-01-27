@@ -47,5 +47,4 @@ export type BrickProps = {
         x: number;
         y: number;
     };
-    size: number;
 };
