@@ -61,6 +61,11 @@ function game(canvas: HTMLCanvasElement) {
                 y: y,
                 width: brickWidth,
                 height: brickHeight,
+                position: {
+                    x: x,
+                    y: y
+                },
+                size: brickWidth,
                 getColor() {
                     switch (this.hp) {
                         case 1: return "green";
@@ -85,10 +90,10 @@ function game(canvas: HTMLCanvasElement) {
     const drawSquare = (square: SquareProps) => {
         const cornerRadius = 5;
         ctx.beginPath();
-        const x = square.x;
-        const y = square.y;
-        const width = square.sideLength;
-        const height = square.sideLength;
+        const x = square.position.x;
+        const y = square.position.y;
+        const width = square.size;
+        const height = square.size;
 
         ctx.moveTo(x + cornerRadius, y);
         ctx.lineTo(x + width - cornerRadius, y);
@@ -107,7 +112,6 @@ function game(canvas: HTMLCanvasElement) {
     const drawRectangle = (rectangle: RectangleProps) => {
         const cornerRadius = 10;
         ctx.beginPath();
-    
         ctx.moveTo(rectangle.x + cornerRadius, rectangle.y);
         ctx.lineTo(rectangle.x + rectangle.width - cornerRadius, rectangle.y);
         ctx.arcTo(rectangle.x + rectangle.width, rectangle.y, rectangle.x + rectangle.width, rectangle.y + cornerRadius, cornerRadius);
@@ -117,9 +121,6 @@ function game(canvas: HTMLCanvasElement) {
         ctx.arcTo(rectangle.x, rectangle.y + rectangle.height, rectangle.x, rectangle.y + rectangle.height - cornerRadius, cornerRadius);
         ctx.lineTo(rectangle.x, rectangle.y + cornerRadius);
         ctx.arcTo(rectangle.x, rectangle.y, rectangle.x + cornerRadius, rectangle.y, cornerRadius);
-    
-
-    
         ctx.closePath();
         ctx.fillStyle = rectangle.color;
         ctx.fill();
@@ -161,16 +162,24 @@ function game(canvas: HTMLCanvasElement) {
     }
 
     const moveSquare = (square: SquareProps) => {
-        square.x += square.dx === "right" ? square.speed : -square.speed;
-        square.y += square.dy === "down" ? square.speed : -square.speed;
+        
+        const speedMultiplier = square.speed
+        const velocity = { x: square.velocity.x * speedMultiplier, y: square.velocity.y * speedMultiplier };
+
+        square.position.x += velocity.x;
+        square.position.y += velocity.y;
 
         let { hitSide, hitTop } = checkCollision(rectangle, square);
 
         bricks = bricks.filter((brick) => {
-            const brickCollision = checkCollision(brick, square)
+            const brickCollision = checkCollision(brick, square);
             if (brickCollision.hitBrick) {
-                square.dx = square.dx === "left" ? "right" : "left";
-                square.dy = square.dy === "down" ? "up" : "down";
+                const normalVector = { x: brick.position.x - square.position.x, y: brick.position.y - square.position.y };
+                const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+                const dotProduct = (velocity.x * normalVector.x + velocity.y * normalVector.y) / (speed * Math.sqrt(normalVector.x ** 2 + normalVector.y ** 2));
+                const reflection = { x: velocity.x - 2 * normalVector.x * dotProduct, y: velocity.y - 2 * normalVector.y * dotProduct };
+                velocity.x = reflection.x;
+                velocity.y = reflection.y;
                 if (brick.hp <= 0) {
                     score++;
                     return false;
@@ -180,28 +189,30 @@ function game(canvas: HTMLCanvasElement) {
         });
 
         if (hitTop) {
-            square.dy = square.dy === "down" ? "up" : "down";
+            velocity.y *= -1;
         }
         if (hitSide) {
-            square.dx = square.dx === "left" ? "right" : "left"
+            velocity.x *= -1;
         }
 
-        if (square.x < 0) {
-            square.dx = "right";
-        } else if (square.x + square.sideLength > canvas.width) {
-            square.dx = "left";
+        if (square.position.x < 0 || square.position.x + square.size > canvas.width) {
+            velocity.x *= -1;
         }
-        if (square.y < 0) {
-            square.dy = "down";
-        } else if (square.y + square.sideLength > canvas.height) {
-            gameOver();
+        if (square.position.y < 0 || square.position.y + square.size > canvas.height) {
+            velocity.y *= -1;
+            squares = squares.filter(s => s.id !== square.id);
+            if (squares.length === 0) {
+                gameOver();
+            }
+        }
 
-        }
+        square.velocity.x = velocity.x > 0 ? 1 : -1;
+        square.velocity.y = velocity.y > 0 ? 1 : -1;
     };
 
-    const checkCollision = (rectangle: RectangleProps | BrickProps, square: SquareProps) => {
-        const withinHorizontalBounds = square.x + square.sideLength > rectangle.x && square.x < rectangle.x + rectangle.width;
-        const withinVerticalBounds = square.y + square.sideLength > rectangle.y && square.y < rectangle.y + rectangle.height;
+    const checkCollision = (rectangle: RectangleProps | BrickProps, square: SquareProps & { size: number }) => {
+        const withinHorizontalBounds = square.position.x + square.size > rectangle.x && square.position.x < rectangle.x + rectangle.width;
+        const withinVerticalBounds = square.position.y + square.size > rectangle.y && square.position.y < rectangle.y + rectangle.height;
 
         let hitTop = false;
         let hitSide = false;
@@ -212,10 +223,10 @@ function game(canvas: HTMLCanvasElement) {
                 hitBrick = true;
                 rectangle.hp -= 1;
             }
-            if (square.y + square.sideLength > rectangle.y && square.y < rectangle.y) {
+            if (square.position.y + square.size > rectangle.y && square.position.y < rectangle.y) {
                 hitTop = true;
             }
-            if (square.x + square.sideLength > rectangle.x && square.x < rectangle.x) {
+            if (square.position.x + square.size > rectangle.x && square.position.x < rectangle.x) {
                 hitSide = true;
             }
         }
@@ -224,17 +235,22 @@ function game(canvas: HTMLCanvasElement) {
 
     const addSquare = () => {
         const lastSquare = squares[squares.length - 1];
+        const intialSpeed = 5;
         const newSquare: SquareProps = {
             id: squareId++,
-            x: lastSquare ? lastSquare.x : canvas.width / 2,
-            y: lastSquare ? lastSquare.y : canvas.height / 2,
+            position: {
+                x: lastSquare ? lastSquare.position.x : canvas.width / 2,
+                y: lastSquare ? lastSquare.position.y : canvas.height / 2,
+            },
             color: "grey",
-            sideLength: 10,
-            dx: "right",
-            dy: "down",
-            speed: 5,
+            size: 12.5,
+            speed: intialSpeed,
+            velocity: {
+                x: 0,
+                y: 0,
+            },
         };
-        squares.push(newSquare)
+        squares.push(newSquare);
     };
 
     const gameLoop = () => {

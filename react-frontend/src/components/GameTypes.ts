@@ -9,12 +9,16 @@ export type CircleProps = {
 export type SquareProps = {
     color: string;
     id: number;
-    x: number;
-    y: number;
-    sideLength: number;
+    position: {
+        x: number;
+        y: number;
+    };
+    size: number;
     speed: number;
-    dx: "left" | "right";
-    dy: "up" | "down";
+    velocity: {
+        x: number;
+        y: number;
+    };
 };
 
 export type RectangleProps = {
@@ -39,5 +43,9 @@ export type BrickProps = {
     width: number;
     height: number;
     getColor: () => string;
-
-}
+    position: {
+        x: number;
+        y: number;
+    };
+    size: number;
+};
