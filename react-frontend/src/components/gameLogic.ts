@@ -1,3 +1,4 @@
+import { createBricks, drawBrick } from "../Game/Bricks";
 import { SquareProps, RectangleProps, BrickProps } from "./GameTypes";
 
 function game(canvas: HTMLCanvasElement) {
@@ -25,77 +26,6 @@ function game(canvas: HTMLCanvasElement) {
 
   let bricks: BrickProps[] = [];
 
-  const createBricks = () => {
-    const paddingTop = 20;
-    const paddingLeft = 20;
-    const paddingRight = 20;
-    const brickWidth = 25;
-    const brickHeight = 15;
-    const brickSpace = 5;
-    const nrOfRows = 6;
-    let brickId = 0;
-    for (let row = 0; row < nrOfRows; row++) {
-      for (
-        let col = 0;
-        col <
-        (canvas.width - paddingLeft - paddingRight) / (brickWidth + brickSpace);
-        col++
-      ) {
-        const x = paddingLeft + col * (brickWidth + brickSpace);
-        const y = paddingTop + row * (brickHeight + brickSpace);
-
-        let hp: number;
-        switch (row) {
-          case 0:
-          case 1:
-            hp = 3;
-            break;
-          case 2:
-          case 3:
-            hp = 2;
-            break;
-          case 4:
-          case 5:
-            hp = 1;
-            break;
-          default:
-            hp = 0;
-        }
-
-        const newBrick: BrickProps = {
-          id: brickId,
-          hp: hp,
-          width: brickWidth,
-          height: brickHeight,
-          position: {
-            x: x,
-            y: y,
-          },
-          getColor() {
-            switch (this.hp) {
-              case 1:
-                return "green";
-              case 2:
-                return "yellow";
-              case 3:
-                return "red";
-              default:
-                return "black";
-            }
-          },
-        };
-        brickId++;
-        bricks.push(newBrick);
-      }
-    }
-  };
-  const drawBrick = (brick: BrickProps) => {
-    ctx.beginPath();
-    ctx.rect(brick.position.x, brick.position.y, brick.width, brick.height);
-    ctx.fillStyle = brick.getColor();
-    ctx.fill();
-    ctx.stroke();
-  };
 
   const drawSquare = (square: SquareProps) => {
     const cornerRadius = 5;
@@ -186,7 +116,7 @@ function game(canvas: HTMLCanvasElement) {
       drawSquare(square);
     });
     bricks.forEach((brick) => {
-      drawBrick(brick);
+      drawBrick(brick, ctx);
     });
   };
 
@@ -352,7 +282,7 @@ function game(canvas: HTMLCanvasElement) {
     console.log("Starting Game");
     await resetGame();
     
-    createBricks();
+    bricks = createBricks(canvas);
     start = true;
     addSquare();
     requestAnimationFrame(gameLoop);
