@@ -10,25 +10,14 @@ export const checkPaddleCollision = (
   const distY = Math.abs(
     ball.position.y - paddle.position.y - paddle.height / 2
   );
-
   if (
     distX <= paddle.width / 2 + ball.size &&
     distY <= paddle.height / 2 + ball.size
   ) {
-    if (distX <= paddle.width / 2) {
-      ball.velocity.y *= -1;
-    }
-
-    if (distY <= paddle.height / 2) {
-      ball.velocity.x *= -1;
-    }
-
-    const dx = distX - paddle.width / 2;
-    const dy = distY - paddle.height / 2;
-    if (dx * dx + dy * dy <= ball.size * ball.size) {
-      ball.velocity.x *= -1;
-      ball.velocity.y *= -1;
-    }
+    let hitPoint = (ball.position.x - (paddle.position.x + paddle.width / 2)) / (paddle.width / 2);
+    let angle = hitPoint * (Math.PI / 4); 
+    ball.velocity.x = ball.speed * Math.sin(angle);
+    ball.velocity.y = -ball.speed * Math.cos(angle);
   }
 };
 export const checkBorderCollision = (ball: BallProps, canvas: HTMLCanvasElement) => {

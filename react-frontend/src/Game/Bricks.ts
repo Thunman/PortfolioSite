@@ -6,7 +6,7 @@ export const createBricks = (canvas: HTMLCanvasElement) => {
   const paddingRight = 20;
   const width = 25;
   const height = 15;
-  const spacing = 5;
+  const spacing = 1;
   const nrOfRows = 6;
 
   let bricks: BrickProps[] = [];
