@@ -1,4 +1,5 @@
 import { createBricks, drawBrick } from "../Game/Bricks";
+import { createPaddle, drawPaddle } from "../Game/Paddle";
 import { SquareProps, RectangleProps, BrickProps } from "./GameTypes";
 
 function game(canvas: HTMLCanvasElement) {
@@ -12,15 +13,7 @@ function game(canvas: HTMLCanvasElement) {
   let squareId = 0;
   let keys: { [key: string]: boolean } = {};
 
-  let rectangle: RectangleProps = {
-    color: "grey",
-    position: {
-      x: canvas.width / 2,
-      y: canvas.height - 50,
-    },
-    width: canvas.width * 0.1,
-    height: 25,
-  };
+
 
   let squares: SquareProps[] = [];
 
@@ -54,65 +47,16 @@ function game(canvas: HTMLCanvasElement) {
     ctx.fill();
     ctx.stroke();
   };
-  const drawRectangle = (rectangle: RectangleProps) => {
-    const cornerRadius = 10;
-    ctx.beginPath();
-    ctx.moveTo(rectangle.position.x + cornerRadius, rectangle.position.y);
-    ctx.lineTo(
-      rectangle.position.x + rectangle.width - cornerRadius,
-      rectangle.position.y
-    );
-    ctx.arcTo(
-      rectangle.position.x + rectangle.width,
-      rectangle.position.y,
-      rectangle.position.x + rectangle.width,
-      rectangle.position.y + cornerRadius,
-      cornerRadius
-    );
-    ctx.lineTo(
-      rectangle.position.x + rectangle.width,
-      rectangle.position.y + rectangle.height - cornerRadius
-    );
-    ctx.arcTo(
-      rectangle.position.x + rectangle.width,
-      rectangle.position.y + rectangle.height,
-      rectangle.position.x + rectangle.width - cornerRadius,
-      rectangle.position.y + rectangle.height,
-      cornerRadius
-    );
-    ctx.lineTo(
-      rectangle.position.x + cornerRadius,
-      rectangle.position.y + rectangle.height
-    );
-    ctx.arcTo(
-      rectangle.position.x,
-      rectangle.position.y + rectangle.height,
-      rectangle.position.x,
-      rectangle.position.y + rectangle.height - cornerRadius,
-      cornerRadius
-    );
-    ctx.lineTo(rectangle.position.x, rectangle.position.y + cornerRadius);
-    ctx.arcTo(
-      rectangle.position.x,
-      rectangle.position.y,
-      rectangle.position.x + cornerRadius,
-      rectangle.position.y,
-      cornerRadius
-    );
-    ctx.closePath();
-    ctx.fillStyle = rectangle.color;
-    ctx.fill();
-  };
 
-  const animate = () => {
+  const animate = (paddle: RectangleProps) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
     ctx.shadowBlur = 10;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 10;
-    drawRectangle(rectangle);
+    drawPaddle(paddle, ctx)
     squares.forEach((square) => {
-      moveSquare(square);
+      moveSquare(square, paddle);
       drawSquare(square);
     });
     bricks.forEach((brick) => {
@@ -139,7 +83,7 @@ function game(canvas: HTMLCanvasElement) {
     resetGame();
   };
 
-  const moveSquare = (square: SquareProps) => {
+  const moveSquare = (square: SquareProps, paddle: RectangleProps) => {
     const speedMultiplier = square.speed;
     const velocity = {
       x: square.velocity.x * speedMultiplier,
@@ -151,7 +95,7 @@ function game(canvas: HTMLCanvasElement) {
     square.position.x = Math.round(square.position.x);
     square.position.y = Math.round(square.position.y);
 
-    let { hitSide, hitTop } = checkCollision(rectangle, square);
+    let { hitSide, hitTop } = checkCollision(paddle, square);
 
     bricks = bricks.filter((brick) => {
       const brickCollision = checkCollision(brick, square);
@@ -263,29 +207,27 @@ function game(canvas: HTMLCanvasElement) {
     squares.push(newSquare);
   };
 
-  const gameLoop = () => {
+  const gameLoop = (paddle: RectangleProps) => {
     if (start) {
       if (
         keys["ArrowRight"] &&
-        rectangle.position.x < canvas.width - rectangle.width
+        paddle.position.x < canvas.width - paddle.width
       ) {
-        rectangle.position.x += 15;
+        paddle.position.x += 15;
       }
-      if (keys["ArrowLeft"] && rectangle.position.x > 0) {
-        rectangle.position.x -= 15;
+      if (keys["ArrowLeft"] && paddle.position.x > 0) {
+        paddle.position.x -= 15;
       }
-      animate();
-      requestAnimationFrame(gameLoop);
+      animate(paddle);
+      requestAnimationFrame(() => gameLoop(paddle));
     }
   };
   const startGame = async () => {
-    console.log("Starting Game");
-    await resetGame();
-    
+    const paddle = createPaddle(canvas);
     bricks = createBricks(canvas);
     start = true;
     addSquare();
-    requestAnimationFrame(gameLoop);
+    gameLoop(paddle);
   };
 
   const getScore = () => score;
