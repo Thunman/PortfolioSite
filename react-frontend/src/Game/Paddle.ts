@@ -1,7 +1,7 @@
-import { RectangleProps } from "../components/GameTypes";
+import { PaddleProps } from "../components/GameTypes";
 
 export const createPaddle = (canvas: HTMLCanvasElement) => {
-  const paddle: RectangleProps = {
+  const paddle: PaddleProps = {
     color: "grey",
     position: {
       x: canvas.width / 2,
@@ -14,7 +14,7 @@ export const createPaddle = (canvas: HTMLCanvasElement) => {
 };
 
 export const drawPaddle = (
-  paddle: RectangleProps,
+  paddle: PaddleProps,
   ctx: CanvasRenderingContext2D
 ) => {
   const cornerRadius = 10;

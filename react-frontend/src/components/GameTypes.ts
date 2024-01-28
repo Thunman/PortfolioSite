@@ -6,7 +6,7 @@ export type CircleProps = {
     radius: number;
 };
 
-export type SquareProps = {
+export type BallProps = {
     color: string;
     id: number;
     position: {
@@ -21,7 +21,7 @@ export type SquareProps = {
     };
 };
 
-export type RectangleProps = {
+export type PaddleProps = {
      color: string;
      position: {
         x: number;
