@@ -2,7 +2,7 @@ import * as GameStyles from "../styles/GameStyles";
 import { useEffect, useRef, useState } from "react";
 import Modal from "./Modal"
 import { AnimatePresence } from "framer-motion";
-import game from "./gameLogic"
+import game from "../Game/mainGameLoop"
 
 
 interface GameInstance {

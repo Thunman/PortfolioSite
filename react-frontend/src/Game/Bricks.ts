@@ -1,4 +1,4 @@
-import { BrickProps } from "../components/GameTypes";
+import { BrickProps } from "./GameTypes";
 
 export const createBricks = (canvas: HTMLCanvasElement) => {
   const paddingTop = 20;

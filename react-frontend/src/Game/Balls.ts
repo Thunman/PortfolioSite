@@ -1,4 +1,4 @@
-import { BallProps, PaddleProps } from "../components/GameTypes";
+import { BallProps, PaddleProps } from "./GameTypes";
 
 let hue = 180; 
 

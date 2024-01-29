@@ -1,4 +1,4 @@
-import { BallProps, BrickProps, PaddleProps } from "../components/GameTypes";
+import { BallProps, BrickProps, PaddleProps } from "./GameTypes";
 
 export const checkPaddleCollision = (
   paddle: PaddleProps,

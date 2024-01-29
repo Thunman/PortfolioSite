@@ -1,7 +1,7 @@
-import { createBall, drawBall, moveBall } from "../Game/Balls";
-import { createBricks, drawBrick } from "../Game/Bricks";
-import { checkBorderCollision, checkPaddleCollision, checkBrickCollision, checkOutOfBounds } from "../Game/CollisionLogic";
-import { createPaddle, drawPaddle } from "../Game/Paddle";
+import { createBall, drawBall, moveBall } from "./Balls";
+import { createBricks, drawBrick } from "./Bricks";
+import { checkBorderCollision, checkPaddleCollision, checkBrickCollision, checkOutOfBounds } from "./CollisionLogic";
+import { createPaddle, drawPaddle } from "./Paddle";
 import { BallProps, PaddleProps, BrickProps } from "./GameTypes";
 
 function game(canvas: HTMLCanvasElement) {

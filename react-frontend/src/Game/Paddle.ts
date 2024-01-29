@@ -1,4 +1,4 @@
-import { PaddleProps } from "../components/GameTypes";
+import { PaddleProps } from "./GameTypes";
 
 export const createPaddle = (canvas: HTMLCanvasElement) => {
   const paddle: PaddleProps = {

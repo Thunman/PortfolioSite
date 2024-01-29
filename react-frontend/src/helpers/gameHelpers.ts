@@ -1,4 +1,4 @@
-import { GameStateProps } from "../components/GameTypes";
+import { GameStateProps } from "../Game/GameTypes";
 import { gameStateSchema, scoreSchema } from "../Schemas/yupSchemas";
 
 export const saveState = async (gameState: GameStateProps) => {
