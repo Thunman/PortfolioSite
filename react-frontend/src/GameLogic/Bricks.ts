@@ -7,24 +7,14 @@ export const createBricks = (canvas: HTMLCanvasElement, level: number) => {
   const width = 25;
   const height = 15;
   const spacing = 1;
-  let nrOfRows = 6;
+  let nrOfRows = 0;
 
   let bricks: BrickProps[] = [];
   let id = 0;
 
-  switch (level) {
-    case 1:
-      nrOfRows = 12;
-      break;
-    case 2:
-      nrOfRows = 8;
-      break;
-    case 3:
-      nrOfRows = 10;
-      break;
-    default:
-      nrOfRows = 6;
-  }
+  nrOfRows = level * 3;
+
+
 
   for (let row = 0; row < nrOfRows; row++) {
     for (
@@ -42,6 +32,7 @@ export const createBricks = (canvas: HTMLCanvasElement, level: number) => {
       const newBrick: BrickProps = {
         id: id,
         hp: hp,
+        
         width: width,
         height: height,
         position: {
@@ -71,4 +62,11 @@ export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
   ctx.fillStyle = brick.getColor();
   ctx.fill();
   ctx.stroke();
+  ctx.fillStyle = "black";
+  ctx.font = "12px Arial"; 
+  ctx.textAlign = "center"; 
+  ctx.textBaseline = "middle"; 
+  const textX = brick.position.x + brick.width / 2;
+  const textY = brick.position.y + brick.height / 2;
+  ctx.fillText(brick.hp.toString(), textX, textY);
 };

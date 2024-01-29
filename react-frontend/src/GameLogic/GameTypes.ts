@@ -36,6 +36,7 @@ export type GameProgressProps = {
 };
 
 export type BrickProps = {
+    
     id: number;
     hp: number;
     width: number;

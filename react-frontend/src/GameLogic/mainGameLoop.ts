@@ -16,7 +16,7 @@ function game(canvas: HTMLCanvasElement) {
   let balls: BallProps[] = [];
   let bricks: BrickProps[] = [];
   let powerUps: PowerUpProps[] = [];
-  let gameLevel = 1;
+  let gameLevel = 3;
 
 
 
