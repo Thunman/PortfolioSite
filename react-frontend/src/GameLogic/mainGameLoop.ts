@@ -12,7 +12,8 @@ function game(canvas: HTMLCanvasElement) {
 
   let start = false;
   let score = 0;
-  let keys: { [key: string]: boolean } = {};
+  //let keys: { [key: string]: boolean } = {};
+  let keys: Set<string> = new Set();
   let balls: BallProps[] = [];
   let bricks: BrickProps[] = [];
   let powerUps: PowerUpProps[] = [];
@@ -37,10 +38,10 @@ function game(canvas: HTMLCanvasElement) {
   };
 
   window.addEventListener("keydown", (e) => {
-    keys[e.key] = true;
+    keys.add(e.key);
   });
   window.addEventListener("keyup", (e) => {
-    keys[e.key] = false;
+    keys.delete(e.key);
   });
 
   const resetGame = () => {
@@ -58,16 +59,15 @@ function game(canvas: HTMLCanvasElement) {
 
   const gameLoop = (balls: BallProps[], paddle: PaddleProps) => {
     if (start) {
-      if (
-        keys["ArrowRight"] &&
-        paddle.position.x < canvas.width - paddle.width
-      ) {
+      const maxPaddleX = canvas.width - paddle.width;
+      if (keys.has("ArrowRight") && paddle.position.x < maxPaddleX) {
         paddle.position.x += 15;
       }
-      if (keys["ArrowLeft"] && paddle.position.x > 0) {
+      if (keys.has("ArrowLeft") && paddle.position.x > 0) {
         paddle.position.x -= 15;
       }
-      powerUps.forEach((powerUp, index) => {
+      for (let i = powerUps.length - 1; i >= 0; i--) {
+        const powerUp = powerUps[i];
         movePowerUp(powerUp)
         const powerUpGain = checkPowerUpCollision(paddle, powerUp, canvas)
         if(powerUpGain.collision || powerUpGain.ofCanvas){
@@ -76,30 +76,32 @@ function game(canvas: HTMLCanvasElement) {
           }else if(powerUpGain.text === "<->"){
             biggerPaddle(paddle, canvas);
           }
-          powerUps = powerUps.filter((_, i) => i !== index);
+          powerUps.splice(i, 1);
         }
-      });
-      balls = balls.filter((ball) => {
+      }
+      for (let i = balls.length - 1; i >= 0; i--) {
+        const ball = balls[i];
         moveBall(ball);
         
         checkPaddleCollision(paddle, ball);
         checkBorderCollision(ball, canvas)
         const outOfBounds = checkOutOfBounds(ball, canvas);
         if(outOfBounds){
-          return false;
+          balls.splice(i, 1);
+          continue;
         }
-        bricks.forEach((brick, index) => {
+        for (let j = bricks.length - 1; j >= 0; j--) {
+          const brick = bricks[j];
           checkBrickCollision(ball, [brick]);
           if (brick.hp <= 0) {
             const randomNr = parseFloat(Math.random().toFixed(2));
             if (randomNr < 0.75) {
               powerUps.push(createPowerUp(powerUps, brick));
             } 
-            bricks.splice(index, 1);
+            bricks.splice(j, 1);
           }
-        });
-        return true;
-      });
+        }
+      }
   
       if (balls.length === 0) {
         gameOver();
