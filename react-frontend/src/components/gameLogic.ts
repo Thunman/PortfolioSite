@@ -21,6 +21,7 @@ function game(canvas: HTMLCanvasElement) {
     ctx.shadowBlur = 10;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 10;
+
     drawPaddle(paddle, ctx);
     balls.forEach((ball) => {
       drawBall(ball, ctx);
