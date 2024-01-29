@@ -13,7 +13,7 @@ export const createPowerUp = (powerUps: PowerUpProps[], brick: BrickProps) => {
             x: brick.position.x,
             y: brick.position.y,
         },
-        color: "white",
+        color: "yellow",
         size: 15,
         speed: 5,
         velocity: {

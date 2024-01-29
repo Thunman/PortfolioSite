@@ -1,19 +1,13 @@
 import { BallProps, BrickProps, PaddleProps, PowerUpProps } from "./GameTypes";
 
-export const checkPaddleCollision = (
-  paddle: PaddleProps,
-  ball: BallProps & { size: number }
-) => {
+export const checkPaddleCollision = (paddle: PaddleProps, ball: BallProps & { size: number }) => {
   const distX = Math.abs(
     ball.position.x - paddle.position.x - paddle.width / 2
   );
   const distY = Math.abs(
     ball.position.y - paddle.position.y - paddle.height / 2
   );
-  if (
-    distX <= paddle.width / 2 + ball.size &&
-    distY <= paddle.height / 2 + ball.size
-  ) {
+  if (distX <= paddle.width / 2 + ball.size && distY <= paddle.height / 2 + ball.size) {
     let hitPoint =
       (ball.position.x - (paddle.position.x + paddle.width / 2)) /
       (paddle.width / 2);

@@ -12,11 +12,12 @@ function game(canvas: HTMLCanvasElement) {
 
   let start = false;
   let score = 0;
-  //let keys: { [key: string]: boolean } = {};
   let keys: Set<string> = new Set();
   let balls: BallProps[] = [];
   let bricks: BrickProps[] = [];
   let powerUps: PowerUpProps[] = [];
+
+
 
   const animate = (paddle: PaddleProps, balls: BallProps[]) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -102,11 +103,9 @@ function game(canvas: HTMLCanvasElement) {
           }
         }
       }
-  
       if (balls.length === 0) {
         gameOver();
       }
-  
       animate(paddle, balls);
       requestAnimationFrame(() => gameLoop(balls, paddle));
     }
@@ -116,6 +115,22 @@ function game(canvas: HTMLCanvasElement) {
     bricks = createBricks(canvas);
     start = true;
     balls.push(createBall(balls, canvas));
+    canvas.addEventListener('click', () => {
+      canvas.requestPointerLock();
+    });
+    document.addEventListener('mousemove', (event) => {
+      if (document.pointerLockElement === canvas) {
+        paddle.position.x += event.movementX;
+        
+        if (paddle.position.x < 0) paddle.position.x = 0;
+        if (paddle.position.x > canvas.width - paddle.width) paddle.position.x = canvas.width - paddle.width;
+      }
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        document.exitPointerLock();
+      }
+    });
     gameLoop(balls, paddle);
   };
   
