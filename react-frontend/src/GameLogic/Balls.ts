@@ -44,7 +44,7 @@ export const moveBall = (ball: BallProps, paddle: PaddleProps, launchBall: boole
   const speedMultiplier = 5;
   if (launchBall) {
     ball.velocity = {
-      x: ball.velocity.x || 1 * speedMultiplier,
+      x: ball.velocity.x || 0 * speedMultiplier,
       y: ball.velocity.y || -1 * speedMultiplier,
     };
   }
