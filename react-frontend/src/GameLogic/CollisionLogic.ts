@@ -23,35 +23,17 @@ export const checkPaddleCollision = (
   }
 };
 
-export const checkBorderCollision = (
-  ball: BallProps,
-  canvas: HTMLCanvasElement
-) => {
-  const distLeft = ball.position.x;
-  const distRight = canvas.width - (ball.position.x + ball.size);
-  const distTop = ball.position.y;
-
-  if (distLeft < 0) {
+export const checkBorderCollision = (ball: BallProps, canvas: HTMLCanvasElement) => {
+  if (ball.position.x < 0 || canvas.width - (ball.position.x + ball.size) < 0) {
     ball.velocity.x *= -1;
   }
-  if (distRight < 0) {
-    ball.velocity.x *= -1;
-  }
-  if (distTop < 0) {
+  if (ball.position.y < 0) {
     ball.velocity.y *= -1;
   }
 };
 
-export const checkOutOfBounds = (
-  ball: BallProps,
-  canvas: HTMLCanvasElement
-) => {
-  let outOfBounds = false;
-  const distBottom = canvas.height - (ball.position.y + ball.size);
-  if (distBottom < 0) {
-    outOfBounds = true;
-    return outOfBounds;
-  }
+export const checkOutOfBounds = (ball: BallProps, canvas: HTMLCanvasElement) => {
+  return canvas.height - (ball.position.y + ball.size) < 0;
 };
 
 export const checkBrickCollision = (ball: BallProps, bricks: BrickProps[]) => {
