@@ -1,32 +1,16 @@
 import { BallProps } from "./GameTypes";
 
 export const drawBall = (ball: BallProps, ctx: CanvasRenderingContext2D) => {
-  const cornerRadius = 5;
   ctx.beginPath();
   const x = ball.position.x;
   const y = ball.position.y;
-  const width = ball.size;
-  const height = ball.size;
+  const radius = ball.size / 2;
 
-  const gradient = ctx.createRadialGradient(x, y, 0, x, y, width);
+  const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
   gradient.addColorStop(0, "white");
   gradient.addColorStop(1, ball.color);
 
-  ctx.moveTo(x + cornerRadius, y);
-  ctx.lineTo(x + width - cornerRadius, y);
-  ctx.arcTo(x + width, y, x + width, y + cornerRadius, cornerRadius);
-  ctx.lineTo(x + width, y + height - cornerRadius);
-  ctx.arcTo(
-    x + width,
-    y + height,
-    x + width - cornerRadius,
-    y + height,
-    cornerRadius
-  );
-  ctx.lineTo(x + cornerRadius, y + height);
-  ctx.arcTo(x, y + height, x, y + height - cornerRadius, cornerRadius);
-  ctx.lineTo(x, y + cornerRadius);
-  ctx.arcTo(x, y, x + cornerRadius, y, cornerRadius);
+  ctx.arc(x, y, radius, 0, Math.PI * 2, false);
   ctx.fillStyle = gradient;
   ctx.fill();
   ctx.stroke();
