@@ -1,11 +1,5 @@
 import { BallProps, PaddleProps } from "./GameTypes";
 
-let hue = 180; 
-
-export const getNextColor = () => {
-  hue = (hue + 1) % 360; 
-  return `hsl(${hue}, 100%, 50%)`;
-};
 export const drawBall = (ball: BallProps, ctx: CanvasRenderingContext2D) => {
     const cornerRadius = 5;
     ctx.beginPath();
@@ -44,15 +38,15 @@ export const createBall = (balls: BallProps[], canvas: HTMLCanvasElement) => {
     const newBall: BallProps = {
       id: balls.length,
       position: {
-        x: lastBall ? lastBall.position.x : canvas.width / 2,
-        y: lastBall ? lastBall.position.y : canvas.height / 2,
+        x: lastBall ? lastBall.position.x + 20 : canvas.width / 2,
+        y: lastBall ? lastBall.position.y + 20 : canvas.height / 2,
       },
-      color: getNextColor(),
+      color: "white",
       size: 12.5,
       speed: initialSpeed,
       velocity: {
         x: 0,
-        y: 1,
+        y: 0,
       },
     };
     return newBall;
@@ -71,5 +65,4 @@ export const moveBall = (ball: BallProps) => {
     ball.position.y = Math.round(ball.position.y);
     ball.velocity.x = velocity.x > 0 ? 1 : -1;
     ball.velocity.y = velocity.y > 0 ? 1 : -1;
-    ball.color = getNextColor();
 };

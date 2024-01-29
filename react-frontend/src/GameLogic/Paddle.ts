@@ -12,6 +12,15 @@ export const createPaddle = (canvas: HTMLCanvasElement) => {
   };
   return paddle;
 };
+
+
+export const biggerPaddle = (paddle: PaddleProps, canvas: HTMLCanvasElement) => {
+  paddle.width = canvas.width * 0.2;
+};
+
+
+
+
 let gradientOffset = 0;
 export const drawPaddle = (
   paddle: PaddleProps,

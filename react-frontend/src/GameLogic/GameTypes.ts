@@ -48,3 +48,19 @@ export type BrickProps = {
         y: number;
     };
 };
+
+export type PowerUpProps = {
+    text: string;
+    color: string;
+    id: number;
+    position: {
+        x: number;
+        y: number;
+    };
+    size: number;
+    speed: number;
+    velocity: {
+        y: number;
+    };
+
+}
