@@ -1,4 +1,4 @@
-import { BallProps } from "./GameTypes";
+import { BallProps, PaddleProps } from "./GameTypes";
 
 export const drawBall = (ball: BallProps, ctx: CanvasRenderingContext2D) => {
   ctx.beginPath();
@@ -16,7 +16,7 @@ export const drawBall = (ball: BallProps, ctx: CanvasRenderingContext2D) => {
   ctx.stroke();
 };
 
-export const createBall = (balls: BallProps[], canvas: HTMLCanvasElement) => {
+export const createBall = (balls: BallProps[],paddle: PaddleProps, canvas: HTMLCanvasElement) => {
   const firstBall = balls[0];
   const lastBall = balls[balls.length - 1];
   const initialSpeed = 5;
@@ -24,31 +24,39 @@ export const createBall = (balls: BallProps[], canvas: HTMLCanvasElement) => {
   const newBall: BallProps = {
     id: balls.length,
     position: {
-      x: lastBall ? lastBall.position.x + 20 : canvas.width / 2,
-      y: lastBall ? lastBall.position.y + 20 : canvas.height / 2,
+      x: balls.length === 0 ? paddle.position.x + paddle.width / 2 : (lastBall ? lastBall.position.x + 20 : canvas.width / 2),
+      y: balls.length === 0 ? paddle.position.y - 12.5 : (lastBall ? lastBall.position.y + 20 : canvas.height / 2),
     },
     color: "white",
     size: 12.5,
     speed: initialSpeed,
     velocity: firstBall 
       ? { 
-          x: firstBall.velocity.x * (1 + offset), 
-          y: firstBall.velocity.y * (1 + offset) 
+          x: firstBall.velocity.x * 1 + offset, 
+          y: firstBall.velocity.y * 1 + offset 
         } 
-      : { x: 0, y: -1 },
+      : { x: 0, y: 0 },
   };
   return newBall;
 };
 
-export const moveBall = (ball: BallProps) => {
+export const moveBall = (ball: BallProps, paddle: PaddleProps, launchBall: boolean) => {
   const speedMultiplier = 5;
-  const velocity = {
-    x: ball.velocity.x * speedMultiplier,
-    y: ball.velocity.y * speedMultiplier,
-  };
+  if (launchBall) {
+    ball.velocity = {
+      x: ball.velocity.x || 1 * speedMultiplier,
+      y: ball.velocity.y || -1 * speedMultiplier,
+    };
+  }
 
-  ball.position.x += velocity.x;
-  ball.position.y += velocity.y;
+  if (!launchBall) {
+    ball.position.x = paddle.position.x + paddle.width / 2;
+    ball.position.y = paddle.position.y - ball.size;
+  } else {
+    ball.position.x += ball.velocity.x;
+    ball.position.y += ball.velocity.y;
+  }
+
   ball.position.x = Math.round(ball.position.x);
   ball.position.y = Math.round(ball.position.y);
 };

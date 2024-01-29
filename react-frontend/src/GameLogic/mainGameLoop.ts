@@ -16,6 +16,7 @@ function game(canvas: HTMLCanvasElement) {
   let balls: BallProps[] = [];
   let bricks: BrickProps[] = [];
   let powerUps: PowerUpProps[] = [];
+  let launchBall = false;
   let gameLevel = 3;
 
 
@@ -61,6 +62,12 @@ function game(canvas: HTMLCanvasElement) {
 
   const gameLoop = (balls: BallProps[], paddle: PaddleProps) => {
     if (start) {
+      document.addEventListener("keydown", (event) => {
+        if(event.key === " "){
+          launchBall = true;
+          console.log(launchBall)
+        }
+      })
       const maxPaddleX = canvas.width - paddle.width;
       if (keys.has("ArrowRight") && paddle.position.x < maxPaddleX) {
         paddle.position.x += 15;
@@ -74,7 +81,7 @@ function game(canvas: HTMLCanvasElement) {
         const powerUpGain = checkPowerUpCollision(paddle, powerUp, canvas)
         if(powerUpGain.collision || powerUpGain.ofCanvas){
           if(powerUpGain.text === "+1"){
-            balls.push(createBall(balls, canvas));
+            balls.push(createBall(balls,paddle, canvas));
           }else if(powerUpGain.text === "<->"){
             biggerPaddle(paddle, canvas);
           }
@@ -83,7 +90,7 @@ function game(canvas: HTMLCanvasElement) {
       }
       for (let i = balls.length - 1; i >= 0; i--) {
         const ball = balls[i];
-        moveBall(ball);
+        moveBall(ball, paddle, launchBall);
         
         checkPaddleCollision(paddle, ball);
         checkBorderCollision(ball, canvas)
@@ -115,10 +122,11 @@ function game(canvas: HTMLCanvasElement) {
     const paddle = createPaddle(canvas);
     bricks = createBricks(canvas, gameLevel);
     start = true;
-    balls.push(createBall(balls, canvas));
+    balls.push(createBall(balls, paddle, canvas));
     canvas.addEventListener('click', () => {
       canvas.requestPointerLock();
     });
+
     document.addEventListener('mousemove', (event) => {
       if (document.pointerLockElement === canvas) {
         paddle.position.x += event.movementX;
@@ -131,6 +139,7 @@ function game(canvas: HTMLCanvasElement) {
       if (event.key === 'Escape') {
         document.exitPointerLock();
       }
+      
     });
     gameLoop(balls, paddle);
   };
