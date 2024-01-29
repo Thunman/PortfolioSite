@@ -1,4 +1,4 @@
-import { BrickProps } from "../components/GameTypes";
+import { BrickProps } from "./GameTypes";
 
 export const createBricks = (canvas: HTMLCanvasElement) => {
   const paddingTop = 20;
@@ -14,8 +14,7 @@ export const createBricks = (canvas: HTMLCanvasElement) => {
   for (let row = 0; row < nrOfRows; row++) {
     for (
       let col = 0;
-      col <
-      (canvas.width - paddingLeft - paddingRight) / (width + spacing);
+      col < (canvas.width - paddingLeft - paddingRight) / (width + spacing);
       col++
     ) {
       const x = paddingLeft + col * (width + spacing);
@@ -51,11 +50,11 @@ export const createBricks = (canvas: HTMLCanvasElement) => {
         getColor() {
           switch (this.hp) {
             case 1:
-              return "green";
+              return "#404080"; 
             case 2:
-              return "yellow";
+              return "#202040"; 
             case 3:
-              return "red";
+              return "#000020"; 
             default:
               return "black";
           }
@@ -69,9 +68,9 @@ export const createBricks = (canvas: HTMLCanvasElement) => {
 };
 
 export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
-    ctx.beginPath();
-    ctx.rect(brick.position.x, brick.position.y, brick.width, brick.height);
-    ctx.fillStyle = brick.getColor();
-    ctx.fill();
-    ctx.stroke();
+  ctx.beginPath();
+  ctx.rect(brick.position.x, brick.position.y, brick.width, brick.height);
+  ctx.fillStyle = brick.getColor();
+  ctx.fill();
+  ctx.stroke();
 };

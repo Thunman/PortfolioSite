@@ -1,4 +1,4 @@
-import { BallProps, BrickProps, PaddleProps } from "../components/GameTypes";
+import { BallProps, BrickProps, PaddleProps, PowerUpProps } from "./GameTypes";
 
 export const checkPaddleCollision = (
   paddle: PaddleProps,
@@ -14,42 +14,29 @@ export const checkPaddleCollision = (
     distX <= paddle.width / 2 + ball.size &&
     distY <= paddle.height / 2 + ball.size
   ) {
-    let hitPoint = (ball.position.x - (paddle.position.x + paddle.width / 2)) / (paddle.width / 2);
-    let angle = hitPoint * (Math.PI / 4); 
+    let hitPoint =
+      (ball.position.x - (paddle.position.x + paddle.width / 2)) /
+      (paddle.width / 2);
+    let angle = hitPoint * (Math.PI / 4);
     ball.velocity.x = ball.speed * Math.sin(angle);
     ball.velocity.y = -ball.speed * Math.cos(angle);
   }
 };
-export const checkBorderCollision = (ball: BallProps, canvas: HTMLCanvasElement) => {
-  const distLeft = ball.position.x;
-  const distRight = canvas.width - (ball.position.x + ball.size);
-  const distTop = ball.position.y;
 
-  if (distLeft < 0) {
+export const checkBorderCollision = (ball: BallProps, canvas: HTMLCanvasElement) => {
+  if (ball.position.x < 0 || canvas.width - (ball.position.x + ball.size) < 0) {
     ball.velocity.x *= -1;
   }
-  if (distRight < 0) {
-    ball.velocity.x *= -1;
-  }
-  if (distTop < 0) {
+  if (ball.position.y < 0) {
     ball.velocity.y *= -1;
   }
 };
-export const checkOutOfBounds = (
-  ball: BallProps,
-  canvas: HTMLCanvasElement
-) => {
-  let outOfBounds = false
-  const distBottom = canvas.height - (ball.position.y + ball.size);
-  if (distBottom < 0) {
-    outOfBounds = true
-    return outOfBounds;
-  }
+
+export const checkOutOfBounds = (ball: BallProps, canvas: HTMLCanvasElement) => {
+  return canvas.height - (ball.position.y + ball.size) < 0;
 };
-export const checkBrickCollision = (
-  ball: BallProps,
-  bricks: BrickProps[]
-) => {
+
+export const checkBrickCollision = (ball: BallProps, bricks: BrickProps[]) => {
   for (let brick of bricks) {
     const distX = Math.abs(
       ball.position.x - brick.position.x - brick.width / 2
@@ -82,4 +69,28 @@ export const checkBrickCollision = (
       return;
     }
   }
+};
+export const checkPowerUpCollision = (
+  paddle: PaddleProps,
+  powerUp: PowerUpProps,
+  canvas: HTMLCanvasElement
+) => {
+  const distX = Math.abs(
+    powerUp.position.x - paddle.position.x - paddle.width / 2
+  );
+  const distY = Math.abs(
+    powerUp.position.y - paddle.position.y - paddle.height / 2
+  );
+
+  let collisionResult;
+
+  if (distX <= paddle.width / 2 + powerUp.size && distY <= paddle.height / 2 + powerUp.size) {
+    collisionResult = { collision: true, text: powerUp.text };
+  } else if (powerUp.position.y > canvas.height) {
+    collisionResult = { collision: false, ofCanvas: true };
+  } else {
+    collisionResult = { collision: false, ofCanvas: false };
+  }
+
+  return collisionResult;
 };

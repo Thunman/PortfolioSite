@@ -1,8 +1,8 @@
-import { PaddleProps } from "../components/GameTypes";
+import { PaddleProps } from "./GameTypes";
 
 export const createPaddle = (canvas: HTMLCanvasElement) => {
   const paddle: PaddleProps = {
-    color: "grey",
+    color: "#202040", 
     position: {
       x: canvas.width / 2,
       y: canvas.height - 50,
@@ -13,6 +13,15 @@ export const createPaddle = (canvas: HTMLCanvasElement) => {
   return paddle;
 };
 
+
+export const biggerPaddle = (paddle: PaddleProps, canvas: HTMLCanvasElement) => {
+  paddle.width = canvas.width * 0.2;
+};
+
+
+
+
+let gradientOffset = 0;
 export const drawPaddle = (
   paddle: PaddleProps,
   ctx: CanvasRenderingContext2D
@@ -62,6 +71,28 @@ export const drawPaddle = (
     cornerRadius
   );
   ctx.closePath();
-  ctx.fillStyle = paddle.color;
+
+  const gradient = ctx.createLinearGradient(
+    paddle.position.x,
+    paddle.position.y,
+    paddle.position.x + paddle.width,
+    paddle.position.y + paddle.height
+  );
+  
+  for (let i = 0; i <= 1; i += 0.1) {
+    const color = i % 0.2 < 0.1 ? "#000020" : "#202040"; 
+    gradient.addColorStop((i + gradientOffset) % 1, color);
+  }
+
+  ctx.fillStyle = gradient;
   ctx.fill();
+
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  gradientOffset += 0.01;
+  if (gradientOffset > 1) {
+    gradientOffset -= 1;
+  }
 };

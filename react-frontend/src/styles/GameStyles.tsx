@@ -5,17 +5,20 @@ export const StyledGameContainer = styled.div`
     position: relative;
     width: 80%;
     height: 80%;
-    background: #553030;
-    border: 4px solid #475569;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    background: radial-gradient(circle, #000020, #000000); 
+    border: 4px solid #202040; 
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); 
+    transition: box-shadow 0.3s ease;
+    
     .full-canvas {
-            
-            width: 100%;
-            height: 100%;
-        }
+        width: 100%;
+        height: 100%;
+    }
+    &:hover {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); 
+    }
 `;
-
 export const StyledCircle = styled.div<{ randomcolor: string, top: string, left: string }>`
     position: absolute;
     top: ${(props) => props.top};
