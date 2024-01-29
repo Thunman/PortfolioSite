@@ -31,10 +31,8 @@ export type PaddleProps = {
      height: number;
 };
 
-export type GameStateProps = {
-    score: number;
-    timeLeft: number;
-    circles: CircleProps[];
+export type GameProgressProps = {
+    level: number;
 };
 
 export type BrickProps = {

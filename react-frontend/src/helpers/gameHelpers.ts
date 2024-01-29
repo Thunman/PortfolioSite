@@ -1,7 +1,7 @@
-import { GameStateProps } from "../GameLogic/GameTypes";
+import { GameProgressProps } from "../GameLogic/GameTypes";
 import { gameStateSchema, scoreSchema } from "../Schemas/yupSchemas";
 
-export const saveState = async (gameState: GameStateProps) => {
+export const saveState = async (gameState: GameProgressProps) => {
     try {
         await gameStateSchema.validate(gameState);
 

@@ -1,4 +1,4 @@
-import { BallProps, PaddleProps } from "./GameTypes";
+import { BallProps } from "./GameTypes";
 
 export const drawBall = (ball: BallProps, ctx: CanvasRenderingContext2D) => {
   const cornerRadius = 5;

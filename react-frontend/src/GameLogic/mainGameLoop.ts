@@ -16,6 +16,7 @@ function game(canvas: HTMLCanvasElement) {
   let balls: BallProps[] = [];
   let bricks: BrickProps[] = [];
   let powerUps: PowerUpProps[] = [];
+  let gameLevel = 1;
 
 
 
@@ -112,7 +113,7 @@ function game(canvas: HTMLCanvasElement) {
   };
   const startGame = () => {
     const paddle = createPaddle(canvas);
-    bricks = createBricks(canvas);
+    bricks = createBricks(canvas, gameLevel);
     start = true;
     balls.push(createBall(balls, canvas));
     canvas.addEventListener('click', () => {
