@@ -1,60 +1,70 @@
-import { BrickProps } from "./GameTypes";
+import { BrickProps, BrickSettingsProps } from "./GameTypes";
 
-export const createBricks = (canvas: HTMLCanvasElement, level: number) => {
-  const paddingTop = 20;
-  const paddingLeft = 20;
-  const paddingRight = 20;
-  const width = 25;
-  const height = 15;
-  const spacing = 1;
-  const nrOfRows = level * 2;
-
-  let bricks: BrickProps[] = [];
-  let brickId = 0;
-
-  
-
-
+export const createBrickArrays = (canvas: HTMLCanvasElement, brickSettings: BrickSettingsProps) => {
+  const nrOfRows = Math.floor((canvas.height * 0.75 - brickSettings._padding * 2) / (brickSettings._height + brickSettings._spacing));
+  const nrOfCols = Math.floor((canvas.width - brickSettings._padding * 2) / (brickSettings._width + brickSettings._spacing));
+  let bricks: number[][] = [];
 
   for (let row = 0; row < nrOfRows; row++) {
-    for (
-      let col = 0;
-      col < (canvas.width - paddingLeft - paddingRight) / (width + spacing);
-      col++
-    ) {
-      const x = paddingLeft + col * (width + spacing);
-      const y = paddingTop + row * (height + spacing);
+    let brickRow: number[] = [];
+    for (let col = 0; col < nrOfCols; col++) {
+      brickRow.push(0);
+    }
+    bricks.push(brickRow);
+  }
+  return bricks;
+};
 
-      let hp: number;
-      hp = nrOfRows - row;
-      hp = hp < 1 ? 1 : hp; 
-
-      const newBrick: BrickProps = {
-        id: brickId,
-        hp: hp,
-        
-        width: width,
-        height: height,
-        position: {
-          x: x,
-          y: y,
-        },
-        getColor() {
-          let baseColor = 64;
-          let decrement = 5; 
-          let colorValue = baseColor - (this.hp - 1) * decrement;
-          colorValue = Math.max(colorValue, 0); 
-          let colorString = colorValue.toString(16); 
-          colorString = colorString.length < 2 ? '0' + colorString : colorString; 
-          return "#" + colorString + colorString + '80'; 
-        },
-      };
-      brickId++;
-      bricks.push(newBrick);
+export const applyRandomPatternToBricks = (bricks: number[][]): number[][] => {
+  for (let row = 0; row < bricks.length; row++) {
+    for (let col = 0; col < bricks[row].length; col++) {
+      bricks[row][col] = Math.round(Math.random());
     }
   }
   return bricks;
 };
+
+export const createBricks = (brickArrays: number[][], brickSettings: BrickSettingsProps) => {
+  let bricks = [];
+  for(let row = 0; row < brickArrays.length; row++) {
+    for(let col = 0; col < brickArrays[row].length; col++) {
+      if(brickArrays[row][col] === 1) {
+        bricks.push(createBrick(row, col, brickSettings));
+      }
+    }
+  }
+  return bricks;
+};
+
+const createBrick = (() => {
+  let id = 0;
+  return (row: number, col: number, brickSettings: BrickSettingsProps) => {
+    const x = brickSettings._padding + col * (brickSettings._width + brickSettings._spacing);
+    const y = brickSettings._padding + row * (brickSettings._height + brickSettings._spacing);
+
+    const newBrick: BrickProps = {
+      id: id++,
+      hp: 1,
+      width: brickSettings._width,
+      height: brickSettings._height,
+      position: {
+        x: x,
+        y: y,
+      },
+      getColor() {
+        let baseColor = 64;
+        let decrement = 5;
+        let colorValue = baseColor - (this.hp - 1) * decrement;
+        colorValue = Math.max(colorValue, 0);
+        let colorString = colorValue.toString(16);
+        colorString =
+          colorString.length < 2 ? "0" + colorString : colorString;
+        return "#" + colorString + colorString + "80";
+      },
+    };
+    return newBrick;
+  };
+})();
 
 export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
   ctx.beginPath();
@@ -63,9 +73,9 @@ export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
   ctx.fill();
   ctx.stroke();
   ctx.fillStyle = "black";
-  ctx.font = "12px Arial"; 
-  ctx.textAlign = "center"; 
-  ctx.textBaseline = "middle"; 
+  ctx.font = "12px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   const textX = brick.position.x + brick.width / 2;
   const textY = brick.position.y + brick.height / 2;
   ctx.fillText(brick.hp.toString(), textX, textY);
