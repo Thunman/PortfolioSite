@@ -7,12 +7,12 @@ export const createBricks = (canvas: HTMLCanvasElement, level: number) => {
   const width = 25;
   const height = 15;
   const spacing = 1;
-  let nrOfRows = 0;
+  const nrOfRows = level * 2;
 
   let bricks: BrickProps[] = [];
-  let id = 0;
+  let brickId = 0;
 
-  nrOfRows = level * 3;
+  
 
 
 
@@ -30,7 +30,7 @@ export const createBricks = (canvas: HTMLCanvasElement, level: number) => {
       hp = hp < 1 ? 1 : hp; 
 
       const newBrick: BrickProps = {
-        id: id,
+        id: brickId,
         hp: hp,
         
         width: width,
@@ -49,7 +49,7 @@ export const createBricks = (canvas: HTMLCanvasElement, level: number) => {
           return "#" + colorString + colorString + '80'; 
         },
       };
-      id++;
+      brickId++;
       bricks.push(newBrick);
     }
   }

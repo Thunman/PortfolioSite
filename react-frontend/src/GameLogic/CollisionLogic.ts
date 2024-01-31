@@ -102,6 +102,5 @@ export const checkPowerUpCollision = (
   } else {
     collisionResult = { collision: false, ofCanvas: false };
   }
-
   return collisionResult;
 };

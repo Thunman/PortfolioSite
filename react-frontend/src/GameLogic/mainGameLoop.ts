@@ -17,9 +17,7 @@ function game(canvas: HTMLCanvasElement) {
   let bricks: BrickProps[] = [];
   let powerUps: PowerUpProps[] = [];
   let launchBall = false;
-  let gameLevel = 3;
-
-
+  let gameLevel = 1;
 
   const animate = (paddle: PaddleProps, balls: BallProps[]) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -57,7 +55,12 @@ function game(canvas: HTMLCanvasElement) {
 
   const gameOver = () => {
     alert("Game Over");
-    resetGame();
+    //resetGame();
+  };
+  const levelComplete = () => {
+      alert("Level Colmplete!");
+      gameLevel ++;
+      resetGame();
   };
 
   const gameLoop = (balls: BallProps[], paddle: PaddleProps) => {
@@ -108,10 +111,14 @@ function game(canvas: HTMLCanvasElement) {
               powerUps.push(createPowerUp(powerUps, brick));
             } 
             bricks.splice(j, 1);
+            if(bricks.length <= 0){
+              levelComplete();
+            }
           }
         }
       }
       if (balls.length === 0) {
+        start = false;
         gameOver();
       }
       animate(paddle, balls);
@@ -120,13 +127,14 @@ function game(canvas: HTMLCanvasElement) {
   };
   const startGame = () => {
     const paddle = createPaddle(canvas);
+    resetGame();
     bricks = createBricks(canvas, gameLevel);
     start = true;
     balls.push(createBall(balls, paddle, canvas));
+
     canvas.addEventListener('click', () => {
       canvas.requestPointerLock();
     });
-
     document.addEventListener('mousemove', (event) => {
       if (document.pointerLockElement === canvas) {
         paddle.position.x += event.movementX;
