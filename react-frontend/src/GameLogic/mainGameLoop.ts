@@ -1,5 +1,10 @@
 import { createBall, drawBall, moveBall } from "./Balls";
-import { applyRandomPatternToBricks, createBrickArrays, createBricks, drawBrick } from "./Bricks";
+import {
+  applyRandomPatternToBricks,
+  createBrickArrays,
+  createBricks,
+  drawBrick,
+} from "./Bricks";
 import {
   checkBorderCollision,
   checkPaddleCollision,
@@ -8,7 +13,13 @@ import {
   checkPowerUpCollision,
 } from "./CollisionLogic";
 import { biggerPaddle, createPaddle, drawPaddle } from "./Paddle";
-import { BallProps, PaddleProps, BrickProps, PowerUpProps, BrickSettingsProps } from "./GameTypes";
+import {
+  BallProps,
+  PaddleProps,
+  BrickProps,
+  PowerUpProps,
+  BrickSettingsProps,
+} from "./GameTypes";
 import { createPowerUp, drawPowerUps, movePowerUp } from "./PowerUps";
 import {
   addCanvasClickListener,
@@ -31,13 +42,11 @@ function game(canvas: HTMLCanvasElement) {
   let launchBall = false;
   let paddle: PaddleProps;
   let gameLevel = 1;
-  
-
 
   const brickSettings: BrickSettingsProps = {
     _padding: 20,
-    _width: 25,
-    _height: 15,
+    _width: 100,
+    _height: 50,
     _spacing: 1,
     setHeight(number) {
       this._height = number;

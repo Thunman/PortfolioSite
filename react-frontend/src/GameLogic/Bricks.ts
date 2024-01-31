@@ -1,8 +1,17 @@
 import { BrickProps, BrickSettingsProps } from "./GameTypes";
 
-export const createBrickArrays = (canvas: HTMLCanvasElement, brickSettings: BrickSettingsProps) => {
-  const nrOfRows = Math.floor((canvas.height * 0.75 - brickSettings._padding * 2) / (brickSettings._height + brickSettings._spacing));
-  const nrOfCols = Math.floor((canvas.width - brickSettings._padding * 2) / (brickSettings._width + brickSettings._spacing));
+export const createBrickArrays = (
+  canvas: HTMLCanvasElement,
+  brickSettings: BrickSettingsProps
+) => {
+  const nrOfRows = Math.floor(
+    (canvas.height * 0.75 - brickSettings._padding * 2) /
+      (brickSettings._height + brickSettings._spacing)
+  );
+  const nrOfCols = Math.floor(
+    (canvas.width - brickSettings._padding * 2) /
+      (brickSettings._width + brickSettings._spacing)
+  );
   let bricks: number[][] = [];
 
   for (let row = 0; row < nrOfRows; row++) {
@@ -24,11 +33,14 @@ export const applyRandomPatternToBricks = (bricks: number[][]): number[][] => {
   return bricks;
 };
 
-export const createBricks = (brickArrays: number[][], brickSettings: BrickSettingsProps) => {
+export const createBricks = (
+  brickArrays: number[][],
+  brickSettings: BrickSettingsProps
+) => {
   let bricks = [];
-  for(let row = 0; row < brickArrays.length; row++) {
-    for(let col = 0; col < brickArrays[row].length; col++) {
-      if(brickArrays[row][col] === 1) {
+  for (let row = 0; row < brickArrays.length; row++) {
+    for (let col = 0; col < brickArrays[row].length; col++) {
+      if (brickArrays[row][col] === 1) {
         bricks.push(createBrick(row, col, brickSettings));
       }
     }
@@ -39,8 +51,12 @@ export const createBricks = (brickArrays: number[][], brickSettings: BrickSettin
 const createBrick = (() => {
   let id = 0;
   return (row: number, col: number, brickSettings: BrickSettingsProps) => {
-    const x = brickSettings._padding + col * (brickSettings._width + brickSettings._spacing);
-    const y = brickSettings._padding + row * (brickSettings._height + brickSettings._spacing);
+    const x =
+      brickSettings._padding +
+      col * (brickSettings._width + brickSettings._spacing);
+    const y =
+      brickSettings._padding +
+      row * (brickSettings._height + brickSettings._spacing);
 
     const newBrick: BrickProps = {
       id: id++,
@@ -57,8 +73,7 @@ const createBrick = (() => {
         let colorValue = baseColor - (this.hp - 1) * decrement;
         colorValue = Math.max(colorValue, 0);
         let colorString = colorValue.toString(16);
-        colorString =
-          colorString.length < 2 ? "0" + colorString : colorString;
+        colorString = colorString.length < 2 ? "0" + colorString : colorString;
         return "#" + colorString + colorString + "80";
       },
     };

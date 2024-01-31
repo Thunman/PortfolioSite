@@ -2,7 +2,7 @@ import { PaddleProps } from "./GameTypes";
 
 export const createPaddle = (canvas: HTMLCanvasElement) => {
   const paddle: PaddleProps = {
-    color: "#202040", 
+    color: "#202040",
     position: {
       x: canvas.width / 2,
       y: canvas.height - 50,
@@ -13,13 +13,12 @@ export const createPaddle = (canvas: HTMLCanvasElement) => {
   return paddle;
 };
 
-
-export const biggerPaddle = (paddle: PaddleProps, canvas: HTMLCanvasElement) => {
+export const biggerPaddle = (
+  paddle: PaddleProps,
+  canvas: HTMLCanvasElement
+) => {
   paddle.width = canvas.width * 0.2;
 };
-
-
-
 
 let gradientOffset = 0;
 export const drawPaddle = (
@@ -78,9 +77,9 @@ export const drawPaddle = (
     paddle.position.x + paddle.width,
     paddle.position.y + paddle.height
   );
-  
+
   for (let i = 0; i <= 1; i += 0.1) {
-    const color = i % 0.2 < 0.1 ? "#000020" : "#202040"; 
+    const color = i % 0.2 < 0.1 ? "#000020" : "#202040";
     gradient.addColorStop((i + gradientOffset) % 1, color);
   }
 

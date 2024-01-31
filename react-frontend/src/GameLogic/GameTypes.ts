@@ -1,4 +1,3 @@
-
 export type CircleProps = {
   color: string;
   id: number;

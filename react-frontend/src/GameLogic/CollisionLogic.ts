@@ -54,7 +54,7 @@ export const checkBrickCollision = (ball: BallProps, bricks: BrickProps[]) => {
     );
     if (
       distX > brick.width / 2 + ball.size + 2 ||
-      distY > brick.height / 2 + ball.size + 2 
+      distY > brick.height / 2 + ball.size + 2
     ) {
       continue;
     }

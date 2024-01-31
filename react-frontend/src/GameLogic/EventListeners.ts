@@ -26,10 +26,10 @@ export const addPointerLockCancelListener = () => {
   });
 };
 export const addMoveKeyListener = (keys: Set<string>) => {
-    window.addEventListener("keydown", (e) => {
-      keys.add(e.key);
-    });
-    window.addEventListener("keyup", (e) => {
-      keys.delete(e.key);
-    });
-  };
+  window.addEventListener("keydown", (e) => {
+    keys.add(e.key);
+  });
+  window.addEventListener("keyup", (e) => {
+    keys.delete(e.key);
+  });
+};
