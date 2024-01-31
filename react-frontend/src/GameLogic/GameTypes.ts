@@ -47,6 +47,21 @@ export type BrickProps = {
   };
 };
 
+export type EmptyBrickProps = {
+  id: number;
+  hp: number;
+  width: number;
+  height: number;
+  getColor: () => string;
+  handleClick: () => void;
+  position: {
+    x: number;
+    y: number;
+  };
+};
+
+
+
 export type PowerUpProps = {
   text: string;
   color: string;
