@@ -53,8 +53,8 @@ export const checkBrickCollision = (ball: BallProps, bricks: BrickProps[]) => {
       ball.position.y - brick.position.y - brick.height / 2
     );
     if (
-      distX > brick.width / 2 + ball.size ||
-      distY > brick.height / 2 + ball.size
+      distX > brick.width / 2 + ball.size + 2 ||
+      distY > brick.height / 2 + ball.size + 2 
     ) {
       continue;
     }
@@ -98,9 +98,9 @@ export const checkPowerUpCollision = (
   ) {
     collisionResult = { collision: true, text: powerUp.text };
   } else if (powerUp.position.y > canvas.height) {
-    collisionResult = { collision: false, ofCanvas: true };
+    collisionResult = { collision: false, outsideCanvas: true };
   } else {
-    collisionResult = { collision: false, ofCanvas: false };
+    collisionResult = { collision: false, outsideCanvas: false };
   }
   return collisionResult;
 };
