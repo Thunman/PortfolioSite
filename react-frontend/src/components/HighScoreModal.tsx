@@ -2,7 +2,7 @@
 import { StyledModal, StyledBackdrop } from "../styles/styles";
 import { ModalProps, BackdropProps } from "./interface";
 
-const Modal = ({ handleClose, text }: ModalProps) => {
+const HighScoreModal = ({ handleClose, text }: ModalProps) => {
 
 
     const dropIn = {
@@ -42,5 +42,5 @@ const Modal = ({ handleClose, text }: ModalProps) => {
         </StyledBackdrop>
     )
 }
-export default Modal
+export default HighScoreModal
 

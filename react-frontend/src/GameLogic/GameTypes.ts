@@ -82,8 +82,5 @@ export type BrickSettingsProps = {
   _width: number;
   _height: number;
   _spacing: number;
-  setPadding(number: number): void;
-  setWidth(number: number): void;
-  setHeight(number: number): void;
-  setSpacing(number: number): void;
+
 };

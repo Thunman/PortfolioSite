@@ -1,6 +1,6 @@
 import * as GameStyles from "../styles/GameStyles";
 import { useEffect, useRef, useState } from "react";
-import Modal from "./Modal";
+import HighScoreModal from "./HighScoreModal";
 import { AnimatePresence } from "framer-motion";
 import game from "../GameLogic/mainGameLoop";
 
@@ -45,10 +45,10 @@ const Game = () => {
           onExitComplete={() => null}
         >
           {modalOpen && (
-            <Modal
+            <HighScoreModal
               handleClose={closeHighScore}
               text="no way this works"
-            ></Modal>
+            ></HighScoreModal>
           )}
         </AnimatePresence>
         <GameStyles.StyledScore>{score}</GameStyles.StyledScore>

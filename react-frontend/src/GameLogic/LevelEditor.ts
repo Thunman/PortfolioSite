@@ -1,26 +1,7 @@
 import { createBrickArrays, createEmptyBricks, drawEmptyBrick } from "./Bricks";
 import { EmptyBrickProps, BrickSettingsProps } from "./GameTypes";
 
-const brickSettings: BrickSettingsProps = {
-	_padding: 20,
-	_width: 100,
-	_height: 50,
-	_spacing: 1,
-	setHeight(number) {
-		this._height = number;
-	},
-	setPadding(number) {
-		this._padding = number;
-	},
-	setSpacing(number) {
-		this._spacing = number;
-	},
-	setWidth(number) {
-		this._width = number;
-	},
-};
-
-function levelEditor(canvas: HTMLCanvasElement) {
+function levelEditor(canvas: HTMLCanvasElement, brickSettings: BrickSettingsProps) {
 	const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;

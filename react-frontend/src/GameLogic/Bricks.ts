@@ -14,7 +14,7 @@ export const createBrickArrays = (
 			(brickSettings._height + brickSettings._spacing)
 	);
 	const nrOfCols = Math.floor(
-		(canvas.width - brickSettings._padding * 2) /
+		(canvas.width - brickSettings._padding * 2 ) /
 			(brickSettings._width + brickSettings._spacing)
 	);
 	let bricks: number[][] = [];
@@ -108,7 +108,7 @@ const createEmptyBrick = (() => {
 			},
 			getColor() {
 				if (this.hp === 1) {
-					return "black";
+					return "red";
 				} else {
 					return "green";
 				}

@@ -48,18 +48,7 @@ function game(canvas: HTMLCanvasElement) {
 		_width: 100,
 		_height: 50,
 		_spacing: 1,
-		setHeight(number) {
-			this._height = number;
-		},
-		setPadding(number) {
-			this._padding = number;
-		},
-		setSpacing(number) {
-			this._spacing = number;
-		},
-		setWidth(number) {
-			this._width = number;
-		},
+
 	};
 
 	let brickArrays = createBrickArrays(canvas, brickSettings, true);
