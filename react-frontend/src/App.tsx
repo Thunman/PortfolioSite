@@ -5,6 +5,7 @@ import Register from './components/Register';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './components/Landing';
 import Game from "./components/Game"
+import LevelEditor from './components/LevelEditor';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Landing setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/game" element={<Game />} />
+            <Route path="/levelEditor" element={<LevelEditor />} />
           </Routes>
         )}
       </Router>
