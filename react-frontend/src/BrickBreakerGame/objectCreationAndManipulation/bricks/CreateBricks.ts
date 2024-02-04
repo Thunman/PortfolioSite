@@ -1,4 +1,8 @@
-import { BrickProps, BrickSettingsProps, EmptyBrickProps } from "./GameTypes";
+import {
+	BrickProps,
+	BrickSettingsProps,
+	EmptyBrickProps,
+} from "../../HelperFunctions/GameTypes";
 
 export const createBrickArrays = (
 	canvas: HTMLCanvasElement,
@@ -24,15 +28,6 @@ export const createBrickArrays = (
 			brickRow.push(flag);
 		}
 		bricks.push(brickRow);
-	}
-	return bricks;
-};
-
-export const applyRandomPatternToBricks = (bricks: number[][]): number[][] => {
-	for (let row = 0; row < bricks.length; row++) {
-		for (let col = 0; col < bricks[row].length; col++) {
-			bricks[row][col] = Math.round(Math.random());
-		}
 	}
 	return bricks;
 };
@@ -147,54 +142,4 @@ export const createEmptyBricks = (
 		bricks.push(rowBricks);
 	}
 	return bricks;
-};
-
-export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
-	ctx.beginPath();
-	ctx.rect(brick.position.x, brick.position.y, brick.width, brick.height);
-	ctx.fillStyle = brick.getColor();
-	ctx.fill();
-	ctx.stroke();
-	ctx.fillStyle = "black";
-	ctx.font = "12px Arial";
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	const textX = brick.position.x + brick.width / 2;
-	const textY = brick.position.y + brick.height / 2;
-
-	ctx.fillText(brick.hp.toString(), textX, textY);
-};
-export const drawEmptyBrick = (
-	brick: EmptyBrickProps,
-	ctx: CanvasRenderingContext2D
-) => {
-	ctx.beginPath();
-	ctx.rect(brick.position.x, brick.position.y, brick.width, brick.height);
-	ctx.fillStyle = brick.getColor();
-	ctx.fill();
-	ctx.stroke();
-	ctx.fillStyle = "black";
-	ctx.font = "12px Arial";
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	const textX = brick.position.x + brick.width / 2;
-	const textY = brick.position.y + brick.height / 2;
-	const text = `${brick.hp} hp`;
-	ctx.fillText(text, textX, textY);
-};
-
-export const createExportArray = (bricks: EmptyBrickProps[][]) => {
-	let exportArray: number[][] = [];
-	for (let row = 0; row < bricks.length; row++) {
-		let rowArray: number[] = [];
-		for (let col = 0; col < bricks[row].length; col++) {
-			if (bricks[row][col].hp !== 0) {
-				rowArray.push(bricks[row][col].hp);
-			} else {
-				rowArray.push(0);
-			}
-		}
-		exportArray.push(rowArray);
-	}
-	return exportArray;
 };

@@ -26,3 +26,12 @@ export interface SettingsModalProps {
 		spacing: string
 	) => void;
 }
+export interface GameInstance {
+	startGame: () => void;
+	getScore: () => number;
+}
+export interface LevelEditorInstance {
+	start: () => void;
+	exportLevel: () => number[][];
+	exportSettings: () => object;
+}

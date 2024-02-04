@@ -1,7 +1,7 @@
-import { StyledModal, StyledBackdrop } from "../styles/styles";
-import { ModalProps } from "./interface";
+import { StyledModal, StyledBackdrop } from "../Styles/styles";
+import { ModalProps } from "../Interfaces/Interfaces";
 
-const HighScoreModal = ({ handleClose, text }: ModalProps) => {
+export const HighScoreModal = ({ handleClose, text }: ModalProps) => {
 	const dropIn = {
 		hidden: {
 			y: "-100vh",
@@ -37,4 +37,4 @@ const HighScoreModal = ({ handleClose, text }: ModalProps) => {
 		</StyledBackdrop>
 	);
 };
-export default HighScoreModal;
+

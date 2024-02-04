@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { StyledModal, StyledBackdrop } from "../styles/styles";
-import { SettingsModalProps } from "./interface";
+import { StyledModal, StyledBackdrop } from "../Styles/styles";
+import { SettingsModalProps } from "../Interfaces/Interfaces";
 
-const LevelEditorSettingsModal = ({
+export const LevelEditorSettingsModal = ({
 	handleClose,
 	handleSave,
 }: SettingsModalProps) => {
@@ -101,4 +101,4 @@ const LevelEditorSettingsModal = ({
 		</StyledBackdrop>
 	);
 };
-export default LevelEditorSettingsModal;
+

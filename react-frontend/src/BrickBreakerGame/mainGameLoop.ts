@@ -1,27 +1,34 @@
-import { createBall, drawBall, moveBall } from "./Balls";
-import { createBricks, drawBrick } from "./Bricks";
+import { createBall } from "./objectCreationAndManipulation/balls/CreateBalls";
+import { drawBall } from "./objectCreationAndManipulation/balls/DrawBalls";
+import { moveBall } from "./objectCreationAndManipulation/balls/MoveBalls";
+import { createBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
+import { drawBrick } from "./objectCreationAndManipulation/bricks/DrawBricks";
 import {
 	checkBorderCollision,
 	checkPaddleCollision,
 	checkBrickCollision,
 	checkOutOfBounds,
 	checkPowerUpCollision,
-} from "./CollisionLogic";
-import { biggerPaddle, createPaddle, drawPaddle } from "./Paddle";
+} from "./GameLogic/CollisionLogic";
+import { createPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
+import { biggerPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
+import { drawPaddle } from "./objectCreationAndManipulation/paddles/DrawPaddles";
 import {
 	BallProps,
 	PaddleProps,
 	BrickProps,
 	PowerUpProps,
 	BrickSettingsProps,
-} from "./GameTypes";
-import { createPowerUp, drawPowerUps, movePowerUp } from "./PowerUps";
+} from "./HelperFunctions/GameTypes";
+import { movePowerUp } from "./objectCreationAndManipulation/powerUps/MovePowerUps";
+import { createPowerUp } from "./objectCreationAndManipulation/powerUps/CreatePowerUps";
+import { drawPowerUps } from "./objectCreationAndManipulation/powerUps/DrawPowerUps";
 import {
 	addCanvasClickListener,
 	addMouseMoveListener,
 	addMoveKeyListener,
 	addPointerLockCancelListener,
-} from "./EventListeners";
+} from "./HelperFunctions/CreateEventListeners";
 
 function game(
 	canvas: HTMLCanvasElement,

@@ -1,27 +1,4 @@
-import { BrickProps, PowerUpProps } from "./GameTypes";
-
-export const createPowerUp = (powerUps: PowerUpProps[], brick: BrickProps) => {
-	const randomPowerUp = () => {
-		const randomNr = Math.random();
-		if (randomNr < 0.51) return "+1";
-		else return "<->";
-	};
-	const newPowerUp: PowerUpProps = {
-		id: powerUps.length,
-		text: randomPowerUp(),
-		position: {
-			x: brick.position.x,
-			y: brick.position.y,
-		},
-		color: "yellow",
-		size: 15,
-		speed: 5,
-		velocity: {
-			y: 1,
-		},
-	};
-	return newPowerUp;
-};
+import { PowerUpProps } from "../../HelperFunctions/GameTypes";
 
 export const drawPowerUps = (
 	powerUp: PowerUpProps,
@@ -59,14 +36,4 @@ export const drawPowerUps = (
 	const textX = x + width / 2;
 	const textY = y + height / 2;
 	ctx.fillText(powerUp.text, textX, textY);
-};
-
-export const movePowerUp = (powerUp: PowerUpProps) => {
-	const velocity = {
-		y: powerUp.velocity.y * powerUp.speed,
-	};
-	powerUp.position.y += velocity.y;
-	powerUp.position.x = Math.round(powerUp.position.x);
-	powerUp.position.y = Math.round(powerUp.position.y);
-	powerUp.velocity.y = velocity.y > 0 ? 1 : -1;
 };

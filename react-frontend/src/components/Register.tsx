@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as Styles from "../styles/styles";
+import * as Styles from "../Styles/styles";
 import { Link } from "react-router-dom";
 import { userSchema } from "../Schemas/yupSchemas";
 

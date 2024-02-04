@@ -1,5 +1,5 @@
-import * as Styles from "../styles/styles";
-import { LoginProps } from "./interface";
+import * as Styles from "../Styles/styles";
+import { LoginProps } from "../Interfaces/Interfaces";
 import { useSpring, animated } from "react-spring";
 import { Link } from "react-router-dom";
 

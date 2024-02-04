@@ -1,14 +1,16 @@
-import * as GameStyles from "../styles/GameStyles";
+import {
+	StyledGameBackground,
+	StyledGameContainer,
+	StyledGameButtonContainer,
+	StyledGameButton,
+	StyledHighScore,
+} from "../Styles/GameStyles";
 import { useEffect, useRef, useState } from "react";
-import HighScoreModal from "./HighScoreModal";
+import { HighScoreModal } from "./HighScoreModal";
 import { AnimatePresence } from "framer-motion";
-import game from "../GameLogic/mainGameLoop";
+import game from "../BrickBreakerGame/mainGameLoop";
 import { Link } from "react-router-dom";
-
-interface GameInstance {
-	startGame: () => void;
-	getScore: () => number;
-}
+import { GameInstance } from "../Interfaces/Interfaces";
 
 const Game = () => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -30,21 +32,21 @@ const Game = () => {
 	}, []);
 
 	return (
-		<GameStyles.StyledGameBackground>
-			<GameStyles.StyledGameContainer>
+		<StyledGameBackground>
+			<StyledGameContainer>
 				<canvas ref={canvasRef} className="full-canvas" />
-			</GameStyles.StyledGameContainer>
-			<GameStyles.StyledGameButtonContainer>
-				<GameStyles.StyledGameButton
+			</StyledGameContainer>
+			<StyledGameButtonContainer>
+				<StyledGameButton
 					onClick={() => gameInstance?.startGame()}
 				>
 					Start Game
-				</GameStyles.StyledGameButton>
-				<GameStyles.StyledHighScore
+				</StyledGameButton>
+				<StyledHighScore
 					onClick={() => (modalOpen ? closeHighScore() : openHighScore())}
 				>
 					High Score
-				</GameStyles.StyledHighScore>
+				</StyledHighScore>
 				<AnimatePresence
 					initial={false}
 					mode="wait"
@@ -57,11 +59,11 @@ const Game = () => {
 						></HighScoreModal>
 					)}
 				</AnimatePresence>
-				<GameStyles.StyledGameButton as={Link} to="/LevelEditor">
+				<StyledGameButton as={Link} to="/LevelEditor">
 					Level Editor
-				</GameStyles.StyledGameButton>
-			</GameStyles.StyledGameButtonContainer>
-		</GameStyles.StyledGameBackground>
+				</StyledGameButton>
+			</StyledGameButtonContainer>
+		</StyledGameBackground>
 	);
 };
 export default Game;

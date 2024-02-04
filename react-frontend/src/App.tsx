@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Landing from "./components/Landing";
-import Game from "./components/Game";
-import LevelEditor from "./components/LevelEditor";
+import Landing from "./Components/Landing";
+import Game from "./Components/Game";
+import LevelEditor from "./Components/LevelEditor";
 
 function App() {
 	const getInitialState = () => {

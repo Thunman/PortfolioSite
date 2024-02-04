@@ -1,10 +1,10 @@
 import {
 	createBrickArrays,
 	createEmptyBricks,
-	createExportArray,
-	drawEmptyBrick,
-} from "./Bricks";
-import { EmptyBrickProps, BrickSettingsProps } from "./GameTypes";
+} from "./objectCreationAndManipulation/bricks/CreateBricks";
+import { drawEmptyBrick } from "./objectCreationAndManipulation/bricks/DrawBricks";
+import { createExportArray } from "./objectCreationAndManipulation/bricks/ExportBricks";
+import { EmptyBrickProps, BrickSettingsProps } from "./HelperFunctions/GameTypes";
 
 function levelEditor(
 	canvas: HTMLCanvasElement,

@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, useEffect } from "react";
-import * as Styles from "../styles/styles";
+import * as Styles from "../Styles/styles";
 import { Link } from "react-router-dom";
-import { LoginProps } from "./interface";
+import { LoginProps } from "../Interfaces/Interfaces";
 
 function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
 	const handleClick = () => {

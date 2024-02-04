@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import * as GameStyles from "../styles/GameStyles";
-import levelEditor from "../GameLogic/LevelEditor";
+import { 
+  StyledGameBackground, 
+  StyledGameContainer, 
+  StyledGameButtonContainer, 
+  StyledGameButton, 
+  StyledHighScore, 
+  StyledSaveGameButton 
+} from "../Styles/GameStyles";
+import levelEditor from "../BrickBreakerGame/LevelEditor";
 import { AnimatePresence } from "framer-motion";
-import LevelEditorSettingsModal from "./LevelEditorSettingsModal";
+import { LevelEditorSettingsModal } from "./LevelEditorSettingsModal";
 import { Link } from "react-router-dom";
+import { LevelEditorInstance } from "../Interfaces/Interfaces";
 
-interface LevelEditorInstance {
-	start: () => void;
-	exportLevel: () => number[][];
-	exportSettings: () => object;
-}
 const LevelEditor = () => {
 	const [brickSettings, setBrickSettings] = useState(() => {
 		const savedSettings = localStorage.getItem("brickSettings");
@@ -53,21 +56,21 @@ const LevelEditor = () => {
 	}, [brickSettings]);
 
 	return (
-		<GameStyles.StyledGameBackground>
-			<GameStyles.StyledGameContainer>
+		<StyledGameBackground>
+			<StyledGameContainer>
 				<canvas ref={canvasRef} className="full-canvas" />
-			</GameStyles.StyledGameContainer>
-			<GameStyles.StyledGameButtonContainer>
-				<GameStyles.StyledGameButton
+			</StyledGameContainer>
+			<StyledGameButtonContainer>
+				<StyledGameButton
 					onClick={() => levelEditorInstance?.start()}
 				>
 					New Empty Board
-				</GameStyles.StyledGameButton>
-				<GameStyles.StyledHighScore
+				</StyledGameButton>
+				<StyledHighScore
 					onClick={() => (modalOpen ? closeSettings() : openSettings())}
 				>
 					Settings
-				</GameStyles.StyledHighScore>
+				</StyledHighScore>
 				<AnimatePresence
 					initial={false}
 					mode="wait"
@@ -80,7 +83,7 @@ const LevelEditor = () => {
 						></LevelEditorSettingsModal>
 					)}
 				</AnimatePresence>
-				<GameStyles.StyledSaveGameButton
+				<StyledSaveGameButton
 					onClick={() => {
 						const level = levelEditorInstance?.exportLevel() || [];
 						localStorage.setItem("exportedLevel", JSON.stringify(level));
@@ -92,12 +95,12 @@ const LevelEditor = () => {
 					}}
 				>
 					Save
-				</GameStyles.StyledSaveGameButton>
-				<GameStyles.StyledGameButton as={Link} to="/Game">
+				</StyledSaveGameButton>
+				<StyledGameButton as={Link} to="/Game">
 					Back to Game
-				</GameStyles.StyledGameButton>
-			</GameStyles.StyledGameButtonContainer>
-		</GameStyles.StyledGameBackground>
+				</StyledGameButton>
+			</StyledGameButtonContainer>
+		</StyledGameBackground>
 	);
 };
 
