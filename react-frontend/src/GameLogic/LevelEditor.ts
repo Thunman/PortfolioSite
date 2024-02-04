@@ -1,4 +1,3 @@
-import exp from "constants";
 import {
 	createBrickArrays,
 	createEmptyBricks,
@@ -14,9 +13,7 @@ function levelEditor(
 	const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;
-
 	let bricks: EmptyBrickProps[][] = [];
-
 	const brickArrays = createBrickArrays(canvas, brickSettings, false);
 
 	const animate = () => {
@@ -44,25 +41,26 @@ function levelEditor(
 		});
 	});
 
-  canvas.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    const x = e.clientX - canvas.getBoundingClientRect().left;
-    const y = e.clientY - canvas.getBoundingClientRect().top;
-    bricks.flat().forEach((brick) => {
-      if (
-        x >= brick.position.x &&
-        x <= brick.position.x + brick.width &&
-        y >= brick.position.y &&
-        y <= brick.position.y + brick.height
-      ) {
-        brick.handleRightClick();
-        animate();
-      }
-    });
-  });
+	canvas.addEventListener("contextmenu", (e) => {
+		e.preventDefault();
+		const x = e.clientX - canvas.getBoundingClientRect().left;
+		const y = e.clientY - canvas.getBoundingClientRect().top;
+		bricks.flat().forEach((brick) => {
+			if (
+				x >= brick.position.x &&
+				x <= brick.position.x + brick.width &&
+				y >= brick.position.y &&
+				y <= brick.position.y + brick.height
+			) {
+				brick.handleRightClick();
+				animate();
+			}
+		});
+	});
 
 	const start = () => {
 		bricks = createEmptyBricks(brickArrays, brickSettings);
+		localStorage.setItem("exportedLevel", JSON.stringify([[]]));
 		animate();
 	};
 
@@ -70,7 +68,11 @@ function levelEditor(
 		const level = createExportArray(bricks);
 		return level;
 	};
+	const exportSettings = () => {
+		const settings = brickSettings;
+		return settings;
+	};
 
-	return { start, exportLevel };
+	return { start, exportLevel, exportSettings };
 }
 export default levelEditor;

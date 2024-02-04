@@ -45,7 +45,9 @@ export const createBricks = (
 	for (let row = 0; row < brickArrays.length; row++) {
 		for (let col = 0; col < brickArrays[row].length; col++) {
 			if (brickArrays[row][col] !== 0) {
-				bricks.push(createBrick(row, col, brickSettings, brickArrays[row][col]));
+				bricks.push(
+					createBrick(row, col, brickSettings, brickArrays[row][col])
+				);
 			}
 		}
 	}
@@ -54,7 +56,12 @@ export const createBricks = (
 
 const createBrick = (() => {
 	let id = 0;
-	return (row: number, col: number, brickSettings: BrickSettingsProps, hp: number) => {
+	return (
+		row: number,
+		col: number,
+		brickSettings: BrickSettingsProps,
+		hp: number
+	) => {
 		const x =
 			brickSettings._padding +
 			col * (brickSettings._width + brickSettings._spacing);
@@ -172,7 +179,7 @@ export const drawEmptyBrick = (
 	ctx.textBaseline = "middle";
 	const textX = brick.position.x + brick.width / 2;
 	const textY = brick.position.y + brick.height / 2;
-  const text = `${brick.hp} hp`;
+	const text = `${brick.hp} hp`;
 	ctx.fillText(text, textX, textY);
 };
 

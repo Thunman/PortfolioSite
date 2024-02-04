@@ -18,10 +18,13 @@ const Game = () => {
 	const exportedLevel = JSON.parse(
 		localStorage.getItem("exportedLevel") || "[]"
 	);
+	const brickSettings = JSON.parse(
+		localStorage.getItem("brickSettings") || "{}"
+	);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	useEffect(() => {
 		if (canvasRef.current) {
-			const instance = game(canvasRef.current, exportedLevel);
+			const instance = game(canvasRef.current, exportedLevel, brickSettings);
 			setGameInstance(instance);
 		}
 	}, []);

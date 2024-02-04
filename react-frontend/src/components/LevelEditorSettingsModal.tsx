@@ -2,12 +2,14 @@ import { useState } from "react";
 import { StyledModal, StyledBackdrop } from "../styles/styles";
 import { SettingsModalProps } from "./interface";
 
-const LevelEditorSettingsModal = ({ handleClose, handleSave }: SettingsModalProps) => {
-
+const LevelEditorSettingsModal = ({
+	handleClose,
+	handleSave,
+}: SettingsModalProps) => {
 	const [width, setWidth] = useState("");
-    const [height, setHeight] = useState("");
-    const [spacing, setSpacing] = useState("");
-    const [padding, setPadding] = useState("");
+	const [height, setHeight] = useState("");
+	const [spacing, setSpacing] = useState("");
+	const [padding, setPadding] = useState("");
 
 	const dropIn = {
 		hidden: {
@@ -33,19 +35,19 @@ const LevelEditorSettingsModal = ({ handleClose, handleSave }: SettingsModalProp
 	const handleWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setWidth(event.target.value);
 	};
-    const handleHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setHeight(event.target.value);
-    };
-    const handleSpacingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSpacing(event.target.value);
-    };
-    const handlePaddingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPadding(event.target.value);
-    };
-    const handleSaveClick = () => {
-        handleSave(width, height, padding, spacing);
-        handleClose();        
-    };
+	const handleHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setHeight(event.target.value);
+	};
+	const handleSpacingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSpacing(event.target.value);
+	};
+	const handlePaddingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setPadding(event.target.value);
+	};
+	const handleSaveClick = () => {
+		handleSave(width, height, padding, spacing);
+		handleClose();
+	};
 
 	return (
 		<StyledBackdrop onClick={handleClose}>
@@ -65,7 +67,7 @@ const LevelEditorSettingsModal = ({ handleClose, handleSave }: SettingsModalProp
 						onChange={handleWidthChange}
 					/>
 				</div>
-                <div style={{ display: "flex", alignItems: "center" }}>
+				<div style={{ display: "flex", alignItems: "center" }}>
 					<p style={{ marginRight: "10px" }}>Height</p>
 					<input
 						type="number"
@@ -74,7 +76,7 @@ const LevelEditorSettingsModal = ({ handleClose, handleSave }: SettingsModalProp
 						onChange={handleHeightChange}
 					/>
 				</div>
-                <div style={{ display: "flex", alignItems: "center" }}>
+				<div style={{ display: "flex", alignItems: "center" }}>
 					<p style={{ marginRight: "10px" }}>Spacing</p>
 					<input
 						type="number"
@@ -83,7 +85,7 @@ const LevelEditorSettingsModal = ({ handleClose, handleSave }: SettingsModalProp
 						onChange={handleSpacingChange}
 					/>
 				</div>
-                <div style={{ display: "flex", alignItems: "center" }}>
+				<div style={{ display: "flex", alignItems: "center" }}>
 					<p style={{ marginRight: "10px" }}>Padding</p>
 					<input
 						type="number"
@@ -92,9 +94,9 @@ const LevelEditorSettingsModal = ({ handleClose, handleSave }: SettingsModalProp
 						onChange={handlePaddingChange}
 					/>
 				</div>
-                <div>
-                    <button onClick={handleSaveClick}>Save</button>
-                </div>
+				<div>
+					<button onClick={handleSaveClick}>Save</button>
+				</div>
 			</StyledModal>
 		</StyledBackdrop>
 	);

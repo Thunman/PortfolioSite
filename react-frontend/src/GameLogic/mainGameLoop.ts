@@ -1,10 +1,5 @@
 import { createBall, drawBall, moveBall } from "./Balls";
-import {
-	applyRandomPatternToBricks,
-	createBrickArrays,
-	createBricks,
-	drawBrick,
-} from "./Bricks";
+import { createBricks, drawBrick } from "./Bricks";
 import {
 	checkBorderCollision,
 	checkPaddleCollision,
@@ -28,7 +23,11 @@ import {
 	addPointerLockCancelListener,
 } from "./EventListeners";
 
-function game(canvas: HTMLCanvasElement, brickArrays: number[][]) {
+function game(
+	canvas: HTMLCanvasElement,
+	brickArrays: number[][],
+	brickSettings: BrickSettingsProps
+) {
 	const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;
@@ -42,13 +41,6 @@ function game(canvas: HTMLCanvasElement, brickArrays: number[][]) {
 	let launchBall = false;
 	let paddle: PaddleProps;
 	let gameLevel = 1;
-
-	const brickSettings: BrickSettingsProps = {
-		_padding: 20,
-		_width: 100,
-		_height: 50,
-		_spacing: 1,
-	};
 
 	const animate = (paddle: PaddleProps, balls: BallProps[]) => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);

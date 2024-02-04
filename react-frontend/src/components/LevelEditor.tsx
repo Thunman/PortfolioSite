@@ -8,13 +8,21 @@ import { Link } from "react-router-dom";
 interface LevelEditorInstance {
 	start: () => void;
 	exportLevel: () => number[][];
+	exportSettings: () => object;
 }
 const LevelEditor = () => {
-	const [brickSettings, setBrickSettings] = useState({
-		_padding: 20,
-		_width: 100,
-		_height: 50,
-		_spacing: 1,
+	const [brickSettings, setBrickSettings] = useState(() => {
+		const savedSettings = localStorage.getItem("brickSettings");
+		if (savedSettings) {
+			return JSON.parse(savedSettings);
+		} else {
+			return {
+				_padding: 20,
+				_width: 100,
+				_height: 50,
+				_spacing: 1,
+			};
+		}
 	});
 	const handleSave = (
 		width: string,
@@ -76,6 +84,10 @@ const LevelEditor = () => {
 					onClick={() => {
 						const level = levelEditorInstance?.exportLevel() || [];
 						localStorage.setItem("exportedLevel", JSON.stringify(level));
+						localStorage.setItem(
+							"brickSettings",
+							JSON.stringify(brickSettings)
+						);
 						alert("Level Saved");
 					}}
 				>
