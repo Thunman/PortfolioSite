@@ -88,9 +88,6 @@ const Login: React.FC<LoginProps> = (props) => {
 					) : (
 						<Styles.Button type="submit">Submit</Styles.Button>
 					)}
-					<Styles.Button as={Link} to="/register">
-						Register
-					</Styles.Button>
 				</Styles.Form>
 			</Styles.FormContainer>
 		</Styles.Container>
