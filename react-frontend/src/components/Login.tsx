@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { useState } from "react";
 import * as Styles from "../Styles/styles";
 import { Link } from "react-router-dom";
 import { LoginProps } from "../Interfaces/Interfaces";

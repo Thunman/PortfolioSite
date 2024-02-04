@@ -1,4 +1,4 @@
-import { BrickProps, PowerUpProps } from "../../HelperFunctions/GameTypes";
+import { PowerUpProps } from "../../HelperFunctions/GameTypes";
 
 
 
