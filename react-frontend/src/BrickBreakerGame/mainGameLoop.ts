@@ -47,7 +47,7 @@ function game(
 	let powerUps: PowerUpProps[] = [];
 	let launchBall = false;
 	let paddle: PaddleProps;
-	let gameLevel = 1;
+	
 
 	const animate = (paddle: PaddleProps, balls: BallProps[]) => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -89,7 +89,6 @@ function game(
 	};
 	const levelComplete = () => {
 		alert("Level Complete!");
-		gameLevel++;
 		resetGame();
 	};
 

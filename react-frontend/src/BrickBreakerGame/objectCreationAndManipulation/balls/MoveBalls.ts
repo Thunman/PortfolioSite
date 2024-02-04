@@ -5,7 +5,7 @@ export const moveBall = (
 	paddle: PaddleProps,
 	launchBall: boolean
 ) => {
-	const speedMultiplier = 15;
+	const speedMultiplier = 10;
 	if (launchBall) {
 		ball.velocity = {
 			x: ball.velocity.x || 0 * speedMultiplier,
