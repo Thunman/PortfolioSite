@@ -2,14 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import * as GameStyles from "../styles/GameStyles";
 import levelEditor from "../GameLogic/LevelEditor";
 import { AnimatePresence } from "framer-motion";
-
 import LevelEditorSettingsModal from "./LevelEditorSettingsModal";
 
 interface LevelEditorInstance {
 	start: () => void;
+  exportLevel: () => number[][];
 }
 const LevelEditor = () => {
-
 
 	const [brickSettings, setBrickSettings] = useState({
 		_padding: 20,
@@ -33,7 +32,7 @@ const LevelEditor = () => {
 	const openSettings = () => setModalOpen(true);
 	const closeSettings = () => setModalOpen(false);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-
+  const [exportedLevel, setExportedLevel] = useState<number[][]>([]);
 
 	const [levelEditorInstance, setLevelEditorInstance] =
 		useState<LevelEditorInstance | null>(null);
@@ -75,7 +74,10 @@ const LevelEditor = () => {
 					)}
 				</AnimatePresence>
         <GameStyles.StyledSaveGameButton
-        //add save game function
+        onClick={() => {
+          setExportedLevel(levelEditorInstance?.exportLevel() || []);
+          localStorage.setItem('exportedLevel', JSON.stringify(exportedLevel));
+        }}
         >
           Save
         </GameStyles.StyledSaveGameButton>

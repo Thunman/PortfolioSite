@@ -14,8 +14,7 @@ export const createBrickArrays = (
 			(brickSettings._height + brickSettings._spacing)
 	);
 	const nrOfCols = Math.floor(
-		(canvas.width - brickSettings._padding * 2 ) /
-			(brickSettings._width + brickSettings._spacing)
+		canvas.width / (brickSettings._width + brickSettings._spacing)
 	);
 	let bricks: number[][] = [];
 
@@ -122,20 +121,21 @@ const createEmptyBrick = (() => {
 })();
 
 export const createEmptyBricks = (
-  brickArrays: number[][],
+	brickArrays: number[][],
 	brickSettings: BrickSettingsProps
-) => {
-  let bricks = [];
+): EmptyBrickProps[][] => {
+	let bricks: EmptyBrickProps[][] = [];
 	for (let row = 0; row < brickArrays.length; row++) {
+		let rowBricks: EmptyBrickProps[] = [];
 		for (let col = 0; col < brickArrays[row].length; col++) {
 			if (brickArrays[row][col] === 1) {
-				bricks.push(createEmptyBrick(row, col, brickSettings));
+				rowBricks.push(createEmptyBrick(row, col, brickSettings));
 			}
 		}
+		bricks.push(rowBricks);
 	}
 	return bricks;
 };
-
 
 export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
 	ctx.beginPath();
@@ -160,4 +160,20 @@ export const drawEmptyBrick = (
 	ctx.fillStyle = brick.getColor();
 	ctx.fill();
 	ctx.stroke();
+};
+
+export const createExportArray = (bricks: EmptyBrickProps[][]) => {
+	let exportArray: number[][] = [];
+	for (let row = 0; row < bricks.length; row++) {
+		let rowArray: number[] = [];
+		for (let col = 0; col < bricks[row].length; col++) {
+			if (bricks[row][col].hp !== 1) {
+				rowArray.push(1);
+			} else {
+				rowArray.push(0);
+			}
+		}
+		exportArray.push(rowArray);
+	}
+	return exportArray;
 };

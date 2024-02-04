@@ -28,7 +28,7 @@ import {
 	addPointerLockCancelListener,
 } from "./EventListeners";
 
-function game(canvas: HTMLCanvasElement) {
+function game(canvas: HTMLCanvasElement, brickArrays: number[][]) {
 	const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;
@@ -48,11 +48,9 @@ function game(canvas: HTMLCanvasElement) {
 		_width: 100,
 		_height: 50,
 		_spacing: 1,
-
 	};
 
-	let brickArrays = createBrickArrays(canvas, brickSettings, true);
-	const pattern = applyRandomPatternToBricks(brickArrays);
+	
 
 	const animate = (paddle: PaddleProps, balls: BallProps[]) => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -155,7 +153,7 @@ function game(canvas: HTMLCanvasElement) {
 	const startGame = () => {
 		resetGame();
 		paddle = createPaddle(canvas);
-		bricks = createBricks(pattern, brickSettings);
+		bricks = createBricks(brickArrays, brickSettings);
 		balls.push(createBall(balls, paddle, canvas));
 		addCanvasClickListener(canvas);
 		addMouseMoveListener(canvas, paddle);
@@ -167,5 +165,5 @@ function game(canvas: HTMLCanvasElement) {
 
 	const getScore = () => score;
 	return { startGame, getScore };
-}
+};
 export default game;

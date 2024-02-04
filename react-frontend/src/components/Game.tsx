@@ -16,11 +16,11 @@ const Game = () => {
   const [gameInstance, setGameInstance] = useState<GameInstance | null>(null);
   const openHighScore = () => setModalOpen(true);
   const closeHighScore = () => setModalOpen(false);
-
+  const exportedLevel = JSON.parse(localStorage.getItem('exportedLevel') || '[]');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (canvasRef.current) {
-      const instance = game(canvasRef.current);
+      const instance = game(canvasRef.current, exportedLevel);
       setGameInstance(instance);
     }
   }, []);
