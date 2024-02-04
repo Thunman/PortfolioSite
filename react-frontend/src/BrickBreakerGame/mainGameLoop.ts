@@ -29,6 +29,7 @@ import {
 	addMoveKeyListener,
 	addPointerLockCancelListener,
 } from "./HelperFunctions/CreateEventListeners";
+import { calculateFPS, shouldAnimate, resetFPS } from "./HelperFunctions/FpsCounter";
 
 function game(
 	canvas: HTMLCanvasElement,
@@ -47,9 +48,12 @@ function game(
 	let powerUps: PowerUpProps[] = [];
 	let launchBall = false;
 	let paddle: PaddleProps;
+
+	let lastTime = 0;
 	
 
-	const animate = (paddle: PaddleProps, balls: BallProps[]) => {
+
+	const animate = (paddle: PaddleProps, balls: BallProps[], fps: number) => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
 		ctx.shadowBlur = 10;
@@ -66,6 +70,9 @@ function game(
 		powerUps.forEach((powerUp) => {
 			drawPowerUps(powerUp, ctx);
 		});
+		ctx.fillStyle = "white";
+		ctx.font = "24px Arial";
+		ctx.fillText(`FPS: ${Math.round(fps)}`, 45, 30);
 	};
 
 	document.addEventListener("keydown", (event) => {
@@ -92,8 +99,21 @@ function game(
 		resetGame();
 	};
 
-	const gameLoop = (balls: BallProps[], paddle: PaddleProps) => {
+	const gameLoop = (
+		balls: BallProps[],
+		paddle: PaddleProps,
+		timestamp: number
+	) => {
 		if (start) {
+			requestAnimationFrame((timestamp) =>
+				gameLoop(balls, paddle, timestamp)
+			);
+			if (!shouldAnimate(timestamp)) {
+				return;
+			}
+			const fps = calculateFPS(timestamp);
+
+
 			const maxPaddleX = canvas.width - paddle.width;
 			if (keys.has("ArrowRight") && paddle.position.x < maxPaddleX) {
 				paddle.position.x += 15;
@@ -142,12 +162,14 @@ function game(
 				start = false;
 				gameOver();
 			}
-			animate(paddle, balls);
-			requestAnimationFrame(() => gameLoop(balls, paddle));
+			animate(paddle, balls, fps);
+
+			
 		}
 	};
 	const startGame = () => {
 		resetGame();
+		resetFPS();
 		paddle = createPaddle(canvas);
 		bricks = createBricks(brickArrays, brickSettings);
 		balls.push(createBall(balls, paddle, canvas));
@@ -156,7 +178,7 @@ function game(
 		addPointerLockCancelListener();
 		addMoveKeyListener(keys);
 		start = true;
-		gameLoop(balls, paddle);
+		gameLoop(balls, paddle, lastTime);
 	};
 
 	const getScore = () => score;
