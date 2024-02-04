@@ -50,8 +50,6 @@ function game(canvas: HTMLCanvasElement, brickArrays: number[][]) {
 		_spacing: 1,
 	};
 
-	
-
 	const animate = (paddle: PaddleProps, balls: BallProps[]) => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
@@ -165,5 +163,5 @@ function game(canvas: HTMLCanvasElement, brickArrays: number[][]) {
 
 	const getScore = () => score;
 	return { startGame, getScore };
-};
+}
 export default game;

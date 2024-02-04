@@ -33,16 +33,14 @@ function App() {
 					</Routes>
 				)}
 				{isLoggedIn && (
-					
-						<Routes>
-							<Route
-								path="/"
-								element={<Landing setIsLoggedIn={setIsLoggedIn} />}
-							/>
-							<Route path="/game" element={<Game />} />
-							<Route path="/levelEditor" element={<LevelEditor />} />
-						</Routes>
-					
+					<Routes>
+						<Route
+							path="/"
+							element={<Landing setIsLoggedIn={setIsLoggedIn} />}
+						/>
+						<Route path="/game" element={<Game />} />
+						<Route path="/levelEditor" element={<LevelEditor />} />
+					</Routes>
 				)}
 			</Router>
 		</div>
