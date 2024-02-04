@@ -44,8 +44,8 @@ export const createBricks = (
 	let bricks = [];
 	for (let row = 0; row < brickArrays.length; row++) {
 		for (let col = 0; col < brickArrays[row].length; col++) {
-			if (brickArrays[row][col] === 1) {
-				bricks.push(createBrick(row, col, brickSettings));
+			if (brickArrays[row][col] !== 0) {
+				bricks.push(createBrick(row, col, brickSettings, brickArrays[row][col]));
 			}
 		}
 	}
@@ -54,7 +54,7 @@ export const createBricks = (
 
 const createBrick = (() => {
 	let id = 0;
-	return (row: number, col: number, brickSettings: BrickSettingsProps) => {
+	return (row: number, col: number, brickSettings: BrickSettingsProps, hp: number) => {
 		const x =
 			brickSettings._padding +
 			col * (brickSettings._width + brickSettings._spacing);
@@ -64,7 +64,7 @@ const createBrick = (() => {
 
 		const newBrick: BrickProps = {
 			id: id++,
-			hp: 1,
+			hp: hp,
 			width: brickSettings._width,
 			height: brickSettings._height,
 			position: {
@@ -98,7 +98,7 @@ const createEmptyBrick = (() => {
 
 		const newBrick: EmptyBrickProps = {
 			id: id++,
-			hp: 1,
+			hp: 0,
 			width: brickSettings._width,
 			height: brickSettings._height,
 			position: {
@@ -106,14 +106,19 @@ const createEmptyBrick = (() => {
 				y: y,
 			},
 			getColor() {
-				if (this.hp === 1) {
+				if (this.hp === 0) {
 					return "red";
 				} else {
 					return "green";
 				}
 			},
-			handleClick() {
-				this.hp = this.hp === 1 ? 2 : 1;
+			handleLeftClick() {
+				this.hp = this.hp + 1;
+			},
+			handleRightClick() {
+				if (this.hp > 0) {
+					this.hp = this.hp - 1;
+				}
 			},
 		};
 		return newBrick;
@@ -149,6 +154,7 @@ export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
 	ctx.textBaseline = "middle";
 	const textX = brick.position.x + brick.width / 2;
 	const textY = brick.position.y + brick.height / 2;
+
 	ctx.fillText(brick.hp.toString(), textX, textY);
 };
 export const drawEmptyBrick = (
@@ -160,6 +166,14 @@ export const drawEmptyBrick = (
 	ctx.fillStyle = brick.getColor();
 	ctx.fill();
 	ctx.stroke();
+	ctx.fillStyle = "black";
+	ctx.font = "12px Arial";
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+	const textX = brick.position.x + brick.width / 2;
+	const textY = brick.position.y + brick.height / 2;
+  const text = `${brick.hp} hp`;
+	ctx.fillText(text, textX, textY);
 };
 
 export const createExportArray = (bricks: EmptyBrickProps[][]) => {
@@ -167,8 +181,8 @@ export const createExportArray = (bricks: EmptyBrickProps[][]) => {
 	for (let row = 0; row < bricks.length; row++) {
 		let rowArray: number[] = [];
 		for (let col = 0; col < bricks[row].length; col++) {
-			if (bricks[row][col].hp !== 1) {
-				rowArray.push(1);
+			if (bricks[row][col].hp !== 0) {
+				rowArray.push(bricks[row][col].hp);
 			} else {
 				rowArray.push(0);
 			}

@@ -38,11 +38,28 @@ function levelEditor(
 				y >= brick.position.y &&
 				y <= brick.position.y + brick.height
 			) {
-				brick.handleClick();
+				brick.handleLeftClick();
 				animate();
 			}
 		});
 	});
+
+  canvas.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const x = e.clientX - canvas.getBoundingClientRect().left;
+    const y = e.clientY - canvas.getBoundingClientRect().top;
+    bricks.flat().forEach((brick) => {
+      if (
+        x >= brick.position.x &&
+        x <= brick.position.x + brick.width &&
+        y >= brick.position.y &&
+        y <= brick.position.y + brick.height
+      ) {
+        brick.handleRightClick();
+        animate();
+      }
+    });
+  });
 
 	const start = () => {
 		bricks = createEmptyBricks(brickArrays, brickSettings);

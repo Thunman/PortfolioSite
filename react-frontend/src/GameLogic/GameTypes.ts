@@ -53,7 +53,8 @@ export type EmptyBrickProps = {
   width: number;
   height: number;
   getColor: () => string;
-  handleClick: () => void;
+  handleLeftClick: () => void;
+  handleRightClick: () => void;
   position: {
     x: number;
     y: number;

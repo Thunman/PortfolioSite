@@ -11,8 +11,11 @@ export const addMouseMoveListener = (
   document.addEventListener("mousemove", (e) => {
     if (document.pointerLockElement === canvas) {
       paddle.position.x += e.movementX;
-      if (paddle.position.x > canvas.width - paddle.width) {
+      if (paddle.position.x > canvas.width - paddle.width ) {
         paddle.position.x = canvas.width - paddle.width;
+      }
+      if (paddle.position.x < 0) {
+        paddle.position.x = 0;
       }
     }
   });
