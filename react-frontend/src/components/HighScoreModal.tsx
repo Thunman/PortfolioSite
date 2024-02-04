@@ -1,8 +1,7 @@
-import Backdrop from "./Backdrop";
-import { StyledModal } from "../Styles/styles";
+import { StyledModal, StyledBackdrop } from "../Styles/styles";
 import { ModalProps } from "../Interfaces/Interfaces";
 
-const Modal = ({ handleClose, text }: ModalProps) => {
+export const HighScoreModal = ({ handleClose, text }: ModalProps) => {
 	const dropIn = {
 		hidden: {
 			y: "-100vh",
@@ -15,26 +14,27 @@ const Modal = ({ handleClose, text }: ModalProps) => {
 				duration: 0.1,
 				type: "spring",
 				damping: 25,
-				stiffness: 250,
+				stiffnes: 500,
 			},
 		},
 		exit: {
-			y: "-100vh",
+			y: "100vh",
 			opacity: 0,
 		},
 	};
 
 	return (
-		<Backdrop onClick={handleClose}>
+		<StyledBackdrop onClick={handleClose}>
 			<StyledModal
-				onClick={(e: React.MouseEvent) => e.stopPropagation()}
+				onClick={(e) => e.stopPropagation()}
 				variants={dropIn}
 				initial="hidden"
 				animate="visible"
 				exit="exit"
-			></StyledModal>
-		</Backdrop>
+			>
+				<p>{text}</p>
+			</StyledModal>
+		</StyledBackdrop>
 	);
 };
 
-export default Modal;

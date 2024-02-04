@@ -1,64 +1,69 @@
-import * as GameStyles from "../styles/GameStyles";
+import {
+	StyledGameBackground,
+	StyledGameContainer,
+	StyledGameButtonContainer,
+	StyledGameButton,
+	StyledHighScore,
+} from "../Styles/GameStyles";
 import { useEffect, useRef, useState } from "react";
-import Modal from "./Modal"
+import { HighScoreModal } from "./HighScoreModal";
 import { AnimatePresence } from "framer-motion";
-import game from "../GameLogic/mainGameLoop"
-
-
-interface GameInstance {
-    startGame: () => void;
-    getScore: () => number;
-
-}
+import game from "../BrickBreakerGame/mainGameLoop";
+import { Link } from "react-router-dom";
+import { GameInstance } from "../Interfaces/Interfaces";
 
 const Game = () => {
+	const [modalOpen, setModalOpen] = useState(false);
+	const [gameInstance, setGameInstance] = useState<GameInstance | null>(null);
+	const openHighScore = () => setModalOpen(true);
+	const closeHighScore = () => setModalOpen(false);
+	const exportedLevel = JSON.parse(
+		localStorage.getItem("exportedLevel") || "[]"
+	);
+	const brickSettings = JSON.parse(
+		localStorage.getItem("brickSettings") || "{}"
+	);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
+	useEffect(() => {
+		if (canvasRef.current) {
+			const instance = game(canvasRef.current, exportedLevel, brickSettings);
+			setGameInstance(instance);
+		}
+	}, []);
 
-    const [score, setScore] = useState(0);
-    const [timer, setTimer] = useState(0);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [gameInstance, setGameInstance] = useState<GameInstance | null>(null);
-    const openHighScore = () => setModalOpen(true);
-    const closeHighScore = () => setModalOpen(false);
-
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    useEffect(() => {
-        
-        if (canvasRef.current) {
-            
-            const instance = game(canvasRef.current);
-            setGameInstance(instance);
-        }
-    }, []);
-
-
-
-    return (
-        <GameStyles.StyledGameBackground>
-            <GameStyles.StyledGameContainer>
-                <canvas ref={canvasRef} className="full-canvas" />
-            </GameStyles.StyledGameContainer>
-            <GameStyles.StyledGameButtonContainer>
-                <GameStyles.StyledGameButton onClick={() => gameInstance?.startGame()}>startGame</GameStyles.StyledGameButton>
-                <GameStyles.StyledHighScore
-                    onClick={() => (modalOpen ? closeHighScore() : openHighScore())}
-                >HighScore</GameStyles.StyledHighScore>
-                <AnimatePresence
-                    initial={false}
-                    mode="wait"
-                    onExitComplete={() => null}
-                >
-                    {modalOpen && <Modal handleClose={closeHighScore} text="no way this works"></Modal>}
-                </AnimatePresence>
-                <GameStyles.StyledScore>{score}</GameStyles.StyledScore>
-                <GameStyles.StyledTimer>{timer}</GameStyles.StyledTimer>
-                <GameStyles.StyledSaveGameButton
-                //add save game function
-                >Save</GameStyles.StyledSaveGameButton>
-            </GameStyles.StyledGameButtonContainer>
-        </GameStyles.StyledGameBackground>
-    )
-}
+	return (
+		<StyledGameBackground>
+			<StyledGameContainer>
+				<canvas ref={canvasRef} className="full-canvas" />
+			</StyledGameContainer>
+			<StyledGameButtonContainer>
+				<StyledGameButton
+					onClick={() => gameInstance?.startGame()}
+				>
+					Start Game
+				</StyledGameButton>
+				<StyledHighScore
+					onClick={() => (modalOpen ? closeHighScore() : openHighScore())}
+				>
+					High Score
+				</StyledHighScore>
+				<AnimatePresence
+					initial={false}
+					mode="wait"
+					onExitComplete={() => null}
+				>
+					{modalOpen && (
+						<HighScoreModal
+							handleClose={closeHighScore}
+							text="no way this works"
+						></HighScoreModal>
+					)}
+				</AnimatePresence>
+				<StyledGameButton as={Link} to="/LevelEditor">
+					Level Editor
+				</StyledGameButton>
+			</StyledGameButtonContainer>
+		</StyledGameBackground>
+	);
+};
 export default Game;
-
-
-
