@@ -32,6 +32,19 @@ export const createBrickArrays = (
 	return bricks;
 };
 
+export const createRandomBricks = (brickArrays: number[][]) => {
+	
+	for (let row = 0; row < brickArrays.length; row++) {
+		for (let col = 0; col < brickArrays[row].length; col++) {
+			const randomNr = Math.random();
+			if (randomNr < 0.5) {
+				brickArrays[row][col] = 1;
+			}
+		}
+	}
+	return brickArrays;
+};
+
 export const createBricks = (
 	brickArrays: number[][],
 	brickSettings: BrickSettingsProps

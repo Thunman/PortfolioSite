@@ -23,7 +23,7 @@ const Game = () => {
 			const instance = game(canvasRef.current, exportedLevel, brickSettings);
 			setGameInstance(instance);
 		}
-	}, [brickSettings, exportedLevel]);
+	}, []);
 
 	return (
 		<StyledGameBackground>

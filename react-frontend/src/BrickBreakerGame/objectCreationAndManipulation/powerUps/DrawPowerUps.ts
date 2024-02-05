@@ -30,7 +30,7 @@ export const drawPowerUps = (
 	ctx.fill();
 	ctx.stroke();
 	ctx.fillStyle = "black";
-	ctx.font = "12px Arial";
+	ctx.font = "24px Arial";
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
 	const textX = x + width / 2;

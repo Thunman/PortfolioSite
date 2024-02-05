@@ -1,7 +1,7 @@
 import { createBall } from "./objectCreationAndManipulation/balls/CreateBalls";
 import { drawBall } from "./objectCreationAndManipulation/balls/DrawBalls";
 import { moveBall } from "./objectCreationAndManipulation/balls/MoveBalls";
-import { createBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
+import { createBricks, createRandomBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
 import { drawBrick } from "./objectCreationAndManipulation/bricks/DrawBricks";
 import {
 	checkBorderCollision,
@@ -29,7 +29,11 @@ import {
 	addMoveKeyListener,
 	addPointerLockCancelListener,
 } from "./HelperFunctions/CreateEventListeners";
-import { calculateFPS, shouldAnimate, resetFPS } from "./HelperFunctions/FpsCounter";
+import {
+	calculateFPS,
+	shouldAnimate,
+	resetFPS,
+} from "./HelperFunctions/FpsCounter";
 
 function game(
 	canvas: HTMLCanvasElement,
@@ -50,8 +54,6 @@ function game(
 	let paddle: PaddleProps;
 
 	let lastTime = 0;
-	
-
 
 	const animate = (paddle: PaddleProps, balls: BallProps[], fps: number) => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -113,7 +115,6 @@ function game(
 			}
 			const fps = calculateFPS(timestamp);
 
-
 			const maxPaddleX = canvas.width - paddle.width;
 			if (keys.has("ArrowRight") && paddle.position.x < maxPaddleX) {
 				paddle.position.x += 15;
@@ -163,14 +164,15 @@ function game(
 				gameOver();
 			}
 			animate(paddle, balls, fps);
-
-			
 		}
 	};
 	const startGame = () => {
 		resetGame();
 		resetFPS();
 		paddle = createPaddle(canvas);
+		if(brickArrays.flat().reduce((a, b) => a + b) === 0) {
+			brickArrays = createRandomBricks(brickArrays);	
+		}
 		bricks = createBricks(brickArrays, brickSettings);
 		balls.push(createBall(balls, paddle, canvas));
 		addCanvasClickListener(canvas);
