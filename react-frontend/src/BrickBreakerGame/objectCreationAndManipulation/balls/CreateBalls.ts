@@ -1,26 +1,26 @@
-import { BallProps, PaddleProps } from "../../HelperFunctions/GameTypes";
+
+import { BallProps, GameStateProps} from "../../HelperFunctions/GameTypes";
 
 export const createBall = (
-	balls: BallProps[],
-	paddle: PaddleProps,
+	gameState: GameStateProps,
 	canvas: HTMLCanvasElement
 ) => {
-	const firstBall = balls[0];
-	const lastBall = balls[balls.length - 1];
-	const initialSpeed = 5;
+	const firstBall = gameState.balls[0];
+	const lastBall = gameState.balls[gameState.balls.length - 1];
+	const initialSpeed = 10;
 	const offset = 0.25;
 	const newBall: BallProps = {
-		id: balls.length,
+		id: gameState.balls.length,
 		position: {
 			x:
-				balls.length === 0
-					? paddle.position.x + paddle.width / 2
+				gameState.balls.length === 0
+					? gameState.paddle.position.x + gameState.paddle.width / 2
 					: lastBall
 					? lastBall.position.x + 20
 					: canvas.width / 2,
 			y:
-				balls.length === 0
-					? paddle.position.y - 12.5
+				gameState.balls.length === 0
+					? gameState.paddle.position.y - 12.5
 					: lastBall
 					? lastBall.position.y + 20
 					: canvas.height / 2,

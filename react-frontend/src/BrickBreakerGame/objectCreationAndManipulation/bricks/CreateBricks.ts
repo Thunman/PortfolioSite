@@ -9,6 +9,7 @@ export const createBrickArrays = (
 	brickSettings: BrickSettingsProps,
 	empty: boolean = true
 ) => {
+	
 	let flag = 0;
 	if (!empty) {
 		flag = 1;
@@ -32,6 +33,7 @@ export const createBrickArrays = (
 	return bricks;
 };
 export const createDefaultBrickArrays = () => {
+	
 	const defaultBrickArrays = [
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -79,6 +81,20 @@ export const createBricks = (
 	brickArrays: number[][],
 	brickSettings: BrickSettingsProps
 ) => {
+	const sum = brickArrays.flat().reduce((a, b) => a + b, 0);
+	if (sum === 0) {
+		brickArrays = createDefaultBrickArrays();
+		
+		console.log("brickSettings", brickSettings);
+	}
+	if(Object.keys(brickSettings).length === 0){
+		brickSettings = {
+			_padding: 1,
+			_width: 50,
+			_height: 25,
+			_spacing: 1,
+		};
+	}
 	let bricks = [];
 	for (let row = 0; row < brickArrays.length; row++) {
 		for (let col = 0; col < brickArrays[row].length; col++) {
@@ -186,3 +202,4 @@ export const createEmptyBricks = (
 	}
 	return bricks;
 };
+
