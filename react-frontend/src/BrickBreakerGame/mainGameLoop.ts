@@ -1,7 +1,7 @@
 import { createBall } from "./objectCreationAndManipulation/balls/CreateBalls";
 import { drawBall } from "./objectCreationAndManipulation/balls/DrawBalls";
 import { moveBall } from "./objectCreationAndManipulation/balls/MoveBalls";
-import { createBricks, createRandomBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
+import { createBricks, createDefaultBrickArrays, createRandomBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
 import { drawBrick } from "./objectCreationAndManipulation/bricks/DrawBricks";
 import {
 	checkBorderCollision,
@@ -34,7 +34,7 @@ import {
 	shouldAnimate,
 	resetFPS,
 } from "./HelperFunctions/FpsCounter";
-import { doc } from "prettier";
+import { checkLocalStorageForLevel, checkLocalStorageForSettings } from "./HelperFunctions/CheckLocalStorage";
 
 function game(
 	canvas: HTMLCanvasElement,
@@ -86,9 +86,20 @@ function game(
 	canvas.addEventListener("click", () => {
 		if(document.pointerLockElement === canvas) {
 			launchBall = true;
-
 		}
 	});
+
+	if (!checkLocalStorageForSettings()){
+		brickSettings = {
+			_width: 50,
+			_height: 25,
+			_spacing: 1,
+			_padding: 1,
+		};
+	}
+	if (!checkLocalStorageForLevel()) {
+		brickArrays = createDefaultBrickArrays();
+	}
 
 	const resetGame = () => {
 		balls = [];
@@ -176,8 +187,8 @@ function game(
 		resetGame();
 		resetFPS();
 		paddle = createPaddle(canvas);
-		if(brickArrays.flat().reduce((a, b) => a + b) === 0) {
-			brickArrays = createRandomBricks(brickArrays);	
+		if(brickArrays.flat().reduce((a, b) => a + b, 0) === 0) {
+			brickArrays = createDefaultBrickArrays();
 		}
 		bricks = createBricks(brickArrays, brickSettings);
 		balls.push(createBall(balls, paddle, canvas));

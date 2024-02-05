@@ -21,6 +21,7 @@ export const addMouseMoveListener = (
 	});
 };
 
+
 export const addPointerLockCancelListener = () => {
 	document.addEventListener("keydown", (e) => {
 		if (e.key === "Escape") {
