@@ -27,7 +27,7 @@ export const createBall = (
 		},
 		color: "white",
 		size: 12.5,
-		speed: initialSpeed,
+		speed: lastBall ? lastBall.speed : 10,
 		velocity: firstBall
 			? {
 					x: firstBall.velocity.x * 1 + offset,
