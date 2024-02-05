@@ -1,7 +1,10 @@
 import { createBall } from "./objectCreationAndManipulation/balls/CreateBalls";
 import { drawBall } from "./objectCreationAndManipulation/balls/DrawBalls";
 import { moveBall } from "./objectCreationAndManipulation/balls/MoveBalls";
-import { createBricks, createDefaultBrickArrays, createRandomBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
+import {
+	createBricks,
+	createDefaultBrickArrays,
+} from "./objectCreationAndManipulation/bricks/CreateBricks";
 import { drawBrick } from "./objectCreationAndManipulation/bricks/DrawBricks";
 import {
 	checkBorderCollision,
@@ -10,7 +13,7 @@ import {
 	checkOutOfBounds,
 	checkPowerUpCollision,
 } from "./GameLogic/CollisionLogic";
-import { createPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
+import { createPaddle, smallerPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
 import { biggerPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
 import { drawPaddle } from "./objectCreationAndManipulation/paddles/DrawPaddles";
 import {
@@ -21,7 +24,7 @@ import {
 	BrickSettingsProps,
 } from "./HelperFunctions/GameTypes";
 import { movePowerUp } from "./objectCreationAndManipulation/powerUps/MovePowerUps";
-import { createPowerUp } from "./objectCreationAndManipulation/powerUps/CreatePowerUps";
+import { randomPowerUp } from "./objectCreationAndManipulation/powerUps/CreatePowerUps";
 import { drawPowerUps } from "./objectCreationAndManipulation/powerUps/DrawPowerUps";
 import {
 	addCanvasClickListener,
@@ -34,7 +37,10 @@ import {
 	shouldAnimate,
 	resetFPS,
 } from "./HelperFunctions/FpsCounter";
-import { checkLocalStorageForLevel, checkLocalStorageForSettings } from "./HelperFunctions/CheckLocalStorage";
+import {
+	checkLocalStorageForLevel,
+	checkLocalStorageForSettings,
+} from "./HelperFunctions/CheckLocalStorage";
 
 function game(
 	canvas: HTMLCanvasElement,
@@ -53,6 +59,8 @@ function game(
 	let powerUps: PowerUpProps[] = [];
 	let launchBall = false;
 	let paddle: PaddleProps;
+	let speedMultiplier = 5;
+	let debuggMode = false;
 
 	let lastTime = 0;
 
@@ -66,6 +74,16 @@ function game(
 		drawPaddle(paddle, ctx);
 		balls.forEach((ball) => {
 			drawBall(ball, ctx);
+			if (debuggMode) {
+				ctx.fillStyle = "white";
+				ctx.font = "24px Arial";
+				ctx.fillText(`Vel x: ${ball.velocity.x.toFixed(0)}`, 45, 90);
+				ctx.fillText(`Vel y: ${ball.velocity.y.toFixed(0)}`, 45, 120);
+				ctx.fillText(`Pos x: ${ball.position.x.toFixed(0)}`, 45, 150);
+				ctx.fillText(`Pos y: ${ball.position.y.toFixed(0)}`, 45, 180);
+				ctx.fillText(`Speed: ${speedMultiplier}`, 45, 60);
+				ctx.fillText(`FPS: ${Math.round(fps)}`, 45, 30);
+			}
 		});
 		bricks.forEach((brick) => {
 			drawBrick(brick, ctx);
@@ -73,9 +91,6 @@ function game(
 		powerUps.forEach((powerUp) => {
 			drawPowerUps(powerUp, ctx);
 		});
-		ctx.fillStyle = "white";
-		ctx.font = "24px Arial";
-		ctx.fillText(`FPS: ${Math.round(fps)}`, 45, 30);
 	};
 
 	document.addEventListener("keydown", (event) => {
@@ -83,13 +98,18 @@ function game(
 			launchBall = true;
 		}
 	});
+	document.addEventListener("keypress", (event) => {
+		if (event.key === "d") {
+			debuggMode = true;
+		}
+	});
 	canvas.addEventListener("click", () => {
-		if(document.pointerLockElement === canvas) {
+		if (document.pointerLockElement === canvas) {
 			launchBall = true;
 		}
 	});
 
-	if (!checkLocalStorageForSettings()){
+	if (!checkLocalStorageForSettings()) {
 		brickSettings = {
 			_width: 50,
 			_height: 25,
@@ -102,6 +122,7 @@ function game(
 	}
 
 	const resetGame = () => {
+		speedMultiplier = 5;
 		balls = [];
 		start = false;
 		score = 0;
@@ -144,10 +165,22 @@ function game(
 				movePowerUp(powerUp);
 				const powerUpGain = checkPowerUpCollision(paddle, powerUp, canvas);
 				if (powerUpGain.collision || powerUpGain.outsideCanvas) {
-					if (powerUpGain.text === "+1") {
-						balls.push(createBall(balls, paddle, canvas));
-					} else if (powerUpGain.text === "<->") {
-						biggerPaddle(paddle, canvas);
+					switch (powerUp.type) {
+						case "addBall":
+							balls.push(createBall(balls, paddle, canvas));
+							break;
+						case "biggerPaddle":
+							biggerPaddle(paddle, canvas);
+							break;
+						case "smallerPaddle":
+							smallerPaddle(paddle, canvas);
+							break;
+						case "speedUp":
+							speedMultiplier = speedMultiplier < 20 ? speedMultiplier + 5 : speedMultiplier;
+							break;
+						case "slowDown":
+							speedMultiplier = speedMultiplier > 5 ? speedMultiplier - 5 : speedMultiplier;
+							break;
 					}
 					powerUps.splice(i, 1);
 				}
@@ -160,7 +193,7 @@ function game(
 					if (brick.hp <= 0) {
 						const randomNr = parseFloat(Math.random().toFixed(2));
 						if (randomNr < 0.75) {
-							powerUps.push(createPowerUp(powerUps, brick));
+							powerUps.push(randomPowerUp(powerUps, brick));
 						}
 						bricks.splice(j, 1);
 						if (bricks.length <= 0) {
@@ -168,7 +201,7 @@ function game(
 						}
 					}
 				}
-				moveBall(ball, paddle, launchBall);
+				moveBall(ball, paddle, launchBall, speedMultiplier);
 				checkPaddleCollision(paddle, ball);
 				checkBorderCollision(ball, canvas);
 				if (checkOutOfBounds(ball, canvas)) {
@@ -187,7 +220,7 @@ function game(
 		resetGame();
 		resetFPS();
 		paddle = createPaddle(canvas);
-		if(brickArrays.flat().reduce((a, b) => a + b, 0) === 0) {
+		if (brickArrays.flat().reduce((a, b) => a + b, 0) === 0) {
 			brickArrays = createDefaultBrickArrays();
 		}
 		bricks = createBricks(brickArrays, brickSettings);

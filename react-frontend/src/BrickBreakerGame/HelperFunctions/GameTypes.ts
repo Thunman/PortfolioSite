@@ -63,6 +63,7 @@ export type EmptyBrickProps = {
 
 export type PowerUpProps = {
 	text: string;
+	type: string;
 	color: string;
 	id: number;
 	position: {
