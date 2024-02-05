@@ -34,6 +34,7 @@ import {
 	shouldAnimate,
 	resetFPS,
 } from "./HelperFunctions/FpsCounter";
+import { doc } from "prettier";
 
 function game(
 	canvas: HTMLCanvasElement,
@@ -80,7 +81,12 @@ function game(
 	document.addEventListener("keydown", (event) => {
 		if (event.key === " ") {
 			launchBall = true;
-			console.log(launchBall);
+		}
+	});
+	canvas.addEventListener("click", () => {
+		if(document.pointerLockElement === canvas) {
+			launchBall = true;
+
 		}
 	});
 
