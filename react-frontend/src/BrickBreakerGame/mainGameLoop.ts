@@ -13,7 +13,10 @@ import {
 	checkOutOfBounds,
 	checkPowerUpCollision,
 } from "./GameLogic/CollisionLogic";
-import { createPaddle, smallerPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
+import {
+	createPaddle,
+	smallerPaddle,
+} from "./objectCreationAndManipulation/paddles/CreatePaddles";
 import { biggerPaddle } from "./objectCreationAndManipulation/paddles/CreatePaddles";
 import { drawPaddle } from "./objectCreationAndManipulation/paddles/DrawPaddles";
 import {
@@ -59,7 +62,7 @@ function game(
 	let powerUps: PowerUpProps[] = [];
 	let launchBall = false;
 	let paddle: PaddleProps;
-	let speedMultiplier = 5;
+	let speedMultiplier = 10;
 	let debuggMode = false;
 
 	let lastTime = 0;
@@ -100,7 +103,11 @@ function game(
 	});
 	document.addEventListener("keypress", (event) => {
 		if (event.key === "d") {
-			debuggMode = true;
+			if (debuggMode) {
+				debuggMode = false;
+			} else {
+				debuggMode = true;
+			}
 		}
 	});
 	canvas.addEventListener("click", () => {
@@ -122,7 +129,7 @@ function game(
 	}
 
 	const resetGame = () => {
-		speedMultiplier = 5;
+		speedMultiplier = 10;
 		balls = [];
 		start = false;
 		score = 0;
@@ -176,10 +183,16 @@ function game(
 							smallerPaddle(paddle, canvas);
 							break;
 						case "speedUp":
-							speedMultiplier = speedMultiplier < 20 ? speedMultiplier + 5 : speedMultiplier;
+							speedMultiplier =
+								speedMultiplier < 20
+									? speedMultiplier + 5
+									: speedMultiplier;
 							break;
 						case "slowDown":
-							speedMultiplier = speedMultiplier > 5 ? speedMultiplier - 5 : speedMultiplier;
+							speedMultiplier =
+								speedMultiplier > 5
+									? speedMultiplier - 5
+									: speedMultiplier;
 							break;
 					}
 					powerUps.splice(i, 1);
