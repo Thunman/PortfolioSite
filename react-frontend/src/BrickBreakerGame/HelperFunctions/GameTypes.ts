@@ -5,7 +5,17 @@ export type CircleProps = {
 	y: number;
 	radius: number;
 };
-
+export type GameStateProps = {
+	start: boolean;
+	keys: Set<string>;
+	balls: BallProps[];
+	bricks: BrickProps[];
+	powerUps: PowerUpProps[];
+	paddle: PaddleProps;
+	flags: FlagProps;
+	lastTime: number;
+	timeStamp: number;
+};
 export type BallProps = {
 	color: string;
 	id: number;
@@ -63,6 +73,7 @@ export type EmptyBrickProps = {
 
 export type PowerUpProps = {
 	text: string;
+	type: string;
 	color: string;
 	id: number;
 	position: {
@@ -81,4 +92,8 @@ export type BrickSettingsProps = {
 	_width: number;
 	_height: number;
 	_spacing: number;
+};
+export type FlagProps = {
+	launchBall: boolean;
+	debuggMode: boolean;
 };

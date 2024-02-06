@@ -28,7 +28,6 @@ export interface SettingsModalProps {
 }
 export interface GameInstance {
 	startGame: () => void;
-	getScore: () => number;
 }
 export interface LevelEditorInstance {
 	start: () => void;

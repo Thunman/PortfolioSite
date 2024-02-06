@@ -1,7 +1,5 @@
 import { PowerUpProps } from "../../HelperFunctions/GameTypes";
 
-
-
 export const movePowerUp = (powerUp: PowerUpProps) => {
 	const velocity = {
 		y: powerUp.velocity.y * powerUp.speed,

@@ -12,10 +12,19 @@ export const createPaddle = (canvas: HTMLCanvasElement) => {
 	};
 	return paddle;
 };
-
 export const biggerPaddle = (
 	paddle: PaddleProps,
 	canvas: HTMLCanvasElement
 ) => {
-	paddle.width = canvas.width * 0.2;
+	if (paddle.width < canvas.width * 0.5) {
+		paddle.width = paddle.width * 1.2;
+	}
 };
+export const smallerPaddle = (
+	paddle: PaddleProps,
+	canvas: HTMLCanvasElement
+) => {
+	if (paddle.width > canvas.width * 0.05) {
+		paddle.width = paddle.width * 0.8;
+	}
+}
