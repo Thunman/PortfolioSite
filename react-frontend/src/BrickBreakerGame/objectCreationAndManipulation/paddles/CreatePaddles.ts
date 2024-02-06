@@ -12,7 +12,6 @@ export const createPaddle = (canvas: HTMLCanvasElement) => {
 	};
 	return paddle;
 };
-
 export const biggerPaddle = (
 	paddle: PaddleProps,
 	canvas: HTMLCanvasElement

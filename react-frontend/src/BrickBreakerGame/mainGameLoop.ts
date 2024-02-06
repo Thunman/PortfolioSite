@@ -1,5 +1,12 @@
-import { addEventHandlers, removeEventHandlers } from "./HelperFunctions/EventHandlers";
-import { calculateFPS, shouldAnimate, resetFPS } from "./HelperFunctions/FpsCounter";
+import {
+	addEventHandlers,
+	removeEventHandlers,
+} from "./HelperFunctions/EventHandlers";
+import {
+	calculateFPS,
+	shouldAnimate,
+	resetFPS,
+} from "./HelperFunctions/FpsCounter";
 import { BrickSettingsProps } from "./HelperFunctions/GameTypes";
 import { resetGame } from "./HelperFunctions/ResetGame";
 import { createBricks } from "./objectCreationAndManipulation/bricks/CreateBricks";
@@ -10,7 +17,6 @@ import { handleBallMovement } from "./objectCreationAndManipulation/balls/Handle
 import { handlePowerUpGains } from "./objectCreationAndManipulation/powerUps/HandlePowerUpGains";
 import { animate } from "./GameLogic/AnimationLogic";
 import { gameState } from "./GameLogic/GameState";
-
 
 function game(
 	canvas: HTMLCanvasElement,

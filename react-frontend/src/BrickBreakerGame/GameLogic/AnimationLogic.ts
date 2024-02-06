@@ -19,16 +19,6 @@ export const animate = (
 	drawPaddle(gameState.paddle, ctx);
 	gameState.balls.forEach((ball) => {
 		drawBall(ball, ctx);
-		if (gameState.flags.debuggMode) {
-			ctx.fillStyle = "white";
-			ctx.font = "24px Arial";
-			ctx.fillText(`Vel x: ${ball.velocity.x.toFixed(0)}`, 45, 90);
-			ctx.fillText(`Vel y: ${ball.velocity.y.toFixed(0)}`, 45, 120);
-			ctx.fillText(`Pos x: ${ball.position.x.toFixed(0)}`, 45, 150);
-			ctx.fillText(`Pos y: ${ball.position.y.toFixed(0)}`, 45, 180);
-			ctx.fillText(`Speed: ${ball.speed}`, 45, 60);
-			ctx.fillText(`FPS: ${Math.round(fps)}`, 45, 30);
-		}
 	});
 	gameState.bricks.forEach((brick) => {
 		drawBrick(brick, ctx);
@@ -36,4 +26,15 @@ export const animate = (
 	gameState.powerUps.forEach((powerUp) => {
 		drawPowerUps(powerUp, ctx);
 	});
+	if (gameState.flags.debuggMode) {
+		let ball = gameState.balls[0];
+		ctx.fillStyle = "white";
+		ctx.font = "24px Arial";
+		ctx.fillText(`Vel x: ${ball.velocity.x.toFixed(0)}`, 45, 90);
+		ctx.fillText(`Vel y: ${ball.velocity.y.toFixed(0)}`, 45, 120);
+		ctx.fillText(`Pos x: ${ball.position.x.toFixed(0)}`, 45, 150);
+		ctx.fillText(`Pos y: ${ball.position.y.toFixed(0)}`, 45, 180);
+		ctx.fillText(`Speed: ${ball.speed}`, 45, 60);
+		ctx.fillText(`FPS: ${Math.round(fps)}`, 45, 30);
+	}
 };

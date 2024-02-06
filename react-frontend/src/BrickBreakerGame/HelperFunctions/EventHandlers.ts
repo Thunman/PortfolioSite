@@ -50,6 +50,7 @@ const addKeyListeners = (keys: Set<string>, flags: FlagProps) => {
             }
             if (e.key === "d") {
                 flags.debuggMode = !flags.debuggMode;
+				console.log(flags.debuggMode);
             }
         }
     };

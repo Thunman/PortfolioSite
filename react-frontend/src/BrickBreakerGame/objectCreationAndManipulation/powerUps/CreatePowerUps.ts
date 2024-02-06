@@ -1,6 +1,5 @@
 import { BrickProps, PowerUpProps } from "../../HelperFunctions/GameTypes";
 
-
 export const randomPowerUp = (powerUps: PowerUpProps[], brick: BrickProps) => {
 	const randomNr = Math.floor(Math.random() * 5);
 	switch (randomNr) {
@@ -20,7 +19,6 @@ export const randomPowerUp = (powerUps: PowerUpProps[], brick: BrickProps) => {
 					y: 1,
 				},
 			};
-
 		case 1:
 			return {
 				id: powerUps.length,

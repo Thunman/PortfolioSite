@@ -13,10 +13,8 @@ export const moveBall = (
 			ball.velocity.y = -1;
 		}
 		ball.position.x += ball.velocity.x * ball.speed;
-		ball.position.y += ball.velocity.y * ball.speed;
-		
+		ball.position.y += ball.velocity.y * ball.speed;	
 	}
-
 	ball.position.x = Math.round(ball.position.x);
 	ball.position.y = Math.round(ball.position.y);
 };

@@ -7,7 +7,6 @@ export const createBall = (
 ) => {
 	const firstBall = gameState.balls[0];
 	const lastBall = gameState.balls[gameState.balls.length - 1];
-	const initialSpeed = 10;
 	const offset = 0.25;
 	const newBall: BallProps = {
 		id: gameState.balls.length,

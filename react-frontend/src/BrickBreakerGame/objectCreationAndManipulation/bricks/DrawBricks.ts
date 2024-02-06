@@ -6,13 +6,13 @@ export const drawBrick = (brick: BrickProps, ctx: CanvasRenderingContext2D) => {
 	ctx.fillStyle = brick.getColor();
 	ctx.fill();
 	ctx.stroke();
+	const fontSize = Math.min(brick.width, brick.height)
+    ctx.font = `${fontSize}px Arial`;
 	ctx.fillStyle = "black";
-	ctx.font = "12px Arial";
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
 	const textX = brick.position.x + brick.width / 2;
 	const textY = brick.position.y + brick.height / 2;
-
 	ctx.fillText(brick.hp.toString(), textX, textY);
 };
 export const drawEmptyBrick = (
@@ -25,11 +25,12 @@ export const drawEmptyBrick = (
 	ctx.fill();
 	ctx.stroke();
 	ctx.fillStyle = "black";
-	ctx.font = "12px Arial";
+	const fontSize = Math.min(brick.width, brick.height)
+    ctx.font = `${fontSize}px Arial`;
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
 	const textX = brick.position.x + brick.width / 2;
 	const textY = brick.position.y + brick.height / 2;
-	const text = `${brick.hp} hp`;
+	const text = `${brick.hp}`;
 	ctx.fillText(text, textX, textY);
 };

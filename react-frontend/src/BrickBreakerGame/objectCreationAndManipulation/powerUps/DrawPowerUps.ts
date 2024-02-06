@@ -10,7 +10,6 @@ export const drawPowerUps = (
 	const y = powerUp.position.y;
 	const width = powerUp.size;
 	const height = powerUp.size;
-
 	ctx.moveTo(x + cornerRadius, y);
 	ctx.lineTo(x + width - cornerRadius, y);
 	ctx.arcTo(x + width, y, x + width, y + cornerRadius, cornerRadius);
