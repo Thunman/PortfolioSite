@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import * as Styles from "../Styles/styles";
 import { Link } from "react-router-dom";
 import { LoginProps } from "../Interfaces/Interfaces";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
 
 function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
 	const handleClick = () => {
@@ -15,52 +18,34 @@ function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
 const Login: React.FC<LoginProps> = (props) => {
 	const [failedAttempts, setFailedAttempts] = useState<number>(0);
 
-	const [email, setUserName] = useState<string>("");
+	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log(failedAttempts);
-		console.log(`logging in with username ${email} and password ${password}`);
 
-		const loginUrl = "https://localhost:3001/api/users/login";
-		const loginPayload = {
-			email: email,
-			password: password,
-		};
-		fetch(loginUrl, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(loginPayload),
+		signInWithEmailAndPassword(auth, email, password)
+		.then((userCredential) => {
+			const user = userCredential.user;
+			props.setIsLoggedIn(true);
+			setFailedAttempts(0);
+			setEmail("");
+			setPassword("");
 		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.token) {
-					localStorage.setItem("token", data.token);
-					localStorage.setItem("isLoggedIn", "true");
-					localStorage.setItem("email", email);
-					props.setIsLoggedIn(true);
-					setFailedAttempts(0);
-					setUserName("");
-				} else {
-					alert(data.message);
-					setFailedAttempts(failedAttempts + 1);
-					console.error("Login failed:", data.message);
-				}
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-
-		setPassword("");
-
+		.catch((error) => {
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			alert(errorMessage);
+			setFailedAttempts(failedAttempts + 1);
+			console.log("Error code: ", errorCode);
+		});
 		/*  Uncomment the below code to set logged in to true no matter what credentials are submitted
             usefull to test frontend functionality without having acces to the backend */
-
+		
+		/*
 		localStorage.setItem("isLoggedIn", "true");
 		props.setIsLoggedIn(true);
+		*/
 	};
 
 	return (
@@ -70,9 +55,9 @@ const Login: React.FC<LoginProps> = (props) => {
 					<Styles.Input
 						placeholder="Email"
 						type="text"
-						id="userName"
+						id="email"
 						value={email}
-						onChange={(e) => setUserName(e.target.value)}
+						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
 					<Styles.Input
@@ -86,9 +71,13 @@ const Login: React.FC<LoginProps> = (props) => {
 					{failedAttempts >= 5 ? (
 						<MockCaptcha onCompleted={() => setFailedAttempts(0)} />
 					) : (
-						<Styles.Button type="submit">Submit</Styles.Button>
+						<Styles.Button type="submit">Login</Styles.Button>
 					)}
+					<Styles.Button as={Link} to="/register">
+					Register 
+				</Styles.Button>
 				</Styles.Form>
+				
 			</Styles.FormContainer>
 		</Styles.Container>
 	);

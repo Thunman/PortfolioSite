@@ -66,6 +66,8 @@ const Button = styled.button`
 	border-radius: 8px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	margin-right: 10px;
+	text-decoration: none;
+
 `;
 
 const Input = styled.input`

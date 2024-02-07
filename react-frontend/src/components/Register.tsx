@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import * as Styles from "../Styles/styles";
 import { Link } from "react-router-dom";
 import { userSchema } from "../Schemas/yupSchemas";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const Register: React.FC = () => {
 	const [email, setEmail] = useState<string>("");
@@ -9,14 +13,13 @@ const Register: React.FC = () => {
 	const [password, setPassword] = useState<string>("");
 	const [confirmPassword, setConfirmPassword] = useState<string>("");
 	const [tooltip, setTooltip] = useState<string>("");
-
+	const db = getFirestore();
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
 			setTooltip("Passwords must match");
 			console.log("missmatch");
 		} else {
-			const registerUrl = "https://localhost:3001/api/users/register";
 			const registerPayload = {
 				email: email,
 				userName: userName,
@@ -25,22 +28,17 @@ const Register: React.FC = () => {
 
 			try {
 				await userSchema.validate(registerPayload);
-
-				fetch(registerUrl, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(registerPayload),
-				})
-					.then((response) => response.json())
-					.then((data) => {
-						if (data) {
-							alert(data.message);
-						} else {
-							alert("No response from server");
-						}
+				await createUserWithEmailAndPassword(auth, email, password);
+			} catch (error) {
+				alert(error);
+			}
+			try {
+				if (auth.currentUser) {
+					await setDoc(doc(db, "Users", auth.currentUser?.uid), {
+						email: email,
+						userName: userName,
 					});
+				}
 			} catch (error) {
 				alert(error);
 			}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
@@ -6,19 +6,20 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landing from "./Components/Landing";
 import Game from "./Components/Game";
 import LevelEditor from "./Components/LevelEditor";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 function App() {
-	const getInitialState = () => {
-		const savedState = localStorage.getItem("isLoggedIn");
-		console.log(savedState);
-		return savedState !== null ? JSON.parse(savedState) : false;
-	};
-
-	const [isLoggedIn, setIsLoggedIn] = useState(getInitialState());
-
+	
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	useEffect(() => {
-		localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
-	}, [isLoggedIn]);
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+		  setIsLoggedIn(!!user);
+		});
+	
+		
+		return () => unsubscribe();
+	  }, []);
 
 	return (
 		<div className="App">

@@ -42,7 +42,6 @@ function game(
 			handlePowerUpGains(canvas, gameState);
 			handleBallMovement(gameState, canvas);
 			handleLaserMovement(gameState);
-
 			if (gameState.balls.length === 0) {
 				gameState.start = false;
 				alert("Game Over");
@@ -69,7 +68,6 @@ function game(
 		gameState.start = true;
 		gameLoop();
 	};
-
 	return { startGame };
 }
 export default game;
