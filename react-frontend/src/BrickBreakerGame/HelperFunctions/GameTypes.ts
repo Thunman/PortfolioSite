@@ -11,12 +11,14 @@ export type GameStateProps = {
 	balls: BallProps[];
 	bricks: BrickProps[];
 	powerUps: PowerUpProps[];
+	lasers: LaserProps[];
 	paddle: PaddleProps;
 	flags: FlagProps;
 	lastTime: number;
 	timeStamp: number;
 };
 export type BallProps = {
+	type: string;
 	color: string;
 	id: number;
 	position: {
@@ -30,6 +32,23 @@ export type BallProps = {
 		y: number;
 	};
 };
+export type LaserProps = {
+	type: string;
+	color: string;
+	id: number;
+	position: {
+		x: number;
+		y: number;
+	};
+	width: number;
+	height: number;
+	size: number;
+	speed: number;
+	velocity: {
+		y: number;
+		x: number;
+	};
+};
 
 export type PaddleProps = {
 	color: string;
@@ -39,6 +58,10 @@ export type PaddleProps = {
 	};
 	width: number;
 	height: number;
+	hasGuns: boolean;
+	ammo: number;
+	activateLaser: () => void;
+	fireGuns: () => void;
 };
 
 export type GameProgressProps = {

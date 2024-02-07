@@ -2,6 +2,7 @@ import {
 	BallProps,
 	BrickProps,
 	GameStateProps,
+	LaserProps,
 	PaddleProps,
 	PowerUpProps,
 } from "../HelperFunctions/GameTypes";
@@ -16,4 +17,5 @@ export let gameState: GameStateProps = {
 	flags: { launchBall: false, debuggMode: false},
 	lastTime: 0,
 	timeStamp: 0,
+	lasers: [] as LaserProps[],
 };

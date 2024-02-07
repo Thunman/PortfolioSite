@@ -17,6 +17,7 @@ import { handleBallMovement } from "./objectCreationAndManipulation/balls/Handle
 import { handlePowerUpGains } from "./objectCreationAndManipulation/powerUps/HandlePowerUpGains";
 import { animate } from "./GameLogic/AnimationLogic";
 import { gameState } from "./GameLogic/GameState";
+import { handleLaserMovement } from "./objectCreationAndManipulation/Lasers/HandleLaserMovement";
 
 function game(
 	canvas: HTMLCanvasElement,
@@ -40,6 +41,7 @@ function game(
 			handlePaddleMovements(gameState, canvas);
 			handlePowerUpGains(canvas, gameState);
 			handleBallMovement(gameState, canvas);
+			handleLaserMovement(gameState);
 
 			if (gameState.balls.length === 0) {
 				gameState.start = false;
@@ -60,7 +62,7 @@ function game(
 	const startGame = () => {
 		resetGame(gameState);
 		resetFPS();
-		gameState.paddle = createPaddle(canvas);
+		gameState.paddle = createPaddle(canvas, gameState);
 		gameState.bricks = createBricks(brickArrays, brickSettings);
 		gameState.balls.push(createBall(gameState, canvas));
 		addEventHandlers(gameState, canvas);

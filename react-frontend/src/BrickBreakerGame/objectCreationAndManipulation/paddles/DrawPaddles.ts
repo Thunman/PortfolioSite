@@ -69,4 +69,36 @@ export const drawPaddle = (
 	if (gradientOffset > 1) {
 		gradientOffset -= 1;
 	}
+
+	if (paddle.hasGuns) {
+		const cannonWidth = 10;
+		const cannonHeight = 20;
+		ctx.fillStyle = "#202040";
+		ctx.strokeStyle = "white";
+		ctx.lineWidth = 2;
+		ctx.fillRect(
+			paddle.position.x - cannonWidth,
+			paddle.position.y,
+			cannonWidth,
+			cannonHeight
+		);
+		ctx.strokeRect(
+			paddle.position.x - cannonWidth,
+			paddle.position.y,
+			cannonWidth,
+			cannonHeight
+		);
+		ctx.fillRect(
+			paddle.position.x + paddle.width,
+			paddle.position.y,
+			cannonWidth,
+			cannonHeight
+		);
+		ctx.strokeRect(
+			paddle.position.x + paddle.width,
+			paddle.position.y,
+			cannonWidth,
+			cannonHeight
+		);
+	}
 };

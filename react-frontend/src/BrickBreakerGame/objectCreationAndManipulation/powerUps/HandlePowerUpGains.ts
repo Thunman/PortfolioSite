@@ -39,6 +39,8 @@ export const handlePowerUpGains = (
 						ball.speed = ball.speed > 5 ? ball.speed - 5 : ball.speed;
 					});
 					break;
+				case "laserGun": 
+					gameState.paddle.activateLaser();
 			}
 			gameState.powerUps.splice(i, 1);
 		}
