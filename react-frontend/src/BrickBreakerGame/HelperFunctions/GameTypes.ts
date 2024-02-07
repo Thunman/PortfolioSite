@@ -62,6 +62,7 @@ export type PaddleProps = {
 	ammo: number;
 	activateLaser: () => void;
 	fireGuns: () => void;
+	deactivateLaser: () => void;
 };
 
 export type GameProgressProps = {

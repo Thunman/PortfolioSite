@@ -1,5 +1,5 @@
 import { GameStateProps, PaddleProps } from "../../HelperFunctions/GameTypes";
-import { createLaser } from "../Lasers/CreateLasers";
+import { createLasers } from "../Lasers/CreateLasers";
 
 export const createPaddle = (canvas: HTMLCanvasElement, gameState: GameStateProps) => {
 	const paddle: PaddleProps = {
@@ -19,10 +19,17 @@ export const createPaddle = (canvas: HTMLCanvasElement, gameState: GameStateProp
 		fireGuns(){
 			if(this.ammo > 0 && this.hasGuns){
 				this.ammo -= 1;
-				gameState.lasers.push(createLaser(gameState));
+				createLasers(gameState);
+				if(this.ammo <= 0){
+					this.deactivateLaser();
+				}
 			}
 		},
-		
+		deactivateLaser() {
+				this.hasGuns = false;
+			
+			
+		}
 	};
 
 	return paddle;

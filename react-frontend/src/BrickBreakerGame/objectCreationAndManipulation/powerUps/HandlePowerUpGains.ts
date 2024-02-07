@@ -17,30 +17,30 @@ export const handlePowerUpGains = (
 			canvas
 		);
 		if (powerUpGain.collision || powerUpGain.outsideCanvas) {
-			switch (powerUp.type) {
-				case "addBall":
-					gameState.balls.push(
-						createBall(gameState, canvas)
-					);
-					break;
-				case "biggerPaddle":
-					biggerPaddle(gameState.paddle, canvas);
-					break;
-				case "smallerPaddle":
-					smallerPaddle(gameState.paddle, canvas);
-					break;
-				case "speedUp":
-					gameState.balls.forEach((ball) => {
-						ball.speed = ball.speed < 20 ? ball.speed + 5 : ball.speed;
-					});
-					break;
-				case "slowDown":
-					gameState.balls.forEach((ball) => {
-						ball.speed = ball.speed > 5 ? ball.speed - 5 : ball.speed;
-					});
-					break;
-				case "laserGun": 
-					gameState.paddle.activateLaser();
+			if (powerUpGain.collision) {
+				switch (powerUp.type) {
+					case "addBall":
+						gameState.balls.push(createBall(gameState, canvas));
+						break;
+					case "biggerPaddle":
+						biggerPaddle(gameState.paddle, canvas);
+						break;
+					case "smallerPaddle":
+						smallerPaddle(gameState.paddle, canvas);
+						break;
+					case "speedUp":
+						gameState.balls.forEach((ball) => {
+							ball.speed = ball.speed < 20 ? ball.speed + 5 : ball.speed;
+						});
+						break;
+					case "slowDown":
+						gameState.balls.forEach((ball) => {
+							ball.speed = ball.speed > 5 ? ball.speed - 5 : ball.speed;
+						});
+						break;
+					case "laserGun":
+						gameState.paddle.activateLaser();
+				}
 			}
 			gameState.powerUps.splice(i, 1);
 		}
