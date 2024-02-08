@@ -11,7 +11,6 @@ function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
 		alert("Mock CAPTCHA completed");
 		onCompleted();
 	};
-
 	return <button onClick={handleClick}>Complete CAPTCHA</button>;
 }
 

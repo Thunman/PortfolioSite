@@ -66,6 +66,8 @@ function game(
 		gameState.balls.push(createBall(gameState, canvas));
 		addEventHandlers(gameState, canvas);
 		gameState.start = true;
+		console.table(brickArrays)
+		console.log(brickSettings)
 		gameLoop();
 	};
 	return { startGame };

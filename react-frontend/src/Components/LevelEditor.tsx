@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { 
-  StyledGameBackground, 
-  StyledGameContainer, 
-  StyledGameButtonContainer, 
-  StyledGameButton, 
-  StyledHighScore, 
-  StyledSaveGameButton 
+import {
+	StyledGameBackground,
+	StyledGameContainer,
+	StyledGameButtonContainer,
+	StyledGameButton,
+	StyledHighScore,
+	StyledSaveGameButton
 } from "../Styles/GameStyles";
 import levelEditor from "../BrickBreakerGame/LevelEditor";
 import { AnimatePresence } from "framer-motion";
 import { LevelEditorSettingsModal } from "./LevelEditorSettingsModal";
 import { Link } from "react-router-dom";
 import { LevelEditorInstance } from "../Interfaces/Interfaces";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const LevelEditor = () => {
@@ -56,6 +56,25 @@ const LevelEditor = () => {
 			setLevelEditorInstance(instance);
 		}
 	}, [brickSettings]);
+	const [levelName, setLevelName] = useState("");
+	const [isInputVisible, setIsInputVisible] = useState(false);
+
+	const handleSaveLevel = async () => {
+		const level = levelEditorInstance?.exportLevel() || [];
+		if (auth.currentUser) {
+			try {
+				await setDoc(doc(db, "Users", auth.currentUser.uid, "levels", levelName), {
+					level: JSON.stringify(level),
+					brickSettings: JSON.stringify(brickSettings),
+				}, {merge: true});
+				alert("Level saved!");
+			} catch (e) {
+				console.error("Error adding document: ", e);
+			}
+		} else {
+			alert("You need to be logged in to save a level");
+		}
+	}
 
 	return (
 		<StyledGameBackground>
@@ -85,22 +104,24 @@ const LevelEditor = () => {
 						></LevelEditorSettingsModal>
 					)}
 				</AnimatePresence>
+				{isInputVisible && (
+					<input
+						type="text"
+						value={levelName}
+						onChange={(e) => setLevelName(e.target.value)}
+						placeholder="Enter level name"
+						onKeyDown={(e) => {
+							if (e.key === "Enter") {
+								handleSaveLevel()
+								setIsInputVisible(false)
+							}
+						}}
+					/>
+				)}
 				<StyledSaveGameButton
 					onClick={async () => {
-						const level = levelEditorInstance?.exportLevel() || [];
-						if (auth.currentUser){
-							try {
-								await updateDoc(doc(db, "Users", auth.currentUser.uid), {
-									level: JSON.stringify(level),
-									brickSettings: JSON.stringify(brickSettings),
-								});
-								alert("Level saved!");
-							} catch (e) {
-								console.error("Error adding document: ", e);
-							}
-						}else{
-							alert("You need to be logged in to save a level");
-						}
+						setIsInputVisible(true)
+
 					}}
 				>
 					Save
