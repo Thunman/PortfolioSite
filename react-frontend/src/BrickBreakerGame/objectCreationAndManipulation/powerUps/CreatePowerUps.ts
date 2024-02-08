@@ -1,7 +1,7 @@
 import { BrickProps, PowerUpProps } from "../../HelperFunctions/GameTypes";
 
 export const randomPowerUp = (powerUps: PowerUpProps[], brick: BrickProps) => {
-	const randomNr = Math.floor(Math.random() * 5);
+	const randomNr = Math.floor(Math.random() * 6);
 	switch (randomNr) {
 		case 0:
 			return {
@@ -86,13 +86,13 @@ export const randomPowerUp = (powerUps: PowerUpProps[], brick: BrickProps) => {
 		default:
 			return {
 				id: powerUps.length,
-				type: "addBall",
-				text: "+1",
+				type: "laserGun",
+				text: "PeW!",
 				position: {
 					x: brick.position.x,
 					y: brick.position.y,
 				},
-				color: "yellow",
+				color: "green",
 				size: 35,
 				speed: 5,
 				velocity: {

@@ -12,6 +12,8 @@ import { AnimatePresence } from "framer-motion";
 import { LevelEditorSettingsModal } from "./LevelEditorSettingsModal";
 import { Link } from "react-router-dom";
 import { LevelEditorInstance } from "../Interfaces/Interfaces";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const LevelEditor = () => {
 	const [brickSettings, setBrickSettings] = useState(() => {
@@ -84,14 +86,21 @@ const LevelEditor = () => {
 					)}
 				</AnimatePresence>
 				<StyledSaveGameButton
-					onClick={() => {
+					onClick={async () => {
 						const level = levelEditorInstance?.exportLevel() || [];
-						localStorage.setItem("exportedLevel", JSON.stringify(level));
-						localStorage.setItem(
-							"brickSettings",
-							JSON.stringify(brickSettings)
-						);
-						alert("Level Saved");
+						if (auth.currentUser){
+							try {
+								await updateDoc(doc(db, "Users", auth.currentUser.uid), {
+									level: JSON.stringify(level),
+									brickSettings: JSON.stringify(brickSettings),
+								});
+								alert("Level saved!");
+							} catch (e) {
+								console.error("Error adding document: ", e);
+							}
+						}else{
+							alert("You need to be logged in to save a level");
+						}
 					}}
 				>
 					Save

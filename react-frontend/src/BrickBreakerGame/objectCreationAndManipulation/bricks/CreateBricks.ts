@@ -82,10 +82,11 @@ export const createBricks = (
 	brickSettings: BrickSettingsProps
 ) => {
 	const sum = brickArrays.flat().reduce((a, b) => a + b, 0);
+	console.log("sum: ", sum);
 	if (sum === 0) {
 		brickArrays = createDefaultBrickArrays();
+		console.log("createDefaultBrickArrays");
 		
-		console.log("brickSettings", brickSettings);
 	}
 	if(Object.keys(brickSettings).length === 0){
 		brickSettings = {

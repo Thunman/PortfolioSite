@@ -8,4 +8,7 @@ export const resetGame = (gameState: GameStateProps) => {
     gameState.bricks = [];
     gameState.powerUps = [];
     gameState.flags.launchBall = false;
+    gameState.lasers = [];
+    gameState.paddle.ammo = 0;
+    gameState.paddle.hasGuns = false;
 };

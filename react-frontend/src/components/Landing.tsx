@@ -2,11 +2,19 @@ import * as Styles from "../Styles/styles";
 import { LoginProps } from "../Interfaces/Interfaces";
 import { useSpring, animated } from "react-spring";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase";
 
 const Landing: React.FC<LoginProps> = (props) => {
 	const handleSubmit = (e: React.FormEvent) => {
-		props.setIsLoggedIn(false);
-		console.log("Bye!");
+		e.preventDefault();
+		auth.signOut()
+			.then(() => {
+				props.setIsLoggedIn(false);
+				console.log("Bye!");
+			})
+			.catch((error) => {
+				console.error("Error signing out:", error);
+			});
 	};
 	const fade = useSpring({
 		from: { opacity: 0 },

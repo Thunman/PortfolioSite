@@ -37,21 +37,27 @@ const addPointerLockCancelListener = () => {
     return listener;
 };
 
-const addKeyListeners = (keys: Set<string>, flags: FlagProps) => {
+const addKeyListeners = (gameState: GameStateProps) => {
     const keyHandler = (e: KeyboardEvent) => {
         if (e.type === "keydown") {
-            keys.add(e.key);
+            gameState.keys.add(e.key);
         } else if (e.type === "keyup") {
-            keys.delete(e.key);
+            gameState.keys.delete(e.key);
         }
         if (e.type === "keypress") {
             if (e.key === " ") {
-                flags.launchBall = true;
+                if(gameState.flags.launchBall !== true){
+                    gameState.flags.launchBall = true;
+                }
+                if (gameState.paddle.hasGuns) {
+                    gameState.paddle.fireGuns();
+                }
             }
             if (e.key === "d") {
-                flags.debuggMode = !flags.debuggMode;
-				console.log(flags.debuggMode);
+                gameState.flags.debuggMode = !gameState.flags.debuggMode;
+				console.log("debugmode: ", gameState.flags.debuggMode);
             }
+            
         }
     };
 
@@ -80,7 +86,7 @@ export const addEventHandlers = (gameState: GameStateProps, canvas: HTMLCanvasEl
     canvasClickListener = addCanvasClickListener(canvas);
     addMouseMoveListener(canvas, gameState.paddle);
     pointerLockCancelListener = addPointerLockCancelListener();
-    keyHandler = addKeyListeners(gameState.keys, gameState.flags);
+    keyHandler = addKeyListeners(gameState);
     mouseClickListener = addMouseClickListener(canvas, gameState.flags);
 };
 

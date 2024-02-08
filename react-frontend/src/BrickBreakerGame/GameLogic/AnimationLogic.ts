@@ -1,4 +1,5 @@
 import { GameStateProps } from "../HelperFunctions/GameTypes";
+import { drawLaser } from "../objectCreationAndManipulation/Lasers/DrawLaser";
 import { drawBall } from "../objectCreationAndManipulation/balls/DrawBalls";
 import { drawBrick } from "../objectCreationAndManipulation/bricks/DrawBricks";
 import { drawPaddle } from "../objectCreationAndManipulation/paddles/DrawPaddles";
@@ -37,4 +38,7 @@ export const animate = (
 		ctx.fillText(`Speed: ${ball.speed}`, 45, 60);
 		ctx.fillText(`FPS: ${Math.round(fps)}`, 45, 30);
 	}
+	gameState.lasers.forEach((laser) => {
+		drawLaser(laser, ctx);
+	});
 };

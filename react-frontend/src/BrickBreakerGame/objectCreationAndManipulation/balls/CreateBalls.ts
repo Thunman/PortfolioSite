@@ -9,6 +9,7 @@ export const createBall = (
 	const lastBall = gameState.balls[gameState.balls.length - 1];
 	const offset = 0.25;
 	const newBall: BallProps = {
+		type: "ball",
 		id: gameState.balls.length,
 		position: {
 			x:
