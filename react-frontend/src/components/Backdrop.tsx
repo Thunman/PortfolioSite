@@ -1,4 +1,4 @@
-import { StyledBackdrop } from "../Styles/styles";
+import { StyledBackdrop } from "../Styles/Styles";
 import { BackdropProps } from "../Interfaces/Interfaces";
 
 const Backdrop = ({ children, onClick }: BackdropProps) => {

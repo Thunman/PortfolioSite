@@ -1,4 +1,4 @@
-import { StyledModal, StyledBackdrop } from "../Styles/styles";
+import { StyledModal, StyledBackdrop } from "../Styles/Styles";
 import { ModalProps } from "../Interfaces/Interfaces";
 
 export const HighScoreModal = ({ handleClose, text }: ModalProps) => {

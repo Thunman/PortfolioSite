@@ -1,5 +1,5 @@
 import Backdrop from "./Backdrop";
-import { StyledModal } from "../Styles/styles";
+import { StyledModal } from "../Styles/Styles";
 import { ModalProps } from "../Interfaces/Interfaces";
 
 const Modal = ({ handleClose, text }: ModalProps) => {

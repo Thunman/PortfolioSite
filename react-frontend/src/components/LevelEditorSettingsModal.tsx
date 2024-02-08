@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyledModal, StyledBackdrop } from "../Styles/styles";
+import { StyledModal, StyledBackdrop } from "../Styles/Styles";
 import { SettingsModalProps } from "../Interfaces/Interfaces";
 
 export const LevelEditorSettingsModal = ({

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as Styles from "../Styles/styles";
+import * as Styles from "../Styles/Styles";
 import { Link } from "react-router-dom";
 import { LoginProps } from "../Interfaces/Interfaces";
 import { signInWithEmailAndPassword } from "firebase/auth";

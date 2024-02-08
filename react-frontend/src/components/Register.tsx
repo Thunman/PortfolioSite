@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import * as Styles from "../Styles/styles";
-import { Link } from "react-router-dom";
+import * as Styles from "../Styles/Styles";
+import { Link, useNavigate } from "react-router-dom";
 import { userSchema } from "../Schemas/yupSchemas";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -14,6 +14,7 @@ const Register: React.FC = () => {
 	const [confirmPassword, setConfirmPassword] = useState<string>("");
 	const [tooltip, setTooltip] = useState<string>("");
 	const db = getFirestore();
+    const navigate = useNavigate();
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
@@ -29,6 +30,7 @@ const Register: React.FC = () => {
 			try {
 				await userSchema.validate(registerPayload);
 				await createUserWithEmailAndPassword(auth, email, password);
+                navigate("/")
 			} catch (error) {
 				alert(error);
 			}
