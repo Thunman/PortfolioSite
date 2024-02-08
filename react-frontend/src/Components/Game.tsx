@@ -9,7 +9,7 @@ import game from "../BrickBreakerGame/mainGameLoop";
 import { Link } from "react-router-dom";
 import { GameInstance } from "../Interfaces/Interfaces";
 import { auth, db } from "../firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { AnimatePresence } from "framer-motion";
 import { Modal } from "./Modal"
 
@@ -69,6 +69,26 @@ const Game = () => {
 			}
 		}
 	};
+	const handleDelete = async (event?: React.MouseEvent<HTMLButtonElement>) => {
+		const selected = event?.currentTarget.parentElement?.getAttribute("data-name");
+		if(selected){
+			if(auth.currentUser){
+				const confirm = window.confirm("Are you sure you want to delete this level?");
+				if (!confirm) {
+					return;
+				}
+				const levelRef = doc(db, "Users", auth.currentUser.uid, "levels", selected);
+				await deleteDoc(levelRef)
+				const colRef = collection(db, "Users", auth.currentUser.uid, "levels");
+				const querySnapshot = await getDocs(colRef);
+				const savedLevelsFromDB = querySnapshot.docs.map(doc => {
+					const pathParts = doc.ref.path.split('/');
+					return pathParts[pathParts.length - 1];
+				});
+				setSavedLevels(savedLevelsFromDB);
+			}
+		}
+	}
 
 	return (	
 		<StyledGameBackground>
@@ -90,6 +110,7 @@ const Game = () => {
 							levels={savedLevels}
 							handleClose={closePicker}
 							handleSelect={handleSelect}
+							handleDelete={handleDelete}
 						></Modal>
 					)}
 				</AnimatePresence>
