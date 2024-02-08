@@ -13,6 +13,34 @@ const StyledBackdrop = styled(motion.div)`
 	justify-content: center;
 	overflow-y: hidden;
 `;
+const LevelSelectorBackdrop = styled(motion.div)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #00000073;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow-y: hidden;
+`;
+
+const LevelSelectorModal = styled(motion.div)`
+  width: clamp(50%, 700px, 90%);
+  height: min-content(50%, 900px);
+  margin: auto;
+  padding: 0 2rem;
+  border-radius: 12px;
+  z-index: 1000;
+  background: #0000006c;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
 
 const StyledModal = styled(motion.div)`
 	width: clamp(50%, 700px, 90%);
@@ -21,7 +49,7 @@ const StyledModal = styled(motion.div)`
 	padding: 0 2rem;
 	border-radius: 12px;
 	z-index: 1000;
-	background: #000000c0;
+	background: #0000006c;
 	color: #fff;
 	display: flex;
 	flex-direction: column;
@@ -96,7 +124,7 @@ const Div = styled.div`
 	background-color: #4a5568;
 `;
 
-const Test = styled.div`
+const LevelSelector = styled.div`
     background: #475569;
     color: white;
     padding: 10px;
@@ -105,7 +133,15 @@ const Test = styled.div`
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
     margin-right: 10px;
+	width: 100px;
+	height: 35px;
+	text-align: center;
 	cursor: pointer;
+	margin-bottom: 10px;
+	&:hover {
+		background: #1a202c;
+		border: 4px solid #1a202c;
+	}
 `;
 
 const TooltipContainer = styled.div`
@@ -149,5 +185,7 @@ export {
 	TooltipContainer,
 	StyledBackdrop,
 	StyledModal,
-	Test,
+	LevelSelector,
+	LevelSelectorModal,
+	LevelSelectorBackdrop,
 };

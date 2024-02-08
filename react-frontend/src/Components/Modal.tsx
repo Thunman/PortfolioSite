@@ -1,6 +1,5 @@
+import { LevelSelectorBackdrop, StyledBackdrop, LevelSelector, LevelSelectorModal } from "../Styles/Styles";
 
-import { StyledModal, StyledBackdrop, Test } from "../Styles/Styles";
-import { SettingsModalProps } from "../Interfaces/Interfaces";
 
 interface ModalProps {
     levels: string[];
@@ -39,24 +38,24 @@ export const Modal = ({ levels, handleClose, handleSelect }: ModalProps) => {
 
 
     return (
-        <StyledBackdrop onClick={handleClose}>
-            <StyledModal
+        <LevelSelectorBackdrop onClick={handleClose}>
+            <LevelSelectorModal
                 onClick={(e) => e.stopPropagation()}
                 variants={dropIn}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
             >
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                     {levels.map((str, index) => (
-                        <Test 
+                        <LevelSelector 
                         data-name={str}
                         key={index}
-                        onClick={handleSelect}>{str}</Test>
+                        onClick={handleSelect}>{str}</LevelSelector>
                     ))}
                 </div>
-            </StyledModal>
-        </StyledBackdrop>
+            </LevelSelectorModal>
+        </LevelSelectorBackdrop>
     );
 };
 

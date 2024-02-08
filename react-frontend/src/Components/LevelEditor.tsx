@@ -5,14 +5,14 @@ import {
 	StyledGameButtonContainer,
 	StyledGameButton,
 	StyledHighScore,
-	StyledSaveGameButton
+	StyledSaveGameButton,
 } from "../Styles/GameStyles";
 import levelEditor from "../BrickBreakerGame/LevelEditor";
 import { AnimatePresence } from "framer-motion";
 import { LevelEditorSettingsModal } from "./LevelEditorSettingsModal";
 import { Link } from "react-router-dom";
 import { LevelEditorInstance } from "../Interfaces/Interfaces";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const LevelEditor = () => {
@@ -63,10 +63,28 @@ const LevelEditor = () => {
 		const level = levelEditorInstance?.exportLevel() || [];
 		if (auth.currentUser) {
 			try {
-				await setDoc(doc(db, "Users", auth.currentUser.uid, "levels", levelName), {
-					level: JSON.stringify(level),
-					brickSettings: JSON.stringify(brickSettings),
-				}, {merge: true});
+				const levelRef = doc(
+					db,
+					"Users",
+					auth.currentUser.uid,
+					"levels",
+					levelName
+				);
+				const levelSnap = await getDoc(levelRef);
+				if (levelSnap.exists()) {
+					const confirm = window.confirm("Level already exists, overwrite?");
+					if (!confirm) {
+						return;
+					}
+				}
+				await setDoc(
+					doc(db, "Users", auth.currentUser.uid, "levels", levelName),
+					{
+						level: JSON.stringify(level),
+						brickSettings: JSON.stringify(brickSettings),
+					},
+					{ merge: true }
+				);
 				alert("Level saved!");
 			} catch (e) {
 				console.error("Error adding document: ", e);
@@ -74,17 +92,19 @@ const LevelEditor = () => {
 		} else {
 			alert("You need to be logged in to save a level");
 		}
-	}
+	};
+	const handleBackgroundClick = () => {
+		setIsInputVisible(false);
+		setLevelName("");
+	};
 
 	return (
-		<StyledGameBackground>
+		<StyledGameBackground onClick={handleBackgroundClick}>
 			<StyledGameContainer>
 				<canvas ref={canvasRef} className="full-canvas" />
 			</StyledGameContainer>
 			<StyledGameButtonContainer>
-				<StyledGameButton
-					onClick={() => levelEditorInstance?.start()}
-				>
+				<StyledGameButton onClick={() => levelEditorInstance?.start()}>
 					New Empty Board
 				</StyledGameButton>
 				<StyledHighScore
@@ -112,20 +132,23 @@ const LevelEditor = () => {
 						placeholder="Enter level name"
 						onKeyDown={(e) => {
 							if (e.key === "Enter") {
-								handleSaveLevel()
-								setIsInputVisible(false)
+								handleSaveLevel();
+								setIsInputVisible(false);
 							}
 						}}
+						onClick={(e) => e.stopPropagation()}
 					/>
 				)}
-				<StyledSaveGameButton
-					onClick={async () => {
-						setIsInputVisible(true)
-
-					}}
-				>
-					Save
-				</StyledSaveGameButton>
+				{!isInputVisible && (
+					<StyledSaveGameButton
+						onClick={(e) => {
+							e.stopPropagation();
+							setIsInputVisible(true);
+						}}
+					>
+						Save
+					</StyledSaveGameButton>
+				)}
 				<StyledGameButton as={Link} to="/Game">
 					Back to Game
 				</StyledGameButton>
