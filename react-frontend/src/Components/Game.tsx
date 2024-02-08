@@ -90,6 +90,24 @@ const Game = () => {
 		}
 	}
 
+	const handleExport = async (event?: React.MouseEvent<HTMLButtonElement>) => {
+		const selected = event?.currentTarget.parentElement?.getAttribute("data-name");
+		if(selected){
+			if(auth.currentUser){
+				const levelRef = doc(db, "Users", auth.currentUser.uid, "levels", selected);
+				const levelFromDB = await getDoc(levelRef)
+				const levelObject = levelFromDB.data()
+				if(levelObject){
+					const parse = JSON.stringify(levelObject)
+					const encoded = btoa(parse)
+					navigator.clipboard.writeText(encoded)
+				}
+			}
+		}
+	}
+					
+				
+
 	return (	
 		<StyledGameBackground>
 			<StyledGameContainer>
@@ -111,11 +129,15 @@ const Game = () => {
 							handleClose={closePicker}
 							handleSelect={handleSelect}
 							handleDelete={handleDelete}
+							handleExport={handleExport}
 						></Modal>
 					)}
 				</AnimatePresence>
 				<StyledGameButton as={Link} to="/LevelEditor">
 					Level Editor
+				</StyledGameButton>
+				<StyledGameButton as={Link} to="/">
+					Landing
 				</StyledGameButton>
 			</StyledGameButtonContainer>
 		</StyledGameBackground>

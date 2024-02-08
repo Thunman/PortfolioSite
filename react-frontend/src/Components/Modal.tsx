@@ -1,8 +1,10 @@
+import { FaShareSquare, FaTrash } from "react-icons/fa";
 import {
 	LevelSelectorBackdrop,
 	LevelSelector,
 	LevelSelectorModal,
     DeleteButton,
+    ExportButton,
 } from "../Styles/Styles";
 
 interface ModalProps {
@@ -12,6 +14,7 @@ interface ModalProps {
 	) => void;
 	handleSelect: (event?: React.MouseEvent<HTMLDivElement>) => void;
 	handleDelete: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+    handleExport: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Modal = ({
@@ -19,6 +22,7 @@ export const Modal = ({
 	handleClose,
 	handleSelect,
 	handleDelete,
+    handleExport,
 }: ModalProps) => {
 	const dropIn = {
 		hidden: {
@@ -40,6 +44,8 @@ export const Modal = ({
 			opacity: 0,
 		},
 	};
+
+
 
 	return (
 		<LevelSelectorBackdrop onClick={handleClose}>
@@ -64,11 +70,17 @@ export const Modal = ({
 							onClick={handleSelect}
 						>
 							{str}
+                            <ExportButton
+                                 style={{ position: "absolute", top: 0, left: 0 }}
+                                 onClick={handleExport}
+                            >
+                                <FaShareSquare />
+                            </ExportButton>
 							<DeleteButton
                                 style={{ position: "absolute", top: 0, right: 0 }}
 								onClick={handleDelete}
 							>
-								X
+								<FaTrash />
 							</DeleteButton>
 						</LevelSelector>
 					))}

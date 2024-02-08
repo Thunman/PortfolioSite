@@ -27,19 +27,19 @@ const LevelSelectorBackdrop = styled(motion.div)`
 `;
 
 const LevelSelectorModal = styled(motion.div)`
-  width: clamp(50%, 700px, 90%);
-  height: min-content(50%, 900px);
-  margin: auto;
-  padding: 0 2rem;
-  border-radius: 12px;
-  z-index: 1000;
-  background: #0000006c;
-  color: #fff;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
+	width: clamp(50%, 700px, 90%);
+	height: min-content(50%, 900px);
+	margin: auto;
+	padding: 0 2rem;
+	border-radius: 12px;
+	z-index: 1000;
+	background: #0000006c;
+	color: #fff;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: flex-start;
 `;
 
 const StyledModal = styled(motion.div)`
@@ -95,17 +95,29 @@ const Button = styled.button`
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	margin-right: 10px;
 	text-decoration: none;
-
+`;
+const ExportButton = styled.button`
+	position: "absolute";
+	top: 0;
+	left: 0;
+	font-size: 8px;
+	border: 1px solid #475569;
+	background: transparent;
+	color: white;
+	&:hover {
+		background: #000000;
+		border: 1px solid #1a202c;
+	}
 `;
 const DeleteButton = styled.button`
-position: "absolute";
-top: 0;
-right: 0;
-font-size: 8px;
-border: 1px solid #475569;
-background: transparent;
-color: white;
-&:hover {
+	position: "absolute";
+	top: 0;
+	right: 0;
+	font-size: 8px;
+	border: 1px solid #475569;
+	background: transparent;
+	color: white;
+	&:hover {
 		background: #000000;
 		border: 1px solid #1a202c;
 	}
@@ -138,14 +150,14 @@ const Div = styled.div`
 `;
 
 const LevelSelector = styled.div`
-    background: #475569;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-    border: 4px solid #475569;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    margin-right: 10px;
+	background: #475569;
+	color: white;
+	padding: 10px;
+	font-size: 16px;
+	border: 4px solid #475569;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	margin-right: 10px;
 	width: 100px;
 	height: 35px;
 	text-align: center;
@@ -203,4 +215,5 @@ export {
 	LevelSelectorModal,
 	LevelSelectorBackdrop,
 	DeleteButton,
+	ExportButton,
 };
