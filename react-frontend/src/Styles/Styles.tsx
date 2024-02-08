@@ -96,6 +96,18 @@ const Div = styled.div`
 	background-color: #4a5568;
 `;
 
+const Test = styled.div`
+    background: #475569;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: 4px solid #475569;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    margin-right: 10px;
+	cursor: pointer;
+`;
+
 const TooltipContainer = styled.div`
 	position: relative;
 	width: 100%;
@@ -137,4 +149,5 @@ export {
 	TooltipContainer,
 	StyledBackdrop,
 	StyledModal,
+	Test,
 };

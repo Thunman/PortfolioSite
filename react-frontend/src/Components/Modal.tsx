@@ -1,5 +1,5 @@
 
-import { StyledModal, StyledBackdrop } from "../Styles/Styles";
+import { StyledModal, StyledBackdrop, Test } from "../Styles/Styles";
 import { SettingsModalProps } from "../Interfaces/Interfaces";
 
 interface ModalProps {
@@ -49,10 +49,10 @@ export const Modal = ({ levels, handleClose, handleSelect }: ModalProps) => {
             >
                 <div>
                     {levels.map((str, index) => (
-                        <div 
+                        <Test 
                         data-name={str}
                         key={index}
-                        onClick={handleSelect}>{str}</div>
+                        onClick={handleSelect}>{str}</Test>
                     ))}
                 </div>
             </StyledModal>

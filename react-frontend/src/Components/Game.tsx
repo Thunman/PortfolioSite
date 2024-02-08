@@ -64,6 +64,7 @@ const Game = () => {
 					const parseSetting = JSON.parse(levelObject.brickSettings)
 					setLevel(parse)
 					setSettings(parseSetting)
+					closePicker()
 				}
 			}
 		}
