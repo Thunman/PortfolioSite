@@ -97,6 +97,19 @@ const Button = styled.button`
 	text-decoration: none;
 
 `;
+const DeleteButton = styled.button`
+position: "absolute";
+top: 0;
+right: 0;
+font-size: 8px;
+border: 1px solid #475569;
+background: transparent;
+color: white;
+&:hover {
+		background: #000000;
+		border: 1px solid #1a202c;
+	}
+`;
 
 const Input = styled.input`
 	padding: 8px;
@@ -138,6 +151,7 @@ const LevelSelector = styled.div`
 	text-align: center;
 	cursor: pointer;
 	margin-bottom: 10px;
+	position: relative;
 	&:hover {
 		background: #1a202c;
 		border: 4px solid #1a202c;
@@ -188,4 +202,5 @@ export {
 	LevelSelector,
 	LevelSelectorModal,
 	LevelSelectorBackdrop,
+	DeleteButton,
 };
