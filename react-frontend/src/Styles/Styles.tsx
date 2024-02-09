@@ -170,6 +170,27 @@ const LevelSelector = styled.div`
 	}
 `;
 
+const ImportButton = styled.div`
+	background: transparent;
+	color: white;
+	padding: 10px;
+	font-size: 16px;
+	border: 4px solid transparent;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	margin-right: 10px;
+	width: 100px;
+	height: 35px;
+	text-align: center;
+	cursor: pointer;
+	margin-bottom: 10px;
+	position: relative;
+	&:hover {
+		background: #1a202c;
+		border: 4px solid #1a202c;
+	}
+`;
+
 const TooltipContainer = styled.div`
 	position: relative;
 	width: 100%;
@@ -216,4 +237,5 @@ export {
 	LevelSelectorBackdrop,
 	DeleteButton,
 	ExportButton,
+	ImportButton,
 };

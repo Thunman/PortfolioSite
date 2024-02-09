@@ -73,8 +73,17 @@ const Login: React.FC<LoginProps> = (props) => {
 						<Styles.Button type="submit">Login</Styles.Button>
 					)}
 					<Styles.Button as={Link} to="/register">
-					Register 
-				</Styles.Button>
+						Register 
+					</Styles.Button>
+					<Styles.Button
+						onClick={() => {
+							
+							props.setIsLoggedIn(true);
+						
+						}}
+					>
+						Continue as guest
+					</Styles.Button>
 				</Styles.Form>
 				
 			</Styles.FormContainer>

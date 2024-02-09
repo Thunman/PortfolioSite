@@ -5,6 +5,7 @@ import {
 	LevelSelectorModal,
     DeleteButton,
     ExportButton,
+    ImportButton,
 } from "../Styles/Styles";
 
 interface ModalProps {
@@ -86,12 +87,11 @@ export const Modal = ({
 							</DeleteButton>
 						</LevelSelector>
 					))}
-                    <LevelSelector
+                    <ImportButton
                         onClick={handleImportLevel}
                     >
-                                   
-                        +
-                    </LevelSelector>
+                        Import Level
+                    </ImportButton>
 				</div>
 			</LevelSelectorModal>
 		</LevelSelectorBackdrop>
