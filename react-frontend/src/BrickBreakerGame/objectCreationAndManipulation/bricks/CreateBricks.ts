@@ -34,6 +34,7 @@ export const createBrickArrays = (
 };
 
 export const createRandomBricks = (brickArrays: number[][]) => {
+	console.log(brickArrays);
 	for (let row = 0; row < brickArrays.length; row++) {
 		for (let col = 0; col < brickArrays[row].length; col++) {
 			const randomNr = Math.random();
@@ -42,6 +43,7 @@ export const createRandomBricks = (brickArrays: number[][]) => {
 			}
 		}
 	}
+	console.log(brickArrays);
 	return brickArrays;
 };
 

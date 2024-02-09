@@ -14,7 +14,6 @@ import { AnimatePresence } from "framer-motion";
 import { Modal } from "./Modal"
 import { BrickSettingsProps } from "../BrickBreakerGame/HelperFunctions/GameTypes";
 
-
 const Game = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [modalOpen, setModalOpen] = useState(false);
@@ -36,10 +35,9 @@ const Game = () => {
 		if (canvasRef.current) {
 			const instance = game(canvasRef.current, level, settings);
 			setGameInstance(instance);
-			
 		}
 	}, [level, settings]);
-
+	
 	useEffect(() => {
 		if (gameInstance && activateDrawing) {
 			gameInstance.drawImportedLevel();
@@ -72,7 +70,6 @@ const Game = () => {
 					setSettings(parseSetting)
 					setActivateDrawing(true)
 					closePicker()
-					
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-const StyledBackdrop = styled(motion.div)`
+export const StyledBackdrop = styled(motion.div)`
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -13,7 +13,7 @@ const StyledBackdrop = styled(motion.div)`
 	justify-content: center;
 	overflow-y: hidden;
 `;
-const LevelSelectorBackdrop = styled(motion.div)`
+export const StyledMenuBackdrop = styled(motion.div)`
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -24,9 +24,66 @@ const LevelSelectorBackdrop = styled(motion.div)`
 	align-items: center;
 	justify-content: center;
 	overflow-y: hidden;
+`;
+export const LevelSelectorBackdrop = styled(motion.div)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #00000073;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow-y: hidden;
+`;
+export const HeaderButton = styled.div`
+	background: transparent;
+	color: white;
+	padding: 10px;
+	font-size: 24px;
+	border-radius: 8px;
+	margin-right: 10px;
+	text-decoration: none;
+
+`;
+export const Menu = styled(motion.div)`
+	position: fixed; 
+    top: 50%; 
+    left: 0;
+    transform: translateY(-50%); 
+	width: 200px;
+	background: #1a202c;
+	display: flex;
+	flex-direction: column; 
+	padding: 5px 0 5px 0px;
+	justify-content: flex-start;
+	overflow-y: hidden;
+	gap: 5px;
+	border-radius: 0 8px 8px 0;
+	border: 4px solid #1a202c;
 `;
 
-const LevelSelectorModal = styled(motion.div)`
+export const Header = styled(motion.div)`
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 50px;
+	height: 50px;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	background: linear-gradient(to bottom, #475569, #1a202c);
+	box-sizing: border-box;
+	border-radius: 0 15px 15px 0;
+	border-top: 4px solid #1a202c;
+    border-right: 4px solid #1a202c;
+    border-bottom: 4px solid #1a202c;
+	
+`;
+
+export const LevelSelectorModal = styled(motion.div)`
 	width: clamp(50%, 700px, 90%);
 	height: min-content(50%, 900px);
 	margin: auto;
@@ -42,7 +99,7 @@ const LevelSelectorModal = styled(motion.div)`
 	justify-content: flex-start;
 `;
 
-const StyledModal = styled(motion.div)`
+export const StyledModal = styled(motion.div)`
 	width: clamp(50%, 700px, 90%);
 	height: min-content(50%, 900px);
 	margin: auto;
@@ -55,7 +112,7 @@ const StyledModal = styled(motion.div)`
 	flex-direction: column;
 	align-items: center;
 `;
-const Container = styled.div`
+export const Container = styled.div`
 	display: flex;
 	height: 100vh;
 	width: 100%;
@@ -65,7 +122,7 @@ const Container = styled.div`
 	position: relative;
 `;
 
-const FormContainer = styled.div`
+export const FormContainer = styled(motion.div)`
 	width: 100%;
 	max-width: 320px;
 	padding: 2rem;
@@ -75,13 +132,13 @@ const FormContainer = styled.div`
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-const Form = styled.form`
+export const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
 	background: #475569;
 	color: white;
 	&:hover {
@@ -96,7 +153,7 @@ const Button = styled.button`
 	margin-right: 10px;
 	text-decoration: none;
 `;
-const ExportButton = styled.button`
+export const ExportButton = styled.button`
 	position: "absolute";
 	top: 0;
 	left: 0;
@@ -109,7 +166,7 @@ const ExportButton = styled.button`
 		border: 1px solid #1a202c;
 	}
 `;
-const DeleteButton = styled.button`
+export const DeleteButton = styled.button`
 	position: "absolute";
 	top: 0;
 	right: 0;
@@ -123,7 +180,7 @@ const DeleteButton = styled.button`
 	}
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
 	padding: 8px;
 	margin: 0;
 	font-size: 16px;
@@ -139,7 +196,7 @@ const Input = styled.input`
 	}
 `;
 
-const Div = styled.div`
+export const Div = styled.div`
 	position: absolute;
 	top: 50;
 	left: 50;
@@ -149,7 +206,7 @@ const Div = styled.div`
 	background-color: #4a5568;
 `;
 
-const LevelSelector = styled.div`
+export const LevelSelector = styled.div`
 	background: #475569;
 	color: white;
 	padding: 10px;
@@ -170,7 +227,7 @@ const LevelSelector = styled.div`
 	}
 `;
 
-const ImportButton = styled.div`
+export const ImportButton = styled.div`
 	background: transparent;
 	color: white;
 	padding: 10px;
@@ -191,14 +248,14 @@ const ImportButton = styled.div`
 	}
 `;
 
-const TooltipContainer = styled.div`
+export const TooltipContainer = styled.div`
 	position: relative;
 	width: 100%;
 	padding: 0;
 	margin: 0;
 `;
 
-const Tooltip = styled.div`
+export const Tooltip = styled.div`
 	visibility: hidden;
 	width: 120%;
 	background-color: #475569;
@@ -221,21 +278,4 @@ const Tooltip = styled.div`
 	}
 `;
 
-export {
-	Container,
-	Button,
-	Form,
-	FormContainer,
-	Input,
-	Div,
-	Tooltip,
-	TooltipContainer,
-	StyledBackdrop,
-	StyledModal,
-	LevelSelector,
-	LevelSelectorModal,
-	LevelSelectorBackdrop,
-	DeleteButton,
-	ExportButton,
-	ImportButton,
-};
+
