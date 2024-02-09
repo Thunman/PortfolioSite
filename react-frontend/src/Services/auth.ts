@@ -1,5 +1,6 @@
 import {
 	createUserWithEmailAndPassword,
+	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, db } from "../firebase";
@@ -18,19 +19,16 @@ export const login = async (email: string, password: string) => {
 		}
 	} catch (error) {
 		console.error("Error signing in:", error);
-		if (error instanceof Error) {
-			return { success: false, message: "Invalid Email or Password" };
-		}
+		return { success: false, message: "Invalid Email or Password" };
 	}
 };
 
 export const logout = async () => {
 	try {
 		await auth.signOut();
-		return true;
+		return { success: true, message: "Logout successful" };
 	} catch (error) {
-		console.error("Error signing out");
-		return false;
+		return { success: false, message: "Logout failed" };
 	}
 };
 export const register = async (
@@ -39,8 +37,8 @@ export const register = async (
 	password: string
 ) => {
 	try {
-		const userExists = await getDoc(doc(db, "Users", email));
-		if (userExists.exists()) {
+		const docSnap = await getDoc(doc(db, "Users", email));
+		if (docSnap.exists()) {
 			return { success: false, message: "User already exists" };
 		} else {
 			const userCredential = await createUserWithEmailAndPassword(
@@ -60,9 +58,25 @@ export const register = async (
 			}
 		}
 	} catch (error) {
-		console.error("Error signing in:", error);
-		if (error instanceof Error) {
-			return { success: false, message: "Something wrong with Database" };
+		return { success: false, message: "Something wrong with Database" };
+	}
+};
+
+export const resetPassword = async (email: string) => {
+	try {
+		const docSnap = await getDoc(doc(db, "Users", email));
+		if (docSnap.exists()) {
+			return sendPasswordResetEmail(auth, email)
+				.then(() => {
+					return { success: true, message: "Password reset email sent" };
+				})
+				.catch((error) => {
+					return { success: false, message: "Something went wrong" };
+				});
+		} else {
+			return { success: false, message: "User does not exist" };
 		}
+	} catch (error) {
+		return { success: false, message: "User does not exist" };
 	}
 };

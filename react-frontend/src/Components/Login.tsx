@@ -69,6 +69,9 @@ const Login: React.FC<LoginProps> = (props) => {
 					<Styles.Button as={Link} to="/register">
 						Register 
 					</Styles.Button>
+					<Styles.Button as={Link} to="/passwordReset">
+						Forgot Password
+					</Styles.Button>
 					<Styles.Button
 						onClick={() => {
 							props.setIsLoggedIn(true);

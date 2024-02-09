@@ -22,9 +22,12 @@ const Landing: React.FC<LoginProps> = (props) => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		logout().then((res) => {
-			if (res) {
+			if (res.success) {
 				props.setIsLoggedIn(false);
+			} else {
+				alert(res.message);
 			}
+			
 		});
 	};
 

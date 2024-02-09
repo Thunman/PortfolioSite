@@ -8,6 +8,7 @@ import Game from "./Components/Game";
 import LevelEditor from "./Components/LevelEditor";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import PasswordReset from "./Components/PasswordReset";
 
 function App() {
 	
@@ -31,6 +32,7 @@ function App() {
 							element={<Login setIsLoggedIn={setIsLoggedIn} />}
 						/>
 						<Route path="/register" element={<Register />} />
+						<Route path="/passwordReset" element={<PasswordReset />} />
 					</Routes>
 				)}
 				{isLoggedIn && (
