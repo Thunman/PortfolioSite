@@ -9,7 +9,7 @@ import game from "../BrickBreakerGame/mainGameLoop";
 import { Link } from "react-router-dom";
 import { GameInstance } from "../Interfaces/Interfaces";
 import { auth, db } from "../firebase";
-import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { AnimatePresence } from "framer-motion";
 import { Modal } from "./Modal"
 
@@ -96,12 +96,42 @@ const Game = () => {
 			if(auth.currentUser){
 				const levelRef = doc(db, "Users", auth.currentUser.uid, "levels", selected);
 				const levelFromDB = await getDoc(levelRef)
-				const levelObject = levelFromDB.data()
+				let levelObject = levelFromDB.data()
 				if(levelObject){
+					levelObject = { ...levelObject, levelName: selected}
 					const parse = JSON.stringify(levelObject)
 					const encoded = btoa(parse)
 					navigator.clipboard.writeText(encoded)
+					alert("Level copied to clipboard!")
 				}
+			}
+		}
+	}
+	const handleImport = async (event?: React.MouseEvent<HTMLDivElement>) => {
+		if(auth.currentUser){
+			const encoded = prompt("Please paste your level string here")
+			if(encoded){
+				const decoded = atob(encoded)
+				const levelObject = JSON.parse(decoded)
+				const level = JSON.parse(levelObject.level)
+				const settings = JSON.parse(levelObject.brickSettings)
+				const levelRef = doc(db, "Users", auth.currentUser.uid, "levels", levelObject.levelName);
+				const levelSnap = await getDoc(levelRef);
+				if (levelSnap.exists()) {
+					const confirm = window.confirm("Level already exists, overwrite?");
+					if (!confirm) {
+						return;
+					}
+				}
+				await setDoc(
+					doc(db, "Users", auth.currentUser.uid, "levels", levelObject.levelName),
+					{
+						level: JSON.stringify(level),
+						brickSettings: JSON.stringify(settings),
+					},
+					{ merge: true }
+				);
+				alert("Level saved!");
 			}
 		}
 	}
@@ -130,6 +160,7 @@ const Game = () => {
 							handleSelect={handleSelect}
 							handleDelete={handleDelete}
 							handleExport={handleExport}
+							handleImportLevel={handleImport}
 						></Modal>
 					)}
 				</AnimatePresence>

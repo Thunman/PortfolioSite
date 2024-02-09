@@ -16,18 +16,11 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const LevelEditor = () => {
-	const [brickSettings, setBrickSettings] = useState(() => {
-		const savedSettings = localStorage.getItem("brickSettings");
-		if (savedSettings) {
-			return JSON.parse(savedSettings);
-		} else {
-			return {
-				_padding: 20,
-				_width: 100,
-				_height: 50,
-				_spacing: 1,
-			};
-		}
+	const [brickSettings, setBrickSettings] = useState({
+		_padding: 1,
+		_width: 75,
+		_height: 50,
+		_spacing: 1,
 	});
 	const handleSave = (
 		width: string,
@@ -57,8 +50,7 @@ const LevelEditor = () => {
 		}
 	}, [brickSettings]);
 	const [levelName, setLevelName] = useState("");
-	const [isInputVisible, setIsInputVisible] = useState(false);
-
+	const [isSaveInputVisible, setIsSaveInputVisible] = useState(false);
 	const handleSaveLevel = async () => {
 		const level = levelEditorInstance?.exportLevel() || [];
 		if (auth.currentUser) {
@@ -94,9 +86,12 @@ const LevelEditor = () => {
 		}
 	};
 	const handleBackgroundClick = () => {
-		setIsInputVisible(false);
+		setIsSaveInputVisible(false);
 		setLevelName("");
 	};
+
+
+
 
 	return (
 		<StyledGameBackground onClick={handleBackgroundClick}>
@@ -104,6 +99,7 @@ const LevelEditor = () => {
 				<canvas ref={canvasRef} className="full-canvas" />
 			</StyledGameContainer>
 			<StyledGameButtonContainer>
+			
 				<StyledGameButton onClick={() => levelEditorInstance?.start()}>
 					New Empty Board
 				</StyledGameButton>
@@ -124,7 +120,7 @@ const LevelEditor = () => {
 						></LevelEditorSettingsModal>
 					)}
 				</AnimatePresence>
-				{isInputVisible && (
+				{isSaveInputVisible && (
 					<input
 						type="text"
 						value={levelName}
@@ -133,17 +129,17 @@ const LevelEditor = () => {
 						onKeyDown={(e) => {
 							if (e.key === "Enter") {
 								handleSaveLevel();
-								setIsInputVisible(false);
+								setIsSaveInputVisible(false);
 							}
 						}}
 						onClick={(e) => e.stopPropagation()}
 					/>
 				)}
-				{!isInputVisible && (
+				{!isSaveInputVisible && (
 					<StyledSaveGameButton
 						onClick={(e) => {
 							e.stopPropagation();
-							setIsInputVisible(true);
+							setIsSaveInputVisible(true);
 						}}
 					>
 						Save

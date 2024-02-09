@@ -15,6 +15,7 @@ interface ModalProps {
 	handleSelect: (event?: React.MouseEvent<HTMLDivElement>) => void;
 	handleDelete: (event?: React.MouseEvent<HTMLButtonElement>) => void;
     handleExport: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+    handleImportLevel: (event?: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export const Modal = ({
@@ -23,6 +24,7 @@ export const Modal = ({
 	handleSelect,
 	handleDelete,
     handleExport,
+    handleImportLevel,
 }: ModalProps) => {
 	const dropIn = {
 		hidden: {
@@ -84,6 +86,12 @@ export const Modal = ({
 							</DeleteButton>
 						</LevelSelector>
 					))}
+                    <LevelSelector
+                        onClick={handleImportLevel}
+                    >
+                                   
+                        +
+                    </LevelSelector>
 				</div>
 			</LevelSelectorModal>
 		</LevelSelectorBackdrop>
