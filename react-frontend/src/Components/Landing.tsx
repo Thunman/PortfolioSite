@@ -1,72 +1,19 @@
 import * as Styles from "../Styles/Styles";
 import { LoginProps } from "../Interfaces/Interfaces";
-import { useSpring, animated } from "react-spring";
 import { Link } from "react-router-dom";
-import { auth } from "../firebase";
 import { FaBars } from "react-icons/fa";
 import { useState } from "react";
+import { logout } from "../Services/auth";
+import { fadeBoxIn, slideInMenu, slideInHeader } from "../Animations/Animations";
 
 const Landing: React.FC<LoginProps> = (props) => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		auth
-			.signOut()
-			.then(() => {
+		logout().then((res) => {
+			if (res) {
 				props.setIsLoggedIn(false);
-				console.log("Bye!");
-			})
-			.catch((error) => {
-				console.error("Error signing out:", error);
-			});
-	};
-
-	const fadeBoxIn = {
-		hidden: {
-			opacity: 0,
-		},
-		visible: {
-			opacity: 1,
-			transition: {
-				duration: 5,
-			},
-		},
-	};
-
-	const slideInMenu = {
-		hidden: {
-			x: "-208px",
-			opacity: 0,
-		},
-		visible: {
-			x: "0",
-			opacity: 1,
-			transition: {
-				duration: 0.5,
-				ease: "easeInOut",
-			},
-		},
-		exit: {
-			x: "-100vw",
-			opacity: 0,
-		},
-	};
-	const slideInHeader = {
-		hidden: {
-			x: "0",
-			opacity: 1,
-		},
-		visible: {
-			x: "208px",
-			opacity: 1,
-			transition: {
-				duration: 0.5,
-				ease: "easeInOut",
-			},
-		},
-		exit: {
-			x: "-100vw",
-			opacity: 0,
-		},
+			}
+		});
 	};
 
 	const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { LoginProps } from "../Interfaces/Interfaces";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { login } from "../Services/auth";
 
 
 function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
@@ -22,21 +23,14 @@ const Login: React.FC<LoginProps> = (props) => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-
-		signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			const user = userCredential.user;
-			props.setIsLoggedIn(true);
-			setFailedAttempts(0);
-			setEmail("");
-			setPassword("");
-		})
-		.catch((error) => {
-			const errorCode = error.code;
-			const errorMessage = error.message;
-			alert(errorMessage);
-			setFailedAttempts(failedAttempts + 1);
-			console.log("Error code: ", errorCode);
+		login(email, password).then((res) => {
+			if (res?.success) {
+				props.setIsLoggedIn(true);
+			} else {
+				setFailedAttempts(failedAttempts + 1);
+				alert(res?.message);
+				
+			}
 		});
 		/*  Uncomment the below code to set logged in to true no matter what credentials are submitted
             usefull to test frontend functionality without having acces to the backend */

@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import * as Styles from "../Styles/Styles";
 import { Link, useNavigate } from "react-router-dom";
-import { userSchema } from "../Schemas/yupSchemas";
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
+import { register } from "../Services/auth";
 
 const Register: React.FC = () => {
 	const [email, setEmail] = useState<string>("");
@@ -13,43 +9,26 @@ const Register: React.FC = () => {
 	const [password, setPassword] = useState<string>("");
 	const [confirmPassword, setConfirmPassword] = useState<string>("");
 	const [tooltip, setTooltip] = useState<string>("");
-	const db = getFirestore();
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
 			setTooltip("Passwords must match");
 			console.log("missmatch");
 		} else {
-			const registerPayload = {
-				email: email,
-				userName: userName,
-				password: password,
-			};
-
-			try {
-				await userSchema.validate(registerPayload);
-				await createUserWithEmailAndPassword(auth, email, password);
-                navigate("/")
-			} catch (error) {
-				alert(error);
-			}
-			try {
-				if (auth.currentUser) {
-					await setDoc(doc(db, "Users", auth.currentUser?.uid), {
-						email: email,
-						userName: userName,
-					});
+			register(email, userName, password).then((res) => {
+				if (res?.success) {
+					alert(res.message);
+					setEmail("");
+					setUserName("");
+					setPassword("");
+					setConfirmPassword("");
+					navigate("/");
+				} else {
+					alert(res?.message);
 				}
-			} catch (error) {
-				alert(error);
-			}
+			});
 		}
-
-		setEmail("");
-		setUserName("");
-		setPassword("");
-		setConfirmPassword("");
 	};
 
 	return (
