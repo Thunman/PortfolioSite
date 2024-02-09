@@ -67,10 +67,15 @@ const addKeyListeners = (gameState: GameStateProps) => {
     return keyHandler;
 };
 
-const addMouseClickListener = (canvas: HTMLCanvasElement, flags: FlagProps) => {
+const addMouseClickListener = (canvas: HTMLCanvasElement, gameState: GameStateProps) => {
     const listener = () => {
         if (document.pointerLockElement === canvas) {
-            flags.launchBall = true;
+            if(gameState.flags.launchBall !== true){
+                gameState.flags.launchBall = true;
+            }
+            if (gameState.paddle.hasGuns) {
+                gameState.paddle.fireGuns();
+            }
         }
     };
     canvas.addEventListener("click", listener);
@@ -87,7 +92,7 @@ export const addEventHandlers = (gameState: GameStateProps, canvas: HTMLCanvasEl
     addMouseMoveListener(canvas, gameState.paddle);
     pointerLockCancelListener = addPointerLockCancelListener();
     keyHandler = addKeyListeners(gameState);
-    mouseClickListener = addMouseClickListener(canvas, gameState.flags);
+    mouseClickListener = addMouseClickListener(canvas, gameState);
 };
 
 export const removeEventHandlers = (canvas: HTMLCanvasElement) => {
