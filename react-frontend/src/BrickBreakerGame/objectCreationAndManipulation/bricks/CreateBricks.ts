@@ -32,39 +32,8 @@ export const createBrickArrays = (
 	}
 	return bricks;
 };
-export const createDefaultBrickArrays = () => {
-	
-	const defaultBrickArrays = [
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0],
-		[0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0],
-		[0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-		[0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-		[0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 3, 4, 3, 0, 3, 5, 3, 0, 6, 12, 6, 0, 6, 11, 6, 0, 5, 7, 10, 7, 5, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 4, 10, 0, 10, 4, 10, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	];
-	return defaultBrickArrays;
-};
+
 export const createRandomBricks = (brickArrays: number[][]) => {
-	console.log("createRandomBricks");
-	brickArrays = Array(10)
-		.fill(null)
-		.map(() => Array(12).fill(0));
 	for (let row = 0; row < brickArrays.length; row++) {
 		for (let col = 0; col < brickArrays[row].length; col++) {
 			const randomNr = Math.random();
@@ -73,29 +42,23 @@ export const createRandomBricks = (brickArrays: number[][]) => {
 			}
 		}
 	}
-	console.log(brickArrays);
 	return brickArrays;
 };
 
 export const createBricks = (
 	brickArrays: number[][],
-	brickSettings: BrickSettingsProps
+	brickSettings: BrickSettingsProps,
+	canvas: HTMLCanvasElement
 ) => {
+
 	const sum = brickArrays.flat().reduce((a, b) => a + b, 0);
-	console.log("sum: ", sum);
 	if (sum === 0) {
-		brickArrays = createDefaultBrickArrays();
-		console.log("createDefaultBrickArrays");
+		brickArrays = createBrickArrays(canvas, brickSettings, true);
+		brickArrays = createRandomBricks(brickArrays);
+		console.log("array is empty, creating random bricks");
 		
 	}
-	if(Object.keys(brickSettings).length === 0){
-		brickSettings = {
-			_padding: 1,
-			_width: 50,
-			_height: 25,
-			_spacing: 1,
-		};
-	}
+
 	let bricks = [];
 	for (let row = 0; row < brickArrays.length; row++) {
 		for (let col = 0; col < brickArrays[row].length; col++) {

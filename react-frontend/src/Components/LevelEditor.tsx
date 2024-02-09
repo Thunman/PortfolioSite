@@ -12,7 +12,7 @@ import { AnimatePresence } from "framer-motion";
 import { LevelEditorSettingsModal } from "./LevelEditorSettingsModal";
 import { Link } from "react-router-dom";
 import { LevelEditorInstance } from "../Interfaces/Interfaces";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const LevelEditor = () => {
@@ -89,9 +89,6 @@ const LevelEditor = () => {
 		setIsSaveInputVisible(false);
 		setLevelName("");
 	};
-
-
-
 
 	return (
 		<StyledGameBackground onClick={handleBackgroundClick}>

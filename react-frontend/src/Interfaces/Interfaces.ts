@@ -28,9 +28,20 @@ export interface SettingsModalProps {
 }
 export interface GameInstance {
 	startGame: () => void;
+	drawImportedLevel: () => void;
 }
 export interface LevelEditorInstance {
 	start: () => void;
 	exportLevel: () => number[][];
 	exportSettings: () => object;
+}
+export interface LevelSelectorModalProps {
+	levels: string[];
+	handleClose: (
+		event?: React.MouseEvent<HTMLDivElement | HTMLButtonElement>
+	) => void;
+	handleSelect: (event?: React.MouseEvent<HTMLDivElement>) => void;
+	handleDelete: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+    handleExport: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+    handleImportLevel: (event?: React.MouseEvent<HTMLDivElement>) => void;
 }

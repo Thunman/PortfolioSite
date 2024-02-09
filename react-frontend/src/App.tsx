@@ -43,6 +43,7 @@ function App() {
 						<Route path="/levelEditor" element={<LevelEditor />} />
 					</Routes>
 				)}
+			
 			</Router>
 		</div>
 	);

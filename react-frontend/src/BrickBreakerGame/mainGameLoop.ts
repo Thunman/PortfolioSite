@@ -15,7 +15,7 @@ import { createPaddle } from "./objectCreationAndManipulation/paddles/CreatePadd
 import { handlePaddleMovements } from "./objectCreationAndManipulation/paddles/HandlePaddleMovements";
 import { handleBallMovement } from "./objectCreationAndManipulation/balls/HandleBallMovement";
 import { handlePowerUpGains } from "./objectCreationAndManipulation/powerUps/HandlePowerUpGains";
-import { animate } from "./GameLogic/AnimationLogic";
+import { animate, drawLevel } from "./GameLogic/AnimationLogic";
 import { gameState } from "./GameLogic/GameState";
 import { handleLaserMovement } from "./objectCreationAndManipulation/Lasers/HandleLaserMovement";
 
@@ -59,17 +59,24 @@ function game(
 	};
 
 	const startGame = () => {
+		console.log("startGame")
 		resetGame(gameState);
 		resetFPS();
 		gameState.paddle = createPaddle(canvas, gameState);
-		gameState.bricks = createBricks(brickArrays, brickSettings);
+		gameState.bricks = createBricks(brickArrays, brickSettings, canvas);
 		gameState.balls.push(createBall(gameState, canvas));
 		addEventHandlers(gameState, canvas);
 		gameState.start = true;
-		console.table(brickArrays)
-		console.log(brickSettings)
 		gameLoop();
 	};
-	return { startGame };
+	const drawImportedLevel = () => {
+		resetGame(gameState);
+		resetFPS();
+		gameState.bricks = createBricks(brickArrays, brickSettings, canvas);
+		drawLevel(gameState, ctx, canvas);
+		console.log("drawImportedLevel")
+
+	};
+	return { startGame, drawImportedLevel };
 }
 export default game;

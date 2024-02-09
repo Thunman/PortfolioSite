@@ -77,9 +77,7 @@ const Login: React.FC<LoginProps> = (props) => {
 					</Styles.Button>
 					<Styles.Button
 						onClick={() => {
-							
 							props.setIsLoggedIn(true);
-						
 						}}
 					>
 						Continue as guest

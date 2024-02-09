@@ -42,3 +42,18 @@ export const animate = (
 		drawLaser(laser, ctx);
 	});
 };
+
+
+export const drawLevel = (gameState: GameStateProps,
+	ctx: CanvasRenderingContext2D,
+	canvas: HTMLCanvasElement,) => {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+	ctx.shadowBlur = 10;
+	ctx.shadowOffsetX = 0;
+	ctx.shadowOffsetY = 10;
+	gameState.bricks.forEach((brick) => {
+		drawBrick(brick, ctx);
+	});
+};

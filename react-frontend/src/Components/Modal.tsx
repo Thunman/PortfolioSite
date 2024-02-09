@@ -1,4 +1,5 @@
 import { FaShareSquare, FaTrash } from "react-icons/fa";
+import { LevelSelectorModalProps } from "../Interfaces/Interfaces";
 import {
 	LevelSelectorBackdrop,
 	LevelSelector,
@@ -8,17 +9,6 @@ import {
     ImportButton,
 } from "../Styles/Styles";
 
-interface ModalProps {
-	levels: string[];
-	handleClose: (
-		event?: React.MouseEvent<HTMLDivElement | HTMLButtonElement>
-	) => void;
-	handleSelect: (event?: React.MouseEvent<HTMLDivElement>) => void;
-	handleDelete: (event?: React.MouseEvent<HTMLButtonElement>) => void;
-    handleExport: (event?: React.MouseEvent<HTMLButtonElement>) => void;
-    handleImportLevel: (event?: React.MouseEvent<HTMLDivElement>) => void;
-}
-
 export const Modal = ({
 	levels,
 	handleClose,
@@ -26,7 +16,7 @@ export const Modal = ({
 	handleDelete,
     handleExport,
     handleImportLevel,
-}: ModalProps) => {
+}: LevelSelectorModalProps) => {
 	const dropIn = {
 		hidden: {
 			y: "-100vh",

@@ -12,33 +12,39 @@ import { auth, db } from "../firebase";
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { AnimatePresence } from "framer-motion";
 import { Modal } from "./Modal"
-
-
+import { BrickSettingsProps } from "../BrickBreakerGame/HelperFunctions/GameTypes";
 
 
 const Game = () => {
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const openPicker = () => setModalOpen(true);
 	const closePicker = () => setModalOpen(false);
-	
+	const [activateDrawing, setActivateDrawing] = useState(false);
 	const [savedLevels, setSavedLevels] = useState<string[]>([]);
 	const [level, setLevel] = useState<number[][]>([]);
-    const [settings, setSettings] = useState({
-        _padding: 1,
-        _width: 75,
-        _height: 50,
-        _spacing: 1,
-    });
+	const defaultBrickSettings = {
+		_padding: 50,
+		_width: canvasRef.current?.width ? canvasRef.current.width / 15 : 75,
+		_height: canvasRef.current?.height ? canvasRef.current.height / 20 : 50,
+		_spacing: 10,
+	};
+    const [settings, setSettings] = useState<BrickSettingsProps>(defaultBrickSettings);
 	const [gameInstance, setGameInstance] = useState<GameInstance | null>(null);
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-
 	
 	useEffect(() => {
 		if (canvasRef.current) {
 			const instance = game(canvasRef.current, level, settings);
 			setGameInstance(instance);
+			
 		}
 	}, [level, settings]);
+
+	useEffect(() => {
+		if (gameInstance && activateDrawing) {
+			gameInstance.drawImportedLevel();
+		}
+	}, [gameInstance]);
 
 	const handleImportClick = async () => {
 		modalOpen ? closePicker() : openPicker()
@@ -64,7 +70,9 @@ const Game = () => {
 					const parseSetting = JSON.parse(levelObject.brickSettings)
 					setLevel(parse)
 					setSettings(parseSetting)
+					setActivateDrawing(true)
 					closePicker()
+					
 				}
 			}
 		}
@@ -131,13 +139,17 @@ const Game = () => {
 					},
 					{ merge: true }
 				);
+				const colRef = collection(db, "Users", auth.currentUser.uid, "levels");
+				const querySnapshot = await getDocs(colRef);
+				const savedLevelsFromDB = querySnapshot.docs.map(doc => {
+					const pathParts = doc.ref.path.split('/');
+					return pathParts[pathParts.length - 1];
+				});
+				setSavedLevels(savedLevelsFromDB);
 				alert("Level saved!");
 			}
 		}
 	}
-					
-				
-
 	return (	
 		<StyledGameBackground>
 			<StyledGameContainer>
@@ -166,6 +178,15 @@ const Game = () => {
 				</AnimatePresence>
 				<StyledGameButton as={Link} to="/LevelEditor">
 					Level Editor
+				</StyledGameButton>
+				<StyledGameButton
+					onClick={() => {
+						setLevel([]);
+						setSettings(defaultBrickSettings);
+						setActivateDrawing(true);
+					}}
+				>
+					Create Random Level
 				</StyledGameButton>
 				<StyledGameButton as={Link} to="/">
 					Landing
