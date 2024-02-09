@@ -1,10 +1,22 @@
-import * as Styles from "../Styles/Styles";
+import {
+	Button,
+	Container,
+	FormContainer,
+	Header,
+	HeaderButton,
+	Menu,
+} from "../Styles/Styles";
+import {
+	fadeBoxIn,
+	slideInMenu,
+	slideInHeader,
+} from "../Animations/Animations";
 import { LoginProps } from "../Interfaces/Interfaces";
 import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { useState } from "react";
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaBars } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { logout } from "../Services/auth";
-import { fadeBoxIn, slideInMenu, slideInHeader } from "../Animations/Animations";
+
 
 const Landing: React.FC<LoginProps> = (props) => {
 	const handleSubmit = (e: React.FormEvent) => {
@@ -16,29 +28,36 @@ const Landing: React.FC<LoginProps> = (props) => {
 		});
 	};
 
+	const [isAnimationComplete, setAnimationComplete] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const handleMenuToggle = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
+	useEffect(() => {
+		if (!isMenuOpen) {
+		  setAnimationComplete(false);
+		}
+	  }, [isMenuOpen]);
 
 	return (
-		<Styles.Container onClick={() => handleMenuToggle()}>
-			<Styles.Menu
+		<Container onClick={() => setIsMenuOpen(false)}>
+			<Menu
 				onClick={(e) => e.stopPropagation()}
 				variants={slideInMenu}
 				initial="hidden"
 				animate={isMenuOpen ? "visible" : "hidden"}
 				exit="exit"
+				onAnimationComplete={() => setAnimationComplete(true)}
 			>
-				<Styles.Button as={Link} to="/levelEditor">
+				<Button as={Link} to="/levelEditor">
 					Level Editor
-				</Styles.Button>
-				<Styles.Button as={Link} to="/game">
+				</Button>
+				<Button as={Link} to="/game">
 					Game
-				</Styles.Button>
-			</Styles.Menu>
-
-			<Styles.Header
+				</Button>
+			</Menu>
+			<Header
+				onClick={(e) => e.stopPropagation()}
 				style={{
 					background: isMenuOpen ? "#1a202c" : "initial",
 				}}
@@ -46,37 +65,30 @@ const Landing: React.FC<LoginProps> = (props) => {
 				initial="hidden"
 				animate={isMenuOpen ? "visible" : "hidden"}
 				exit="exit"
+				onAnimationComplete={() => setAnimationComplete(true)}
 			>
-				<Styles.HeaderButton onClick={handleMenuToggle}>
-					<FaBars />
-				</Styles.HeaderButton>
-			</Styles.Header>
-			<Styles.FormContainer
-				variants={fadeBoxIn}
-				initial="hidden"
-				animate="visible"
-			>
+				<HeaderButton onClick={handleMenuToggle}>
+				{isAnimationComplete ? (isMenuOpen ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />) : <FaAngleDoubleRight />}
+				</HeaderButton>
+			</Header>
+			<FormContainer variants={fadeBoxIn} initial="hidden" animate="visible">
 				<div>Hello World!</div>
 				<br />
-				<Styles.Button
+				<Button
 					as={Link}
 					to="/levelEditor"
 					style={{ textDecoration: "none" }}
 				>
 					Level Editor
-				</Styles.Button>
-				<Styles.Button
-					as={Link}
-					to="/game"
-					style={{ textDecoration: "none" }}
-				>
+				</Button>
+				<Button as={Link} to="/game" style={{ textDecoration: "none" }}>
 					Game
-				</Styles.Button>
-				<Styles.Button type="submit" onClick={handleSubmit}>
+				</Button>
+				<Button type="submit" onClick={handleSubmit}>
 					Log Out
-				</Styles.Button>
-			</Styles.FormContainer>
-		</Styles.Container>
+				</Button>
+			</FormContainer>
+		</Container>
 	);
 };
 export default Landing;
