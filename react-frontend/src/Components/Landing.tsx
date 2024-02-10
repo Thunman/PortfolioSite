@@ -5,6 +5,7 @@ import {
 	Header,
 	HeaderButton,
 	Menu,
+	MenuButton,
 } from "../Styles/Styles";
 import {
 	fadeBoxIn,
@@ -13,7 +14,7 @@ import {
 } from "../Animations/Animations";
 import { LoginProps } from "../Interfaces/Interfaces";
 import { Link } from "react-router-dom";
-import { FaAngleDoubleLeft, FaAngleDoubleRight, FaBars } from "react-icons/fa";
+import { FaAngleDoubleDown, FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleDoubleUp, FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { logout } from "../Services/auth";
 
@@ -52,17 +53,27 @@ const Landing: React.FC<LoginProps> = (props) => {
 				exit="exit"
 				onAnimationComplete={() => setAnimationComplete(true)}
 			>
-				<Button as={Link} to="/levelEditor">
+				<MenuButton as={Link} to="/levelEditor">
 					Level Editor
-				</Button>
-				<Button as={Link} to="/game">
+				</MenuButton>
+				<MenuButton as={Link} to="/game">
 					Game
-				</Button>
+				</MenuButton>
+				<MenuButton as={Link} to="/game">
+					Game
+				</MenuButton>
+				<MenuButton as={Link} to="/game">
+					Game
+				</MenuButton>
+				<MenuButton as={Link} to="/game">
+					Game
+				</MenuButton>
 			</Menu>
 			<Header
 				onClick={(e) => e.stopPropagation()}
 				style={{
-					background: isMenuOpen ? "#1a202c" : "initial",
+					
+					//borderTop: isMenuOpen ? "4px solid #475569" : "none",
 				}}
 				variants={slideInHeader}
 				initial="hidden"
@@ -71,7 +82,7 @@ const Landing: React.FC<LoginProps> = (props) => {
 				onAnimationComplete={() => setAnimationComplete(true)}
 			>
 				<HeaderButton onClick={handleMenuToggle}>
-				{isAnimationComplete ? (isMenuOpen ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />) : <FaAngleDoubleRight />}
+				{isAnimationComplete ? (isMenuOpen ? <FaAngleDoubleUp /> : <FaAngleDoubleDown />) : <FaAngleDoubleDown />}
 				</HeaderButton>
 			</Header>
 			<FormContainer variants={fadeBoxIn} initial="hidden" animate="visible">

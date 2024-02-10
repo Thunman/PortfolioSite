@@ -47,39 +47,60 @@ export const HeaderButton = styled.div`
 	text-decoration: none;
 
 `;
+
+export const MenuButton = styled.div`
+	background: #475569;
+	color: white;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 8px;
+	margin-inline-start: 5px;
+	margin-inline-end: 5px;
+	text-decoration: none;
+	&:hover {
+		background: #1a202c;
+		border: 4px solid #ffffff;
+	}
+`;
+
 export const Menu = styled(motion.div)`
 	position: fixed; 
-    top: 50%; 
-    left: 0;
+    top: 0; 
+    left: 50%;
     transform: translateY(-50%); 
-	width: 200px;
+	height: 50px;
 	background: #1a202c;
 	display: flex;
-	flex-direction: column; 
-	padding: 5px 0 5px 0px;
+	flex-direction: row; 
+	padding: 5px;
 	justify-content: flex-start;
 	overflow-y: hidden;
-	gap: 5px;
-	border-radius: 0 8px 8px 0;
-	border: 4px solid #1a202c;
+	
+	border-right: 4px solid #475569;
+	border-left: 4px solid #475569;
+	border-bottom: 4px solid #475569;
+	border-radius: 0 0 8px 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
 export const Header = styled(motion.div)`
 	position: absolute;
-	top: 50%;
-	left: 0;
+	top: 0%;
+	left: 50%;
 	width: 50px;
 	height: 50px;
 	color: white;
 	display: flex;
 	align-items: center;
 	justify-content: left;
-	background: linear-gradient(to bottom, #475569, #1a202c);
+	background-color: #1a202c;
 	box-sizing: border-box;
-	border-radius: 0 15px 15px 0;
-	border-top: 4px solid #1a202c;
-    border-right: 4px solid #1a202c;
-    border-bottom: 4px solid #1a202c;
+	border-right: 4px solid #475569;
+	border-left: 4px solid #475569;
+	border-bottom: 4px solid #475569;
+	border-radius: 0 0 8px 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	
 	
 `;
 

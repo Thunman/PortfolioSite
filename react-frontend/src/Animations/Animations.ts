@@ -4,13 +4,13 @@ export const fadeBoxIn = {
   };
   
   export const slideInMenu = {
-    hidden: { x: "-208px", opacity: 0 },
-    visible: { x: "0", opacity: 1, transition: { duration: 0.5, ease: "easeInOut" } },
+    hidden: { y: "-50px", opacity: 0 },
+    visible: { y: "0", opacity: 1, transition: { duration: 0.1, ease: "linear" } },
     exit: { x: "-100vw", opacity: 0 },
   };
   
   export const slideInHeader = {
     hidden: { x: "0", opacity: 1 },
-    visible: { x: "208px", opacity: 1, transition: { duration: 0.5, ease: "easeInOut" } },
+    visible: { y: "64px", opacity: 1, transition: { duration: 0.1, ease: "linear" } },
     exit: { x: "-100vw", opacity: 0 },
   };
