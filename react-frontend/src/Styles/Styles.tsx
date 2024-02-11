@@ -48,6 +48,23 @@ export const HeaderButton = styled.div`
 	text-decoration: none;
 	display: flex;
 `;
+export const SaveButton = styled.div`
+	background: #475569;
+	justify-content: center;
+	color: white;
+	padding: 5px;
+	font-size: 16px;
+	border: 4px solid #475569;
+	border-radius: 8px;
+	margin-right: 10px;
+	text-decoration: none;
+	display: flex;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	&:hover {
+		background: #1a202c;
+		border: 4px solid #1a202c;
+	}
+`;
 
 export const MenuButton = styled.div`
 	display: flex;
