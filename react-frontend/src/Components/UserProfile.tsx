@@ -6,7 +6,7 @@ import {
 	Container,
 	H1,
 	ImgContainer,
-	MenuButton,
+	BasicInfoDiv,
 	SaveButton,
 	TextContainer,
 } from "../Styles/Styles";
@@ -16,6 +16,9 @@ import { getBasicInfo } from "../Services/Getters";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, fileStorage } from "../firebase";
 import { saveBasicInfo, setProfilePicUrl } from "../Services/Setters";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { set } from "date-fns";
 
 const UserProfile = () => {
 	const [basicInfo, setBasicInfo] = useState<BasicInfoProps>({
@@ -26,21 +29,23 @@ const UserProfile = () => {
 		location: "",
 		age: "",
 	});
+	const [showDatePicker, setShowDatePicker] = useState(false);
+	const [selectedDate, setSelectedDate] = useState(new Date());
 	const fileInput = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		const fetchData = async () => {
 			const data: BasicInfoProps | undefined = await getBasicInfo();
 			if (data) {
-                const validData: BasicInfoProps = {
-                    profilePicUrl: data.profilePicUrl || "",
-                    name: data.name || "",
-                    email: data.email || "",
-                    userName: data.userName || "",
-                    location: data.location || "",
-                    age: data.age || "",
-                };
-                setBasicInfo(validData);
-            }
+				const validData: BasicInfoProps = {
+					profilePicUrl: data.profilePicUrl || "",
+					name: data.name || "",
+					email: data.email || "",
+					userName: data.userName || "",
+					location: data.location || "",
+					age: data.age || "",
+				};
+				setBasicInfo(validData);
+			}
 		};
 		fetchData();
 	}, []);
@@ -69,16 +74,47 @@ const UserProfile = () => {
 	};
 	const handleInfoChange = (e: React.MouseEvent<HTMLElement>) => {
 		const field = e.currentTarget.id;
-		const newInfo = prompt(`Enter ${field}`);
-		if (newInfo !== null && field in basicInfo) {
-			setBasicInfo((prevState) => ({ ...prevState, [field]: newInfo }));
+		if (field !== "age") {
+			const newInfo = prompt(`Enter ${field}`);
+			if (newInfo !== null && field in basicInfo) {
+				setBasicInfo((prevState) => ({ ...prevState, [field]: newInfo }));
+			}
+		}
+		if (field === "age") {
+			setShowDatePicker(true);
+			setSelectedDate(new Date());
+			let dob = dobParser(selectedDate.toISOString());
+			let age = ageCalc(dob);
+			setBasicInfo((prevState) => ({ ...prevState, age: age.toString() }));
 		}
 	};
-    const handleSaveInfo = () => {
-        saveBasicInfo(basicInfo);
-
-    };
-
+	const handleSaveInfo = () => {
+		saveBasicInfo(basicInfo);
+	};
+	const dobParser = (dob: string) => {
+		const date = new Date(dob);
+		const month = date.getMonth() + 1;
+		const day = date.getDate();
+		const year = date.getFullYear();
+		return `${year}-${month}-${day}`;
+	};
+	const ageCalc = (dob: string) => {
+		const today = new Date();
+		const birthDate = new Date(dob);
+		let age = today.getFullYear() - birthDate.getFullYear();
+		const m = today.getMonth() - birthDate.getMonth();
+		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+		}
+		return age;
+	};
+	const handleDateChange = (date: Date) => {
+		setSelectedDate(date);
+		let dob = dobParser(date.toISOString());
+		let age = ageCalc(dob);
+		setBasicInfo((prevState) => ({ ...prevState, age: age.toString() }));
+		setShowDatePicker(false);
+	};
 
 	return (
 		<Container>
@@ -102,21 +138,34 @@ const UserProfile = () => {
 						onChange={handleFileChange}
 					/>
 					<BasicInfo>
-						<p onClick={handleInfoChange} id="name">
-							Name: {basicInfo.name}
-						</p>
-                        <p onClick={handleInfoChange} id="userName">
-							User Name: {basicInfo.userName}
-						</p>
-						<p onClick={handleInfoChange} id="age">
+						<BasicInfoDiv onClick={handleInfoChange} id="name">
+							Name: <br />
+							{basicInfo.name}
+						</BasicInfoDiv>
+						<BasicInfoDiv onClick={handleInfoChange} id="userName">
+							User Name: <br />
+							{basicInfo.userName}
+						</BasicInfoDiv>
+						<BasicInfoDiv onClick={handleInfoChange} id="age">
 							Age: {basicInfo.age}
-						</p>
-						<p onClick={handleInfoChange} id="location">
+						</BasicInfoDiv>
+						{showDatePicker && (
+							<DatePicker
+								selected={selectedDate}
+								onChange={handleDateChange}
+								showYearDropdown
+								minDate={new Date("1900-01-01")}
+								maxDate={new Date()}
+								dateFormat="dd/MM/yyyy"
+								allowSameDay
+							/>
+						)}
+						<BasicInfoDiv onClick={handleInfoChange} id="location">
 							Location: {basicInfo.location}
-						</p>
-						<p>Contact: {basicInfo.email}</p>
+						</BasicInfoDiv>
+						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
 					</BasicInfo>
-                    <SaveButton onClick={handleSaveInfo}>Save</SaveButton>
+					<SaveButton onClick={handleSaveInfo}>Save</SaveButton>
 				</BasicInfoContainer>
 				<TextContainer>
 					<H1>Placeholder for about me</H1>

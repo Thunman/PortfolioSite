@@ -56,9 +56,8 @@ export const SaveButton = styled.div`
 	font-size: 16px;
 	border: 4px solid #475569;
 	border-radius: 8px;
-	margin-right: 10px;
-	text-decoration: none;
 	display: flex;
+	cursor: pointer;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	&:hover {
 		background: #1a202c;
@@ -104,6 +103,7 @@ export const Menu = styled(motion.div)`
 	border-bottom: 4px solid #475569;
 	border-radius: 0 0 8px 8px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	z-index: 500;	
 `;
 
 export const Cutout = styled.div`
@@ -115,6 +115,7 @@ export const Cutout = styled.div`
 	height: 4px;
 	background: #1a202c;
 	border: none;
+	z-index: 1001;
 `;
 
 export const StyledLink = styled(RouterLink)`
@@ -140,6 +141,7 @@ export const Header = styled(motion.div)`
 	border-bottom: 4px solid #475569;
 	border-radius: 0 0 8px 8px;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+	z-index: 1000;
 `;
 
 export const LevelSelectorModal = styled(motion.div)`
@@ -172,8 +174,10 @@ export const StyledModal = styled(motion.div)`
 	align-items: center;
 `;
 export const Container = styled.div`
+	text-align: center;
 	display: grid;
 	place-items: center;
+	
 	min-height: 100vh;
 	min-width: 100vw;
 	align-items: center;
@@ -233,11 +237,32 @@ export const Img = styled.img`
 export const BasicInfoContainer = styled.div`
 	padding: 1rem;
 	width: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 2rem;
+`;
+export const BasicInfoDiv = styled.div`
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	display: flex;;
+	border: 4px solid #ffffff;
+	flex-direction: column;
+	justify-content: center;
+	cursor: pointer;
+	&:hover {
+		border: 4px solid #1a202c;
+	}
 `;
 export const BasicInfo = styled.div`
 	border-radius: 8px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	
 	width: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 1rem;
+	
 `;
 export const TextContainer = styled.div`
 	padding: 1rem;

@@ -8,6 +8,7 @@ import {
 	BasicInfoContainer,
 	BasicInfo,
 	Img,
+	StyledLink,
 } from "../Styles/Styles";
 import { LoginProps, BasicInfoProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
@@ -40,32 +41,7 @@ const Landing: React.FC<LoginProps> = (props) => {
 	}, []);
 
 	return (
-		<Container
-			onClick={() => {
-				setIsMenuOpen(false);
-				setShowGameButtons(false);
-			}}
-		>
-			<DropDownMenu isMenuOpen={isMenuOpen}>
-				<MenuButton
-					onClick={(e) => {
-						e.stopPropagation();
-						toggleGameButtons();
-					}}
-					style={{
-						backgroundColor: showGameButtons ? "#1a202c" : "#475569",
-					}}
-				>
-					Games
-				</MenuButton>
-				<GameButtons showGameButtons={showGameButtons} />
-				<div style={{ flexGrow: 1 }}></div>
-				<LogoutButton setIsLoggedIn={props.setIsLoggedIn} />
-			</DropDownMenu>
-			<DropDownButton
-				isMenuOpen={isMenuOpen}
-				handleMenuToggle={handleMenuToggle}
-			/>
+		<Container>
 			<AboutMeContainer
 				variants={fadeBoxIn}
 				initial="hidden"
