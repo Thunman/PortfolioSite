@@ -1,107 +1,79 @@
 import {
-	Button,
 	Container,
-	FormContainer,
-	Header,
-	HeaderButton,
-	Menu,
+	ImgContainer,
 	MenuButton,
+	AboutMeContainer,
+	TextContainer,
+	H1,
+	BasicInfoContainer,
+	BasicInfo,
+	Img,
 } from "../Styles/Styles";
-import {
-	fadeBoxIn,
-	slideInMenu,
-	slideInHeader,
-} from "../Animations/Animations";
 import { LoginProps } from "../Interfaces/Interfaces";
-import { Link } from "react-router-dom";
-import { FaAngleDoubleDown, FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleDoubleUp, FaBars } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { logout } from "../Services/auth";
-
+import { useState } from "react";
+import DropDownMenu from "./DropDownMenu";
+import DropDownButton from "./DropDownButton";
+import LogoutButton from "./LogoutButton";
+import GameButtons from "./GameButtons";
 
 const Landing: React.FC<LoginProps> = (props) => {
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		logout().then((res) => {
-			if (res.success) {
-				props.setIsLoggedIn(false);
-			} else {
-				alert(res.message);
-			}
-			
-		});
-	};
-
-	const [isAnimationComplete, setAnimationComplete] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [showGameButtons, setShowGameButtons] = useState(false);
+	const toggleGameButtons = () => {
+		setShowGameButtons(!showGameButtons);
+	};
 	const handleMenuToggle = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
-	useEffect(() => {
-		if (!isMenuOpen) {
-		  setAnimationComplete(false);
-		}
-	  }, [isMenuOpen]);
 
 	return (
-		<Container onClick={() => setIsMenuOpen(false)}>
-			<Menu
-				onClick={(e) => e.stopPropagation()}
-				variants={slideInMenu}
-				initial="hidden"
-				animate={isMenuOpen ? "visible" : "hidden"}
-				exit="exit"
-				onAnimationComplete={() => setAnimationComplete(true)}
-			>
-				<MenuButton as={Link} to="/levelEditor">
-					Level Editor
-				</MenuButton>
-				<MenuButton as={Link} to="/game">
-					Game
-				</MenuButton>
-				<MenuButton as={Link} to="/game">
-					Game
-				</MenuButton>
-				<MenuButton as={Link} to="/game">
-					Game
-				</MenuButton>
-				<MenuButton as={Link} to="/game">
-					Game
-				</MenuButton>
-			</Menu>
-			<Header
-				onClick={(e) => e.stopPropagation()}
-				style={{
-					
-					//borderTop: isMenuOpen ? "4px solid #475569" : "none",
-				}}
-				variants={slideInHeader}
-				initial="hidden"
-				animate={isMenuOpen ? "visible" : "hidden"}
-				exit="exit"
-				onAnimationComplete={() => setAnimationComplete(true)}
-			>
-				<HeaderButton onClick={handleMenuToggle}>
-				{isAnimationComplete ? (isMenuOpen ? <FaAngleDoubleUp /> : <FaAngleDoubleDown />) : <FaAngleDoubleDown />}
-				</HeaderButton>
-			</Header>
-			<FormContainer variants={fadeBoxIn} initial="hidden" animate="visible">
-				<div>Hello World!</div>
-				<br />
-				<Button
-					as={Link}
-					to="/levelEditor"
-					style={{ textDecoration: "none" }}
+		<Container
+			onClick={() => {
+				setIsMenuOpen(false);
+				setShowGameButtons(false);
+			}}
+		>
+			<DropDownMenu isMenuOpen={isMenuOpen}>
+				<MenuButton
+					onClick={(e) => {
+						e.stopPropagation();
+						toggleGameButtons();
+					}}
+					style={{
+						backgroundColor: showGameButtons ? "#1a202c" : "#475569",
+					}}
 				>
-					Level Editor
-				</Button>
-				<Button as={Link} to="/game" style={{ textDecoration: "none" }}>
-					Game
-				</Button>
-				<Button type="submit" onClick={handleSubmit}>
-					Log Out
-				</Button>
-			</FormContainer>
+					Games
+				</MenuButton>
+				<GameButtons showGameButtons={showGameButtons} />
+				<div style={{ flexGrow: 1 }}></div>
+				<LogoutButton setIsLoggedIn={props.setIsLoggedIn} />
+			</DropDownMenu>
+			<DropDownButton
+				isMenuOpen={isMenuOpen}
+				handleMenuToggle={handleMenuToggle}
+			/>
+			<AboutMeContainer>
+			<BasicInfoContainer>
+				<ImgContainer>
+					<Img
+						src="/images/selfie.jpg"
+						alt="My Image"
+					/>
+				</ImgContainer>
+				<BasicInfo>
+					<p>Name: Daniel Thunman</p>
+					<p>Age: 37</p>
+					<p>Location: Gävle, SE</p>
+					<p>Contact: <a href="mailto:thunman42@gmail.com"> Thunman42@gmail.com </a></p>
+				</BasicInfo>
+				</BasicInfoContainer>
+				<TextContainer>
+				<H1>Placeholder for about me</H1>
+				<p>All work and no play makes Daniel a dull boy!</p>
+				</TextContainer>
+				
+			</AboutMeContainer>
 		</Container>
 	);
 };

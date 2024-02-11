@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { Link as RouterLink } from 'react-router-dom';
 
 export const StyledBackdrop = styled(motion.div)`
 	position: absolute;
@@ -45,10 +46,13 @@ export const HeaderButton = styled.div`
 	border-radius: 8px;
 	margin-right: 10px;
 	text-decoration: none;
+	display: flex;
 
 `;
 
 export const MenuButton = styled.div`
+	
+	display: flex;
 	background: #475569;
 	color: white;
 	padding: 10px;
@@ -57,25 +61,29 @@ export const MenuButton = styled.div`
 	margin-inline-start: 5px;
 	margin-inline-end: 5px;
 	text-decoration: none;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	cursor: pointer;
 	&:hover {
 		background: #1a202c;
 		border: 4px solid #ffffff;
 	}
 `;
 
+export const GameButtonContainer = styled.div`
+	display: flex;
+	align-self: flex-start;
+`;
+
 export const Menu = styled(motion.div)`
-	position: fixed; 
+	display: flex;
+	justify-content: space-between;
+	position: fixed;
+	width: 100%;
     top: 0; 
-    left: 50%;
-    transform: translateY(-50%); 
 	height: 50px;
 	background: #1a202c;
-	display: flex;
-	flex-direction: row; 
 	padding: 5px;
-	justify-content: flex-start;
 	overflow-y: hidden;
-	
 	border-right: 4px solid #475569;
 	border-left: 4px solid #475569;
 	border-bottom: 4px solid #475569;
@@ -83,8 +91,25 @@ export const Menu = styled(motion.div)`
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-export const Header = styled(motion.div)`
+export const Cutout = styled.div`
 	position: absolute;
+	top: -4px;
+	left: -50%;
+	transform: translateX(50%);
+	width: 42px;
+	height: 4px;
+	background: #1a202c;
+	border: none;
+`
+
+export const StyledLink = styled(RouterLink)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Header = styled(motion.div)`
+	position: fixed;
 	top: 0%;
 	left: 50%;
 	width: 50px;
@@ -99,9 +124,7 @@ export const Header = styled(motion.div)`
 	border-left: 4px solid #475569;
 	border-bottom: 4px solid #475569;
 	border-radius: 0 0 8px 8px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-	
-	
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
 `;
 
 export const LevelSelectorModal = styled(motion.div)`
@@ -134,18 +157,18 @@ export const StyledModal = styled(motion.div)`
 	align-items: center;
 `;
 export const Container = styled.div`
-	display: flex;
-	height: 100vh;
-	width: 100%;
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	min-width: 100vw;
 	align-items: center;
 	justify-content: center;
 	background: linear-gradient(to bottom, #475569, #1a202c);
-	position: relative;
+	position: absolute;
 `;
 
 export const FormContainer = styled(motion.div)`
 	width: 100%;
-	max-width: 320px;
 	padding: 2rem;
 	background: #fff;
 	border: 4px solid #475569;
@@ -153,10 +176,58 @@ export const FormContainer = styled(motion.div)`
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
+export const AboutMeContainer = styled.div`
+	padding: 2rem;
+	width: 75vw;
+	background: #fff;
+	border: 4px solid #475569;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+`;
+export const ImgContainer = styled.div`
+	width: 200px;
+	height: 250px;
+	background: #475569;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+`;
+export const Img = styled.img`
+
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+`;
+export const BasicInfoContainer = styled.div`
+	padding: 1rem;
+	
+	width: 200px;
+`;
+export const BasicInfo = styled.div`
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	width: 200px;
+`;
+export const TextContainer = styled.div`
+	padding: 1rem;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	width: 80%;
+`;
+
 export const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+`;
+export const H1 = styled.h1`
+	font-size: 2rem;
+	margin-bottom: 1rem;
+	font-family: "Roboto", sans-serif;
+	color: #1a202c;
 `;
 
 export const Button = styled.button`
