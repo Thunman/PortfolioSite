@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { LevelEditorInstance } from "../Interfaces/Interfaces";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
+import { fadeBoxIn } from "../Animations/Animations";
 
 const LevelEditor = () => {
 	const [brickSettings, setBrickSettings] = useState({
@@ -64,7 +65,9 @@ const LevelEditor = () => {
 				);
 				const levelSnap = await getDoc(levelRef);
 				if (levelSnap.exists()) {
-					const confirm = window.confirm("Level already exists, overwrite?");
+					const confirm = window.confirm(
+						"Level already exists, overwrite?"
+					);
 					if (!confirm) {
 						return;
 					}
@@ -92,11 +95,15 @@ const LevelEditor = () => {
 
 	return (
 		<StyledGameBackground onClick={handleBackgroundClick}>
-			<StyledGameContainer>
+			<StyledGameContainer
+				variants={fadeBoxIn}
+				initial="hidden"
+				animate={"visible"}
+				exit="exit"
+			>
 				<canvas ref={canvasRef} className="full-canvas" />
 			</StyledGameContainer>
 			<StyledGameButtonContainer>
-			
 				<StyledGameButton onClick={() => levelEditorInstance?.start()}>
 					New Empty Board
 				</StyledGameButton>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
 export const StyledBackdrop = styled(motion.div)`
 	position: absolute;
@@ -47,11 +47,9 @@ export const HeaderButton = styled.div`
 	margin-right: 10px;
 	text-decoration: none;
 	display: flex;
-
 `;
 
 export const MenuButton = styled.div`
-	
 	display: flex;
 	background: #475569;
 	color: white;
@@ -79,7 +77,7 @@ export const Menu = styled(motion.div)`
 	justify-content: space-between;
 	position: fixed;
 	width: 100%;
-    top: 0; 
+	top: 0;
 	height: 50px;
 	background: #1a202c;
 	padding: 5px;
@@ -100,12 +98,12 @@ export const Cutout = styled.div`
 	height: 4px;
 	background: #1a202c;
 	border: none;
-`
+`;
 
 export const StyledLink = styled(RouterLink)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 export const Header = styled(motion.div)`
@@ -176,7 +174,7 @@ export const FormContainer = styled(motion.div)`
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 
-export const AboutMeContainer = styled.div`
+export const AboutMeContainer = styled(motion.div)`
 	padding: 2rem;
 	width: 75vw;
 	background: #fff;
@@ -187,15 +185,29 @@ export const AboutMeContainer = styled.div`
 	justify-content: center;
 	gap: 2rem;
 `;
-export const ImgContainer = styled.div`
-	width: 200px;
-	height: 250px;
+
+
+export const UserSettingsContainer = styled(motion.div)`
+	padding: 2rem;
+	width: 75vw;
+	background: #fff;
+	border: 4px solid #475569;
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+`;
+export const ImgContainer = styled.img`
+	min-width: 200px;
+	min-height: 250px;
+	max-width: 200px;
+	max-height: 250px;
 	background: #475569;
 	border-radius: 8px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 export const Img = styled.img`
-
 	width: 100%;
 	height: 100%;
 	border-radius: 8px;
@@ -203,7 +215,6 @@ export const Img = styled.img`
 `;
 export const BasicInfoContainer = styled.div`
 	padding: 1rem;
-	
 	width: 200px;
 `;
 export const BasicInfo = styled.div`
@@ -369,5 +380,3 @@ export const Tooltip = styled.div`
 		opacity: 1;
 	}
 `;
-
-

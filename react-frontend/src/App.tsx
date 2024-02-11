@@ -9,6 +9,7 @@ import LevelEditor from "./Components/LevelEditor";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import PasswordReset from "./Components/PasswordReset";
+import UserProfile from "./Components/UserProfile";
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
 						/>
 						<Route path="/game" element={<Game />} />
 						<Route path="/levelEditor" element={<LevelEditor />} />
+						<Route path="userProfile" element={<UserProfile />} />
 					</Routes>
 				)}
 			

@@ -1,5 +1,6 @@
 import { MouseEventHandler, ReactNode } from "react";
 
+
 export interface DropDownMenuProps {
 	isMenuOpen: boolean;
 	children: ReactNode;
@@ -10,7 +11,13 @@ export interface LogoutButtonProps {
 export interface GameButtonProps {
 	showGameButtons: boolean;
 }
-
+export interface BasicInfoProps {
+	name: string;
+	age: string;
+	location: string;
+	email: string;
+	imgUrl: string;
+}
 export interface DropDownButtonProps {
 	isMenuOpen: boolean;
     handleMenuToggle: () => void;
