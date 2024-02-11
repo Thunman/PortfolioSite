@@ -16,7 +16,7 @@ import DropDownButton from "./DropDownButton";
 import LogoutButton from "./LogoutButton";
 import GameButtons from "./GameButtons";
 import { fadeBoxIn } from "../Animations/Animations";
-import { getBasicInfo } from "../Services/Retrivers";
+import { getBasicInfo } from "../Services/Getters";
 
 const Landing: React.FC<LoginProps> = (props) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -73,8 +73,8 @@ const Landing: React.FC<LoginProps> = (props) => {
 				exit="exit"
 			>
 				<BasicInfoContainer>
-					<ImgContainer>
-						<Img src="/images/selfie.jpg" alt="My Image" />
+					<ImgContainer src={basicInfo.profilePicUrl} alt="My Image" >
+						
 					</ImgContainer>
 					<BasicInfo>
 						<p>Name: {basicInfo.name}</p>
