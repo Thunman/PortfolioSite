@@ -10,21 +10,25 @@ import {
 	TextContainer,
 	BasicInfoDiv,
 	HeaderInput,
-    HeaderContainer,
-    ParagraphContainer,
-    TextArea,
+	HeaderContainer,
+	ParagraphContainer,
 } from "../Styles/Styles";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { fadeBoxIn } from "../Animations/Animations";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, fileStorage } from "../firebase";
-import { saveAboutHeaderText, saveAboutText, saveBasicInfo, setProfilePicUrl } from "../Services/Setters";
+import {
+    adminSave,
+	saveAboutHeaderText,
+	saveAboutText,
+	saveBasicInfo,
+	setProfilePicUrl,
+} from "../Services/Setters";
 import { useInput } from "../Hooks/InfoInput";
-import { getAboutInfo, getBasicInfo } from "../Services/Getters";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import { getAboutInfo, getBasicInfo, getIsAdmin } from "../Services/Getters";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { aboutTextProps } from "../Interfaces/Interfaces";
-
 
 const UserProfile = () => {
 	const [basicInfo, setBasicInfo] = useState<BasicInfoProps>({
@@ -54,11 +58,12 @@ const UserProfile = () => {
 		"location",
 		handleInputChange
 	);
-    const [aboutText, setAboutText] = useState("");
+	const [aboutText, setAboutText] = useState("");
 	const [isHeaderInputVisible, setHeaderInputVisible] = useState(false);
 	const [aboutHeaderText, setAboutHeaderText] = useState("");
-    const inputHeaderRef = useRef<HTMLInputElement>(null);
+	const inputHeaderRef = useRef<HTMLInputElement>(null);
 	const fileInput = useRef<HTMLInputElement>(null);
+	const [amIAdmin, setAmIAdmin] = useState(false);
 	useEffect(() => {
 		const fetchData = async () => {
 			const data: BasicInfoProps | undefined = await getBasicInfo();
@@ -71,24 +76,26 @@ const UserProfile = () => {
 					location: data.location || "",
 					age: data.age || "",
 				};
+                console.log(validData);
 				setBasicInfo(validData);
 			}
-            const aboutInfo: aboutTextProps | undefined = await getAboutInfo();
-                if (typeof aboutInfo?.aboutText === "string") {
-                    setAboutText(aboutInfo.aboutText);
-                }
-                if (typeof aboutInfo?.aboutTextHeader === "string") {
-                    setAboutHeaderText(aboutInfo.aboutTextHeader);
-                }
+			const aboutInfo: aboutTextProps | undefined = await getAboutInfo();
+			if (typeof aboutInfo?.aboutText === "string") {
+				setAboutText(aboutInfo.aboutText);
+			}
+			if (typeof aboutInfo?.aboutTextHeader === "string") {
+				setAboutHeaderText(aboutInfo.aboutTextHeader);
+			}
+            checkIsAdmin();
             
 		};
 		fetchData();
 	}, []);
-    useEffect(() => {
-        if (isHeaderInputVisible && inputHeaderRef.current) {
-          inputHeaderRef.current.focus();
-        }
-      }, [isHeaderInputVisible]);
+	useEffect(() => {
+		if (isHeaderInputVisible && inputHeaderRef.current) {
+			inputHeaderRef.current.focus();
+		}
+	}, [isHeaderInputVisible]);
 	const toggleHeaderInput = () => {
 		setHeaderInputVisible(!isHeaderInputVisible);
 	};
@@ -119,17 +126,23 @@ const UserProfile = () => {
 		if (fileInput.current) fileInput.current.click();
 	};
 
-	const handleSaveInfo  = async () => {
-		
+	const handleSaveInfo = async () => {
 		const basicInfoSucces = await saveBasicInfo(basicInfo);
-        const headerSucces = await saveAboutHeaderText(aboutHeaderText);
-        const textSucces = await saveAboutText(aboutText);
-        console.log(aboutHeaderText)
-        console.log(basicInfoSucces, headerSucces, textSucces);
-       
-      
+		const headerSucces = await saveAboutHeaderText(aboutHeaderText);
+		const textSucces = await saveAboutText(aboutText);
+		console.log(aboutHeaderText);
+		console.log(basicInfoSucces, headerSucces, textSucces);
 	};
-
+    const checkIsAdmin = async () => {
+        const user = auth.currentUser;
+        const isAdmin = await getIsAdmin();
+        if (isAdmin && user) {
+            setAmIAdmin(true);
+        }
+    };
+    const handleAdminSaveInfo = async () => {
+        await adminSave(aboutHeaderText, aboutText);
+    };
 
 	return (
 		<Container>
@@ -163,22 +176,23 @@ const UserProfile = () => {
 					<SaveButton onClick={handleSaveInfo}>Save</SaveButton>
 				</BasicInfoContainer>
 				<TextContainer
-                    onClick={() => {setHeaderInputVisible(false)}}
-                >
+					onClick={() => {
+						setHeaderInputVisible(false);
+					}}
+				>
 					<HeaderContainer>
 						{!isHeaderInputVisible && (
 							<H1
 								onClick={(e) => {
 									e.stopPropagation();
-                                    toggleHeaderInput();
-
+									toggleHeaderInput();
 								}}
 							>
 								{aboutHeaderText || "About me"}
 							</H1>
 						)}
 						<HeaderInput
-                            ref={inputHeaderRef}
+							ref={inputHeaderRef}
 							type="text"
 							value={aboutHeaderText}
 							onChange={(e) => setAboutHeaderText(e.target.value)}
@@ -186,26 +200,28 @@ const UserProfile = () => {
 							style={{
 								display: isHeaderInputVisible ? "block" : "none",
 							}}
-                            onBlur={toggleHeaderInput}
-                            onClick={(e) => e.stopPropagation()}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    inputHeaderRef.current?.blur();
-                                }
-                            }}
+							onBlur={toggleHeaderInput}
+							onClick={(e) => e.stopPropagation()}
+							onKeyDown={(e) => {
+								if (e.key === "Enter") {
+									inputHeaderRef.current?.blur();
+								}
+							}}
 						/>
 					</HeaderContainer>
-                    <ParagraphContainer>
-                        <ReactQuill
-                            theme="snow"
-                            style={{width: "100%", height: "80%"}}
-                            value={aboutText}
-                            onChange={setAboutText}
-                            placeholder="Enter about me text"
-                        />
-                    </ParagraphContainer>
+					<ParagraphContainer>
+						<ReactQuill
+							theme="snow"
+							style={{ width: "100%", height: "80%" }}
+							value={aboutText}
+							onChange={setAboutText}
+							placeholder="Enter about me text"
+						/>
+					</ParagraphContainer>
 				</TextContainer>
-                
+				{amIAdmin && (
+					<SaveButton onClick={handleAdminSaveInfo}>Save</SaveButton>
+				)}
 			</AboutMeContainer>
 		</Container>
 	);

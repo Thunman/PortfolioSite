@@ -15,13 +15,15 @@ import DropDownMenu from "./Components/DropDownMenu";
 import GameButtons from "./Components/GameButtons";
 import LogoutButton from "./Components/LogoutButton";
 import { Container, MenuButton, StyledLink } from "./Styles/Styles";
+import { getBasicInfo } from "./Services/Getters";
 
 function App() {
+	const [userName, setUserName] = useState<string>("");
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [showGameButtons, setShowGameButtons] = useState(false);
 	const toggleGameButtons = () => {
 		setShowGameButtons(!showGameButtons);
-	}
+	};
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setIsLoggedIn(!!user);
@@ -32,13 +34,21 @@ function App() {
 	const handleMenuToggle = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
+	const getUserName = async () => {
+		if (auth.currentUser) {
+			const user = await getBasicInfo();
+			setUserName(user?.userName || "");
+		}
+	};
+	useEffect(() => {
+		getUserName();
+	}, [isLoggedIn]);
 	return (
 		<div className="App">
 			<Container
 				onClick={() => {
 					setShowGameButtons(false);
 					setIsMenuOpen(false);
-				
 				}}
 			>
 				<Router>
@@ -77,10 +87,10 @@ function App() {
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
 								<MenuButton as={StyledLink} to={"/"}>
-									Start
+									{userName ? `${userName}'s Profile` : "Profile"}
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/userProfile"}>
-									Profile
+									Change Profile Information
 								</MenuButton>
 								<MenuButton
 									onClick={(e) => {
@@ -104,10 +114,7 @@ function App() {
 								handleMenuToggle={handleMenuToggle}
 							/>
 							<Routes>
-								<Route
-									path="/"
-									element={<Landing />}
-								/>
+								<Route path="/" element={<Landing />} />
 								<Route path="/game" element={<Game />} />
 								<Route path="/levelEditor" element={<LevelEditor />} />
 								<Route path="userProfile" element={<UserProfile />} />

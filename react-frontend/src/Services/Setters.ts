@@ -69,3 +69,15 @@ export const saveAboutText = async (text: string) => {
         console.error("User not found");
     }
 }
+
+export const adminSave = (header: string, text: string) => {
+    const docRef = doc(db, "AboutMe", "info");
+    try {
+        setDoc(docRef, {
+            aboutTextHeader: header,
+            aboutText: text,
+        });
+    } catch (error) {
+        alert(error)
+    }
+};

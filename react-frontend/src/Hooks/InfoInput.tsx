@@ -27,7 +27,7 @@ export const useInput = (initialValue = '', id: keyof BasicInfoProps, onValueCha
 
     useEffect(() => {
         if (isInputVisible && inputRef.current) {
-            inputRef.current.focus(); // Focus on the input field when it becomes visible
+            inputRef.current.focus(); 
         }
     }, [isInputVisible]);
 
@@ -36,7 +36,7 @@ export const useInput = (initialValue = '', id: keyof BasicInfoProps, onValueCha
     
     const InputComponent = isInputVisible ? (
       <BasicInfoInput
-        ref={inputRef} // Attach the reference to the input field
+        ref={inputRef} 
         type="text"
         value={value}
         onChange={handleChange}
