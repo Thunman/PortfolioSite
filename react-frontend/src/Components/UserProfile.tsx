@@ -3,7 +3,7 @@ import {
 	AboutMeContainer,
 	BasicInfo,
 	BasicInfoContainer,
-	BasicInfoDiv,
+	BasicInfoChangeDiv,
 	Container,
 	H1,
 	ImgContainer,
@@ -111,9 +111,9 @@ const UserProfile = () => {
 						{UserNameInput}
 						{AgeInput}
 						{LocationInput}
-                        <BasicInfoDiv>
-                            {basicInfo.email}
-                        </BasicInfoDiv>
+                        <BasicInfoChangeDiv>
+                            Contact: {basicInfo.email}
+                        </BasicInfoChangeDiv>
 					</BasicInfo>
 					<SaveButton onClick={handleSaveInfo}>Save</SaveButton>
 				</BasicInfoContainer>

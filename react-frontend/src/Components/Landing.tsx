@@ -6,6 +6,8 @@ import {
 	H1,
 	BasicInfoContainer,
 	BasicInfo,
+	BasicInfoChangeDiv,
+	BasicInfoDiv,
 } from "../Styles/Styles";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
@@ -39,10 +41,21 @@ const Landing = () => {
 						alt="My Image"
 					></ImgContainer>
 					<BasicInfo>
-						<p>Name: {basicInfo.name}</p>
-						<p>Age: {basicInfo.age}</p>
-						<p>Location: {basicInfo.location}</p>
-						<p>Contact: {basicInfo.email}</p>
+						<BasicInfoDiv>
+							Name: {basicInfo.name}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							User Name: {basicInfo.userName}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							Age: {basicInfo.age}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							Location: {basicInfo.location}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							Contact: {basicInfo.email}
+						</BasicInfoDiv>
 					</BasicInfo>
 				</BasicInfoContainer>
 				<TextContainer>

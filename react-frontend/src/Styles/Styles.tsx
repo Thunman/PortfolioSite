@@ -103,7 +103,7 @@ export const Menu = styled(motion.div)`
 	border-bottom: 4px solid #475569;
 	border-radius: 0 0 8px 8px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-	z-index: 500;	
+	z-index: 500;
 `;
 
 export const Cutout = styled.div`
@@ -177,7 +177,7 @@ export const Container = styled.div`
 	text-align: center;
 	display: grid;
 	place-items: center;
-	
+
 	min-height: 100vh;
 	min-width: 100vw;
 	align-items: center;
@@ -206,7 +206,6 @@ export const AboutMeContainer = styled(motion.div)`
 	justify-content: center;
 	gap: 2rem;
 `;
-
 
 export const UserSettingsContainer = styled(motion.div)`
 	padding: 2rem;
@@ -242,10 +241,10 @@ export const BasicInfoContainer = styled.div`
 	justify-content: center;
 	gap: 2rem;
 `;
-export const BasicInfoDiv = styled.div`
+export const BasicInfoChangeDiv = styled.div`
 	border-radius: 8px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-	display: flex;;
+	display: flex;
 	border: 4px solid #ffffff;
 	flex-direction: column;
 	justify-content: center;
@@ -253,6 +252,14 @@ export const BasicInfoDiv = styled.div`
 	&:hover {
 		border: 4px solid #1a202c;
 	}
+`;
+export const BasicInfoDiv = styled.div`
+	border-radius: 8px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	display: flex;
+	border: 4px solid #ffffff;
+	flex-direction: column;
+	justify-content: center;
 `;
 export const BasicInfoInput = styled.input`
 	padding: 8px;
@@ -268,13 +275,12 @@ export const BasicInfoInput = styled.input`
 `;
 export const BasicInfo = styled.div`
 	border-radius: 8px;
-	
+
 	width: 200px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	gap: 1rem;
-	
 `;
 export const TextContainer = styled.div`
 	padding: 1rem;

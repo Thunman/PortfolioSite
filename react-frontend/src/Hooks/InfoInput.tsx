@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BasicInfoDiv, BasicInfoInput } from '../Styles/Styles';
+import { BasicInfoChangeDiv, BasicInfoInput } from '../Styles/Styles';
 import { getBasicInfo } from '../Services/Getters';
 import { BasicInfoProps } from '../Interfaces/Interfaces';
 
@@ -34,10 +34,10 @@ export const useInput = (initialValue = '', id: keyof BasicInfoProps, onValueCha
         onBlur={handleBlur}
       />
     ) : (
-      <BasicInfoDiv onClick={handleClick} id={id}>
+      <BasicInfoChangeDiv onClick={handleClick} id={id}>
         {id.charAt(0).toUpperCase() + id.slice(1)}: <br />
         {value}
-      </BasicInfoDiv>
+      </BasicInfoChangeDiv>
     );
   
     return [value, InputComponent];
