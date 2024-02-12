@@ -1,33 +1,21 @@
 import {
 	Container,
 	ImgContainer,
-	MenuButton,
 	AboutMeContainer,
 	TextContainer,
 	H1,
 	BasicInfoContainer,
 	BasicInfo,
-	Img,
+	BasicInfoChangeDiv,
+	BasicInfoDiv,
 } from "../Styles/Styles";
-import { LoginProps, BasicInfoProps } from "../Interfaces/Interfaces";
+import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
-import DropDownMenu from "./DropDownMenu";
-import DropDownButton from "./DropDownButton";
-import LogoutButton from "./LogoutButton";
-import GameButtons from "./GameButtons";
 import { fadeBoxIn } from "../Animations/Animations";
-import { getBasicInfo } from "../Services/Retrivers";
+import { getBasicInfo } from "../Services/Getters";
 
-const Landing: React.FC<LoginProps> = (props) => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [showGameButtons, setShowGameButtons] = useState(false);
+const Landing = () => {
 	const [basicInfo, setBasicInfo] = useState<Partial<BasicInfoProps>>({});
-	const toggleGameButtons = () => {
-		setShowGameButtons(!showGameButtons);
-	};
-	const handleMenuToggle = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -40,32 +28,7 @@ const Landing: React.FC<LoginProps> = (props) => {
 	}, []);
 
 	return (
-		<Container
-			onClick={() => {
-				setIsMenuOpen(false);
-				setShowGameButtons(false);
-			}}
-		>
-			<DropDownMenu isMenuOpen={isMenuOpen}>
-				<MenuButton
-					onClick={(e) => {
-						e.stopPropagation();
-						toggleGameButtons();
-					}}
-					style={{
-						backgroundColor: showGameButtons ? "#1a202c" : "#475569",
-					}}
-				>
-					Games
-				</MenuButton>
-				<GameButtons showGameButtons={showGameButtons} />
-				<div style={{ flexGrow: 1 }}></div>
-				<LogoutButton setIsLoggedIn={props.setIsLoggedIn} />
-			</DropDownMenu>
-			<DropDownButton
-				isMenuOpen={isMenuOpen}
-				handleMenuToggle={handleMenuToggle}
-			/>
+		<Container>
 			<AboutMeContainer
 				variants={fadeBoxIn}
 				initial="hidden"
@@ -73,14 +36,26 @@ const Landing: React.FC<LoginProps> = (props) => {
 				exit="exit"
 			>
 				<BasicInfoContainer>
-					<ImgContainer>
-						<Img src="/images/selfie.jpg" alt="My Image" />
-					</ImgContainer>
+					<ImgContainer
+						src={basicInfo.profilePicUrl}
+						alt="My Image"
+					></ImgContainer>
 					<BasicInfo>
-						<p>Name: {basicInfo.name}</p>
-						<p>Age: {basicInfo.age}</p>
-						<p>Location: {basicInfo.location}</p>
-						<p>Contact: {basicInfo.email}</p>
+						<BasicInfoDiv>
+							Name: {basicInfo.name}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							User Name: {basicInfo.userName}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							Age: {basicInfo.age}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							Location: {basicInfo.location}
+						</BasicInfoDiv>
+						<BasicInfoDiv>
+							Contact: {basicInfo.email}
+						</BasicInfoDiv>
 					</BasicInfo>
 				</BasicInfoContainer>
 				<TextContainer>
