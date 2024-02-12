@@ -7,7 +7,7 @@ export const useInput = (initialValue = '', id: keyof BasicInfoProps, onValueCha
 
     const [isInputVisible, setInputVisible] = useState(false);
     const [value, setValue] = useState<string | undefined>('');
-    const inputRef = useRef<HTMLInputElement>(null); // Create a reference to the input field
+    const inputRef = useRef<HTMLInputElement>(null); 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);

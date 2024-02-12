@@ -16,6 +16,7 @@ import GameButtons from "./Components/GameButtons";
 import LogoutButton from "./Components/LogoutButton";
 import { Container, MenuButton, StyledLink } from "./Styles/Styles";
 import { getBasicInfo } from "./Services/Getters";
+import UserPage from "./Components/UserPage";
 
 function App() {
 	const [userName, setUserName] = useState<string>("");
@@ -55,7 +56,7 @@ function App() {
 					{!isLoggedIn && (
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
-								<MenuButton as={StyledLink} to={"/"}>
+								<MenuButton as={StyledLink} to={"/login"}>
 									Sign In
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/register"}>
@@ -71,11 +72,12 @@ function App() {
 								handleMenuToggle={handleMenuToggle}
 							/>
 							<Routes>
+								<Route path="/" element={<Landing />} />
 								<Route
-									path="/"
+									path="/login"
 									element={<Login setIsLoggedIn={setIsLoggedIn} />}
 								/>
-								<Route path="/register" element={<Register />} />
+								<Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn}/>} />
 								<Route
 									path="/passwordReset"
 									element={<PasswordReset />}
@@ -86,7 +88,7 @@ function App() {
 					{isLoggedIn && (
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
-								<MenuButton as={StyledLink} to={"/"}>
+								<MenuButton as={StyledLink} to={"/userPage"}>
 									{userName ? `${userName}'s Profile` : "Profile"}
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/userProfile"}>
@@ -115,6 +117,7 @@ function App() {
 							/>
 							<Routes>
 								<Route path="/" element={<Landing />} />
+								<Route path="/userPage" element={<UserPage />} />
 								<Route path="/game" element={<Game />} />
 								<Route path="/levelEditor" element={<LevelEditor />} />
 								<Route path="userProfile" element={<UserProfile />} />
