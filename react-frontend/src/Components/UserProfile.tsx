@@ -64,6 +64,10 @@ const UserProfile = () => {
 	) => {
 		if (!event.target.files) return;
 		const file = event.target.files[0];
+        if (!file.type.startsWith('image/')) {
+            alert('Only image files are allowed');
+            return;
+        }
 		const storageRef = ref(
 			fileStorage,
 			`users/${auth.currentUser?.uid}/profilePicture`
@@ -106,6 +110,7 @@ const UserProfile = () => {
 						ref={fileInput}
 						style={{ display: "none" }}
 						onChange={handleFileChange}
+                        accept="image/*"
 					/>
 					<BasicInfo>
 						{NameInput}
