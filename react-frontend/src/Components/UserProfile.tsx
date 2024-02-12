@@ -3,24 +3,28 @@ import {
 	AboutMeContainer,
 	BasicInfo,
 	BasicInfoContainer,
-	BasicInfoChangeDiv,
 	Container,
 	H1,
 	ImgContainer,
 	SaveButton,
 	TextContainer,
-    BasicInfoDiv,
+	BasicInfoDiv,
+	HeaderInput,
+    HeaderContainer,
+    ParagraphContainer,
+    TextArea,
 } from "../Styles/Styles";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { fadeBoxIn } from "../Animations/Animations";
-
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, fileStorage } from "../firebase";
-import { saveBasicInfo, setProfilePicUrl } from "../Services/Setters";
-
+import { saveAboutHeaderText, saveAboutText, saveBasicInfo, setProfilePicUrl } from "../Services/Setters";
 import { useInput } from "../Hooks/InfoInput";
+import { getAboutInfo, getBasicInfo } from "../Services/Getters";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
+import { aboutTextProps } from "../Interfaces/Interfaces";
 
-import { getBasicInfo } from "../Services/Getters";
 
 const UserProfile = () => {
 	const [basicInfo, setBasicInfo] = useState<BasicInfoProps>({
@@ -31,17 +35,31 @@ const UserProfile = () => {
 		age: "",
 		profilePicUrl: "",
 	});
-    const handleInputChange = (name: string, value: string) => {
-        setBasicInfo(prevState => ({ ...prevState, [name]: value }));
-      };
-      const [name, NameInput] = useInput(basicInfo.name, "name", handleInputChange);
-      const [userName, UserNameInput] = useInput(basicInfo.userName, "userName", handleInputChange);
-      const [age, AgeInput] = useInput(basicInfo.age, "age", handleInputChange);
-      const [location, LocationInput] = useInput(basicInfo.location, "location", handleInputChange);
-    
+	const handleInputChange = (name: string, value: string) => {
+		setBasicInfo((prevState) => ({ ...prevState, [name]: value }));
+	};
+	const [name, NameInput] = useInput(
+		basicInfo.name,
+		"name",
+		handleInputChange
+	);
+	const [userName, UserNameInput] = useInput(
+		basicInfo.userName,
+		"userName",
+		handleInputChange
+	);
+	const [age, AgeInput] = useInput(basicInfo.age, "age", handleInputChange);
+	const [location, LocationInput] = useInput(
+		basicInfo.location,
+		"location",
+		handleInputChange
+	);
+    const [aboutText, setAboutText] = useState("");
+	const [isHeaderInputVisible, setHeaderInputVisible] = useState(false);
+	const [aboutHeaderText, setAboutHeaderText] = useState("");
+    const inputHeaderRef = useRef<HTMLInputElement>(null);
 	const fileInput = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
+	useEffect(() => {
 		const fetchData = async () => {
 			const data: BasicInfoProps | undefined = await getBasicInfo();
 			if (data) {
@@ -55,19 +73,35 @@ const UserProfile = () => {
 				};
 				setBasicInfo(validData);
 			}
+            const aboutInfo: aboutTextProps | undefined = await getAboutInfo();
+                if (typeof aboutInfo?.aboutText === "string") {
+                    setAboutText(aboutInfo.aboutText);
+                }
+                if (typeof aboutInfo?.aboutTextHeader === "string") {
+                    setAboutHeaderText(aboutInfo.aboutTextHeader);
+                }
+            
 		};
 		fetchData();
 	}, []);
+    useEffect(() => {
+        if (isHeaderInputVisible && inputHeaderRef.current) {
+          inputHeaderRef.current.focus();
+        }
+      }, [isHeaderInputVisible]);
+	const toggleHeaderInput = () => {
+		setHeaderInputVisible(!isHeaderInputVisible);
+	};
 
-    const handleFileChange = async (
+	const handleFileChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		if (!event.target.files) return;
 		const file = event.target.files[0];
-        if (!file.type.startsWith('image/')) {
-            alert('Only image files are allowed');
-            return;
-        }
+		if (!file.type.startsWith("image/")) {
+			alert("Only image files are allowed");
+			return;
+		}
 		const storageRef = ref(
 			fileStorage,
 			`users/${auth.currentUser?.uid}/profilePicture`
@@ -81,14 +115,21 @@ const UserProfile = () => {
 			alert(`Error uploading file: ${error}`);
 		}
 	};
-      const handleImgClick = () => {
+	const handleImgClick = () => {
 		if (fileInput.current) fileInput.current.click();
 	};
- 
-	const handleSaveInfo = () => {
-        console.log(basicInfo);
-		saveBasicInfo(basicInfo);
+
+	const handleSaveInfo  = async () => {
+		
+		const basicInfoSucces = await saveBasicInfo(basicInfo);
+        const headerSucces = await saveAboutHeaderText(aboutHeaderText);
+        const textSucces = await saveAboutText(aboutText);
+        console.log(aboutHeaderText)
+        console.log(basicInfoSucces, headerSucces, textSucces);
+       
+      
 	};
+
 
 	return (
 		<Container>
@@ -99,7 +140,7 @@ const UserProfile = () => {
 				exit="exit"
 			>
 				<BasicInfoContainer>
-                <ImgContainer
+					<ImgContainer
 						src={basicInfo.profilePicUrl || "Not found"}
 						alt="Click to upload a profile picture"
 						onClick={handleImgClick}
@@ -110,23 +151,61 @@ const UserProfile = () => {
 						ref={fileInput}
 						style={{ display: "none" }}
 						onChange={handleFileChange}
-                        accept="image/*"
+						accept="image/*"
 					/>
 					<BasicInfo>
 						{NameInput}
 						{UserNameInput}
 						{AgeInput}
 						{LocationInput}
-                        <BasicInfoDiv>
-                            Contact: {basicInfo.email}
-                        </BasicInfoDiv>
+						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
 					</BasicInfo>
 					<SaveButton onClick={handleSaveInfo}>Save</SaveButton>
 				</BasicInfoContainer>
-				<TextContainer>
-					<H1>Placeholder for about me</H1>
-					<p>All work and no play makes Daniel a dull boy!</p>
+				<TextContainer
+                    onClick={() => {setHeaderInputVisible(false)}}
+                >
+					<HeaderContainer>
+						{!isHeaderInputVisible && (
+							<H1
+								onClick={(e) => {
+									e.stopPropagation();
+                                    toggleHeaderInput();
+
+								}}
+							>
+								{aboutHeaderText || "About me"}
+							</H1>
+						)}
+						<HeaderInput
+                            ref={inputHeaderRef}
+							type="text"
+							value={aboutHeaderText}
+							onChange={(e) => setAboutHeaderText(e.target.value)}
+							placeholder="Enter about me header"
+							style={{
+								display: isHeaderInputVisible ? "block" : "none",
+							}}
+                            onBlur={toggleHeaderInput}
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    inputHeaderRef.current?.blur();
+                                }
+                            }}
+						/>
+					</HeaderContainer>
+                    <ParagraphContainer>
+                        <ReactQuill
+                            theme="snow"
+                            style={{width: "100%", height: "80%"}}
+                            value={aboutText}
+                            onChange={setAboutText}
+                            placeholder="Enter about me text"
+                        />
+                    </ParagraphContainer>
 				</TextContainer>
+                
 			</AboutMeContainer>
 		</Container>
 	);

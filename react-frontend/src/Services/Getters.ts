@@ -1,6 +1,7 @@
 import { getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
+import { aboutTextProps } from "../Interfaces/Interfaces";
 
 export const getBasicInfo = async () => {
 	try {
@@ -26,3 +27,23 @@ export const getBasicInfo = async () => {
 		alert("Error getting user info");
 	}
 };
+export const getAboutInfo = async () => {
+	try {
+		const uid = auth.currentUser?.uid;
+		if (uid) {
+			const docSnap = await getDoc(doc(db, "Users", uid, "about", "info"));
+			if (docSnap.exists()) {
+				const data = {
+					aboutTextHeader: docSnap.data()?.aboutTextHeader,
+					aboutText: docSnap.data()?.aboutText,
+				};
+				return data as aboutTextProps;
+			}
+		} else {
+			console.error("User not found");
+			return {aboutTextHeader: "", aboutText: ""} as aboutTextProps;
+		}
+	} catch (error) {
+		alert("Error getting user info");
+	}
+}

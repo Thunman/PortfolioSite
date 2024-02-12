@@ -1,6 +1,5 @@
 import { MouseEventHandler, ReactNode } from "react";
 
-
 export interface DropDownMenuProps {
 	isMenuOpen: boolean;
 	children: ReactNode;
@@ -21,7 +20,11 @@ export interface BasicInfoProps {
 }
 export interface DropDownButtonProps {
 	isMenuOpen: boolean;
-    handleMenuToggle: () => void;
+	handleMenuToggle: () => void;
+}
+export interface aboutTextProps {
+	aboutTextHeader: string | undefined;
+	aboutText: string | undefined;
 }
 
 export interface LoginProps {
@@ -66,6 +69,6 @@ export interface LevelSelectorModalProps {
 	) => void;
 	handleSelect: (event?: React.MouseEvent<HTMLDivElement>) => void;
 	handleDelete: (event?: React.MouseEvent<HTMLButtonElement>) => void;
-    handleExport: (event?: React.MouseEvent<HTMLButtonElement>) => void;
-    handleImportLevel: (event?: React.MouseEvent<HTMLDivElement>) => void;
+	handleExport: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+	handleImportLevel: (event?: React.MouseEvent<HTMLDivElement>) => void;
 }

@@ -1,6 +1,7 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
+
 
 
 export const setProfilePicUrl = async (url: string) => {
@@ -29,23 +30,42 @@ export const saveBasicInfo = async (info: BasicInfoProps) => {
                 location: info.location,
                 age: info.age,
             });
+            return true;
         } catch (error) {
             console.error("Error updating document:", error);
+            return false;
         }
     } else {
         console.error("User not found");
     }
 }
 
-export const setAboutText = async (text: string) => {
+export const saveAboutHeaderText = async (text: string) => {
     if (auth.currentUser) {
-        const docRef = doc(db, "Users", auth.currentUser.uid);
-        try {
-            await updateDoc(docRef, { aboutText: text });
-        } catch (error) {
-            console.error("Error updating document:", error);
-        }
+        const docRef = doc(db, "Users", auth.currentUser.uid, "about", "info");
+    try {
+        await updateDoc(docRef, { aboutTextHeader: text });
+        return true;
+    } catch (error) {
+        alert(error)
+        return false;
+    }
     } else {
         console.error("User not found");
     }
 };
+
+export const saveAboutText = async (text: string) => {
+    if (auth.currentUser) {
+        const docRef = doc(db, "Users", auth.currentUser.uid, "about", "info");
+    try {
+        await updateDoc(docRef, { aboutText: text });
+        return true;
+    } catch (error) {
+        alert(error)
+        return false;
+    }
+    } else {
+        console.error("User not found");
+    }
+}
