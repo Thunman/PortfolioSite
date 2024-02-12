@@ -1,34 +1,19 @@
 import {
 	Container,
 	ImgContainer,
-	MenuButton,
 	AboutMeContainer,
 	TextContainer,
 	H1,
 	BasicInfoContainer,
 	BasicInfo,
-	Img,
-	StyledLink,
 } from "../Styles/Styles";
-import { LoginProps, BasicInfoProps } from "../Interfaces/Interfaces";
+import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
-import DropDownMenu from "./DropDownMenu";
-import DropDownButton from "./DropDownButton";
-import LogoutButton from "./LogoutButton";
-import GameButtons from "./GameButtons";
 import { fadeBoxIn } from "../Animations/Animations";
 import { getBasicInfo } from "../Services/Getters";
 
-const Landing: React.FC<LoginProps> = (props) => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [showGameButtons, setShowGameButtons] = useState(false);
+const Landing = () => {
 	const [basicInfo, setBasicInfo] = useState<Partial<BasicInfoProps>>({});
-	const toggleGameButtons = () => {
-		setShowGameButtons(!showGameButtons);
-	};
-	const handleMenuToggle = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -49,9 +34,10 @@ const Landing: React.FC<LoginProps> = (props) => {
 				exit="exit"
 			>
 				<BasicInfoContainer>
-					<ImgContainer src={basicInfo.profilePicUrl} alt="My Image" >
-						
-					</ImgContainer>
+					<ImgContainer
+						src={basicInfo.profilePicUrl}
+						alt="My Image"
+					></ImgContainer>
 					<BasicInfo>
 						<p>Name: {basicInfo.name}</p>
 						<p>Age: {basicInfo.age}</p>

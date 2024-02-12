@@ -12,12 +12,12 @@ export interface GameButtonProps {
 	showGameButtons: boolean;
 }
 export interface BasicInfoProps {
-	userName: string;
-	name: string | undefined;
-	age: string | undefined;
-	location: string | undefined;
-	email: string;
-	profilePicUrl: string | undefined;
+	name?: string;
+	email?: string;
+	userName?: string;
+	location?: string;
+	age?: string;
+	profilePicUrl?: string;
 }
 export interface DropDownButtonProps {
 	isMenuOpen: boolean;

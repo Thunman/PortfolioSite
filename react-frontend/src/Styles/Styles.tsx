@@ -254,6 +254,18 @@ export const BasicInfoDiv = styled.div`
 		border: 4px solid #1a202c;
 	}
 `;
+export const BasicInfoInput = styled.input`
+	padding: 8px;
+	margin: 0;
+	border: 8px solid #ccc;
+	border-radius: 8px;
+	background-color: #f7fafc;
+	&:focus {
+		outline: none;
+		border: 4px solid #1a202c;
+		box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5);
+	}
+`;
 export const BasicInfo = styled.div`
 	border-radius: 8px;
 	

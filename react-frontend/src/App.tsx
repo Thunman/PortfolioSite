@@ -76,6 +76,12 @@ function App() {
 					{isLoggedIn && (
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
+								<MenuButton as={StyledLink} to={"/"}>
+									Start
+								</MenuButton>
+								<MenuButton as={StyledLink} to={"/userProfile"}>
+									Profile
+								</MenuButton>
 								<MenuButton
 									onClick={(e) => {
 										e.stopPropagation();
@@ -90,9 +96,6 @@ function App() {
 									Games
 								</MenuButton>
 								<GameButtons showGameButtons={showGameButtons} />
-								<MenuButton as={StyledLink} to={"/userProfile"}>
-									Profile
-								</MenuButton>
 								<div style={{ flexGrow: 1 }}></div>
 								<LogoutButton setIsLoggedIn={setIsLoggedIn} />
 							</DropDownMenu>
@@ -103,7 +106,7 @@ function App() {
 							<Routes>
 								<Route
 									path="/"
-									element={<Landing setIsLoggedIn={setIsLoggedIn} />}
+									element={<Landing />}
 								/>
 								<Route path="/game" element={<Game />} />
 								<Route path="/levelEditor" element={<LevelEditor />} />

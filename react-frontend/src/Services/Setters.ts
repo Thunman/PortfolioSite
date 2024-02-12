@@ -36,3 +36,16 @@ export const saveBasicInfo = async (info: BasicInfoProps) => {
         console.error("User not found");
     }
 }
+
+export const setAboutText = async (text: string) => {
+    if (auth.currentUser) {
+        const docRef = doc(db, "Users", auth.currentUser.uid);
+        try {
+            await updateDoc(docRef, { aboutText: text });
+        } catch (error) {
+            console.error("Error updating document:", error);
+        }
+    } else {
+        console.error("User not found");
+    }
+};
