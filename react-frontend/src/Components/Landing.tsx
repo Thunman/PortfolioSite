@@ -45,7 +45,7 @@ const Landing = () => {
 							Name: {basicInfo.name}
 						</BasicInfoDiv>
 						<BasicInfoDiv>
-							User Name: {basicInfo.userName}
+							UserName: {basicInfo.userName}
 						</BasicInfoDiv>
 						<BasicInfoDiv>
 							Age: {basicInfo.age}

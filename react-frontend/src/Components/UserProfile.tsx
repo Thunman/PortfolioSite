@@ -9,6 +9,7 @@ import {
 	ImgContainer,
 	SaveButton,
 	TextContainer,
+    BasicInfoDiv,
 } from "../Styles/Styles";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { fadeBoxIn } from "../Animations/Animations";
@@ -111,9 +112,9 @@ const UserProfile = () => {
 						{UserNameInput}
 						{AgeInput}
 						{LocationInput}
-                        <BasicInfoChangeDiv>
+                        <BasicInfoDiv>
                             Contact: {basicInfo.email}
-                        </BasicInfoChangeDiv>
+                        </BasicInfoDiv>
 					</BasicInfo>
 					<SaveButton onClick={handleSaveInfo}>Save</SaveButton>
 				</BasicInfoContainer>
