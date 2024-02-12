@@ -31,7 +31,7 @@ function App() {
 		});
 		return () => unsubscribe();
 	}, []);
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(true);
 	const handleMenuToggle = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
