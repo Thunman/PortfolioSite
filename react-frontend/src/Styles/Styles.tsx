@@ -196,6 +196,11 @@ export const FormContainer = styled(motion.div)`
 `;
 
 export const AboutMeContainer = styled(motion.div)`
+	display: flex;
+	
+	
+	
+
 	padding: 2rem;
 	width: 75vw;
 	background: #fff;
@@ -273,6 +278,50 @@ export const BasicInfoInput = styled.input`
 		box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5);
 	}
 `;
+export const HeaderContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+`;
+export const ParagraphContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+`;
+export const TextArea = styled.textarea`
+	padding: 8px;
+	margin: 0;
+	border: 8px solid #ccc;
+	border-radius: 8px;
+	background-color: #f7fafc;
+	width: 100%;
+	height: 100%;
+	&:focus {
+		outline: none;
+		border: 4px solid #1a202c;
+		box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5);
+	}
+`;
+export const HeaderInput = styled.input`
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2rem;
+	padding: 8px;
+	margin: 0;
+	border: 4px solid #ccc;
+	border-radius: 8px;
+	background-color: #f7fafc;
+	&:focus {
+		outline: none;
+		border: 4px solid #1a202c;
+		box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5);
+	}
+`;
 export const BasicInfo = styled.div`
 	border-radius: 8px;
 
@@ -284,6 +333,9 @@ export const BasicInfo = styled.div`
 `;
 export const TextContainer = styled.div`
 	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	border-radius: 8px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	width: 80%;
@@ -299,6 +351,7 @@ export const H1 = styled.h1`
 	margin-bottom: 1rem;
 	font-family: "Roboto", sans-serif;
 	color: #1a202c;
+	cursor: pointer;
 `;
 
 export const Button = styled.button`

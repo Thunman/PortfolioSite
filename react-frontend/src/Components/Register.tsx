@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import * as Styles from "../Styles/Styles";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../Services/auth";
+import { LoginProps } from "../Interfaces/Interfaces";
 
-const Register: React.FC = () => {
+const Register: React.FC<LoginProps> = (props) => {
 	const [email, setEmail] = useState<string>("");
 	const [userName, setUserName] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -23,6 +24,7 @@ const Register: React.FC = () => {
 					setUserName("");
 					setPassword("");
 					setConfirmPassword("");
+					props.setIsLoggedIn(true);
 					navigate("/");
 				} else {
 					alert(res?.message);

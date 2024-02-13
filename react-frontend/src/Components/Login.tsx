@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import * as Styles from "../Styles/Styles";
 import { Link } from "react-router-dom";
 import { LoginProps } from "../Interfaces/Interfaces";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
 import { login } from "../Services/auth";
-
+import { useNavigate } from "react-router-dom";
 
 function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
 	const handleClick = () => {
@@ -17,7 +15,7 @@ function MockCaptcha({ onCompleted }: { onCompleted: () => void }) {
 
 const Login: React.FC<LoginProps> = (props) => {
 	const [failedAttempts, setFailedAttempts] = useState<number>(0);
-
+	const navigate = useNavigate();
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
@@ -26,19 +24,12 @@ const Login: React.FC<LoginProps> = (props) => {
 		login(email, password).then((res) => {
 			if (res?.success) {
 				props.setIsLoggedIn(true);
+				navigate("/");
 			} else {
 				setFailedAttempts(failedAttempts + 1);
 				alert(res?.message);
-				
 			}
 		});
-		/*  Uncomment the below code to set logged in to true no matter what credentials are submitted
-            usefull to test frontend functionality without having acces to the backend */
-		
-		/*
-		localStorage.setItem("isLoggedIn", "true");
-		props.setIsLoggedIn(true);
-		*/
 	};
 
 	return (

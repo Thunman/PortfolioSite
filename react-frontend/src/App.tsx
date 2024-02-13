@@ -15,13 +15,16 @@ import DropDownMenu from "./Components/DropDownMenu";
 import GameButtons from "./Components/GameButtons";
 import LogoutButton from "./Components/LogoutButton";
 import { Container, MenuButton, StyledLink } from "./Styles/Styles";
+import { getBasicInfo } from "./Services/Getters";
+import UserPage from "./Components/UserPage";
 
 function App() {
+	const [userName, setUserName] = useState<string>("");
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [showGameButtons, setShowGameButtons] = useState(false);
 	const toggleGameButtons = () => {
 		setShowGameButtons(!showGameButtons);
-	}
+	};
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setIsLoggedIn(!!user);
@@ -32,20 +35,28 @@ function App() {
 	const handleMenuToggle = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
+	const getUserName = async () => {
+		if (auth.currentUser) {
+			const user = await getBasicInfo();
+			setUserName(user?.userName || "");
+		}
+	};
+	useEffect(() => {
+		getUserName();
+	}, [isLoggedIn]);
 	return (
 		<div className="App">
 			<Container
 				onClick={() => {
 					setShowGameButtons(false);
 					setIsMenuOpen(false);
-				
 				}}
 			>
 				<Router>
 					{!isLoggedIn && (
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
-								<MenuButton as={StyledLink} to={"/"}>
+								<MenuButton as={StyledLink} to={"/login"}>
 									Sign In
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/register"}>
@@ -54,18 +65,35 @@ function App() {
 								<MenuButton as={StyledLink} to={"/passwordReset"}>
 									Password Recovery
 								</MenuButton>
+								<MenuButton
+									onClick={(e) => {
+										e.stopPropagation();
+										toggleGameButtons();
+									}}
+									style={{
+										backgroundColor: showGameButtons
+											? "#1a202c"
+											: "#475569",
+									}}
+								>
+									Games
+								</MenuButton>
+								<GameButtons showGameButtons={showGameButtons} />
 								<div style={{ flexGrow: 1 }}></div>
+								<MenuButton as="a" href="https://github.com/Thunman" target="_blank" rel="noopener noreferrer">GitHub</MenuButton>
+									
 							</DropDownMenu>
 							<DropDownButton
 								isMenuOpen={isMenuOpen}
 								handleMenuToggle={handleMenuToggle}
 							/>
 							<Routes>
+								<Route path="/" element={<Landing />} />
 								<Route
-									path="/"
+									path="/login"
 									element={<Login setIsLoggedIn={setIsLoggedIn} />}
 								/>
-								<Route path="/register" element={<Register />} />
+								<Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn}/>} />
 								<Route
 									path="/passwordReset"
 									element={<PasswordReset />}
@@ -76,11 +104,11 @@ function App() {
 					{isLoggedIn && (
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
-								<MenuButton as={StyledLink} to={"/"}>
-									Start
+								<MenuButton as={StyledLink} to={"/userPage"}>
+									{userName ? `${userName}'s Profile` : "Profile"}
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/userProfile"}>
-									Profile
+									Change Profile Information
 								</MenuButton>
 								<MenuButton
 									onClick={(e) => {
@@ -104,10 +132,8 @@ function App() {
 								handleMenuToggle={handleMenuToggle}
 							/>
 							<Routes>
-								<Route
-									path="/"
-									element={<Landing />}
-								/>
+								<Route path="/" element={<Landing />} />
+								<Route path="/userPage" element={<UserPage />} />
 								<Route path="/game" element={<Game />} />
 								<Route path="/levelEditor" element={<LevelEditor />} />
 								<Route path="userProfile" element={<UserProfile />} />

@@ -7,19 +7,24 @@ import {
 	BasicInfo,
 	BasicInfoDiv,
 } from "../Styles/Styles";
+import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
 import { fadeBoxIn } from "../Animations/Animations";
-import { getAboutAuthor } from "../Services/Getters";
+import { getBasicInfo, getAboutInfo } from "../Services/Getters";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const Landing = () => {
+const UserPage = () => {
+	const [basicInfo, setBasicInfo] = useState<Partial<BasicInfoProps>>({});
 	const [aboutText, setAboutText] = useState("");
 	const [aboutHeaderText, setAboutHeaderText] = useState("");
-	
 	useEffect(() => {
 		const fetchData = async () => {
-			const aboutData = await getAboutAuthor();
+			const data = await getBasicInfo();
+			if (data) {
+				setBasicInfo(data);
+			}
+			const aboutData = await getAboutInfo();
 			if (aboutData) {
 				if (typeof aboutData.aboutText === "string") {
 					setAboutText(aboutData.aboutText);
@@ -27,6 +32,7 @@ const Landing = () => {
 				if (typeof aboutData.aboutTextHeader === "string") {
 					setAboutHeaderText(aboutData.aboutTextHeader);
 				}
+				
 			}
 		};
 		fetchData();
@@ -42,24 +48,24 @@ const Landing = () => {
 			>
 				<BasicInfoContainer>
 					<ImgContainer
-						src={"/images/selfie.jpg"}
+						src={basicInfo.profilePicUrl}
 						alt="My Image"
 					></ImgContainer>
 					<BasicInfo>
 						<BasicInfoDiv>
-							Name: Daniel Thunman
+							Name: {basicInfo.name}
 						</BasicInfoDiv>
 						<BasicInfoDiv>
-							UserName: Thunman
+							UserName: {basicInfo.userName}
 						</BasicInfoDiv>
 						<BasicInfoDiv>
-							Age: 37
+							Age: {basicInfo.age}
 						</BasicInfoDiv>
 						<BasicInfoDiv>
-							Location: Gävle, SE
+							Location: {basicInfo.location}
 						</BasicInfoDiv>
 						<BasicInfoDiv>
-							Contact: Thunman42@gmail.com
+							Contact: {basicInfo.email}
 						</BasicInfoDiv>
 					</BasicInfo>
 				</BasicInfoContainer>
@@ -71,4 +77,4 @@ const Landing = () => {
 		</Container>
 	);
 };
-export default Landing;
+export default UserPage;
