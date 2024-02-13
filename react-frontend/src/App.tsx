@@ -98,6 +98,8 @@ function App() {
 									path="/passwordReset"
 									element={<PasswordReset />}
 								/>
+								<Route path="/game" element={<Game />} />
+								<Route path="/levelEditor" element={<LevelEditor />} />
 							</Routes>
 						</>
 					)}

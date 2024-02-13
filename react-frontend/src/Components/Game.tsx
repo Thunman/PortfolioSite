@@ -65,6 +65,9 @@ const Game = () => {
 			setSavedLevels(savedLevelsFromDB);
 		}
 	};
+	useEffect(() => {
+		console.log("Game instance", gameInstance);
+	}, []);
 	const handleSelect = async (event?: React.MouseEvent<HTMLDivElement>) => {
 		const selected = event?.currentTarget.getAttribute("data-name");
 		if (selected) {
