@@ -65,7 +65,23 @@ function App() {
 								<MenuButton as={StyledLink} to={"/passwordReset"}>
 									Password Recovery
 								</MenuButton>
+								<MenuButton
+									onClick={(e) => {
+										e.stopPropagation();
+										toggleGameButtons();
+									}}
+									style={{
+										backgroundColor: showGameButtons
+											? "#1a202c"
+											: "#475569",
+									}}
+								>
+									Games
+								</MenuButton>
+								<GameButtons showGameButtons={showGameButtons} />
 								<div style={{ flexGrow: 1 }}></div>
+								<MenuButton as="a" href="https://github.com/Thunman" target="_blank" rel="noopener noreferrer">GitHub</MenuButton>
+									
 							</DropDownMenu>
 							<DropDownButton
 								isMenuOpen={isMenuOpen}

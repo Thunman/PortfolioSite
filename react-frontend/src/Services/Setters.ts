@@ -18,18 +18,22 @@ export const setProfilePicUrl = async (url: string) => {
         console.error("User not found");
     }
 };
-
+export const saveAll = async (info: BasicInfoProps, aboutHeader: string, aboutText: string) => {
+    saveBasicInfo(info);
+    saveAboutHeaderText(aboutHeader);
+    saveAboutText(aboutText);
+};
 export const saveBasicInfo = async (info: BasicInfoProps) => {
     if (auth.currentUser) {
         const docRef = doc(db, "Users", auth.currentUser.uid);
         try {
-            await updateDoc(docRef, {
+            await setDoc(docRef, {
                 name: info.name,
                 email: info.email,
                 userName: info.userName,
                 location: info.location,
                 age: info.age,
-            });
+            }, { merge: true });
             return true;
         } catch (error) {
             console.error("Error updating document:", error);
@@ -44,7 +48,7 @@ export const saveAboutHeaderText = async (text: string) => {
     if (auth.currentUser) {
         const docRef = doc(db, "Users", auth.currentUser.uid, "about", "info");
     try {
-        await updateDoc(docRef, { aboutTextHeader: text });
+        await setDoc(docRef, { aboutTextHeader: text }, { merge: true });
         return true;
     } catch (error) {
         alert(error)
@@ -59,7 +63,7 @@ export const saveAboutText = async (text: string) => {
     if (auth.currentUser) {
         const docRef = doc(db, "Users", auth.currentUser.uid, "about", "info");
     try {
-        await updateDoc(docRef, { aboutText: text });
+        await setDoc(docRef, { aboutText: text }, { merge: true });
         return true;
     } catch (error) {
         alert(error)
@@ -76,7 +80,7 @@ export const adminSave = (header: string, text: string) => {
         setDoc(docRef, {
             aboutTextHeader: header,
             aboutText: text,
-        });
+        }, { merge: true });
     } catch (error) {
         alert(error)
     }
