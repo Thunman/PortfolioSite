@@ -1,9 +1,6 @@
 import { GameButtonProps } from "../Interfaces/Interfaces";
 import { GameButtonContainer, MenuButton, StyledLink } from "../Styles/Styles";
 
-
-
-
 const GameButtons: React.FC<GameButtonProps> = ({ showGameButtons }) => {
     if (!showGameButtons) {
         return null;

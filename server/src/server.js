@@ -3,7 +3,6 @@ import express from "express";
 import https from "https";
 import fs from "fs";
 import userRouter from "./routes/users.js";
-import path from "path";
 import mongoose from "mongoose";
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
@@ -14,22 +13,18 @@ const __dirname = dirname(__filename);
 
 dotenv.config();
 
-const mongoURL = process.env.MONGOURI;
+const mongoURL = process.env.MONGO_URL;
 
 const app = express();
 app.use(express.json());
 app.use("/api/users", userRouter);
 
 app.use(express.static(resolve(__dirname, '../../react-frontend/build')));
-/*
-app.get("/", (req, res) => {
-    res.sendFile(path.resolve("../client/newUser.html"));
-});*/
 
 const port = process.env.PORT || 3000;
 const options = {
-    key: fs.readFileSync(process.env.KEYPATH),
-    cert: fs.readFileSync(process.env.CERTPATH),
+    key: fs.readFileSync(process.env.SSL_KEY_PATH),
+    cert: fs.readFileSync(process.env.SSL_CERT_PATH),
     passphrase: process.env.SSLPHRASE,
 };
 const server = https.createServer(options, app);
