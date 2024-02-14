@@ -2,6 +2,36 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
+export const UserFinderContainer = styled(motion.div)`
+    position: fixed;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    grid-template-rows: repeat(7, 1fr); 
+    width: 75%;
+    height: 75%;
+    background-color: #fff;
+    border-radius: 16px;
+    border: 4px solid #475569;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    overflow: auto;
+    padding: 5px;
+    gap: 5px;
+`;
+
+export const UserDiv = styled.div`
+    
+
+    background-color: #fff;
+    border-radius: 16px;
+    border: 4px solid #475569;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
+    &:hover {
+        background: #475569;
+        border: 4px solid #1a202c;
+    }
+`;
+
 export const StyledBackdrop = styled(motion.div)`
 	position: absolute;
 	top: 0;
@@ -197,10 +227,6 @@ export const FormContainer = styled(motion.div)`
 
 export const AboutMeContainer = styled(motion.div)`
 	display: flex;
-	
-	
-	
-
 	padding: 2rem;
 	width: 75vw;
 	background: #fff;

@@ -1,4 +1,4 @@
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { aboutTextProps } from "../Interfaces/Interfaces";
@@ -85,4 +85,15 @@ export const getIsAdmin = async () => {
 		alert("Error getting user info");
 	}
 	return false;
+};
+
+export const getAllUsers = async () => {
+	try {
+		const usersFromDB = await getDocs(collection(db, "Users"));
+		const users = usersFromDB.docs.map(doc => doc.data());
+		return users;
+	} catch (error) {
+		alert(error)
+		return [];
+	}
 };

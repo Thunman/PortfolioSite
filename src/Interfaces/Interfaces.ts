@@ -10,6 +10,7 @@ export interface LogoutButtonProps {
 export interface GameButtonProps {
 	showGameButtons: boolean;
 }
+
 export interface BasicInfoProps {
 	name?: string;
 	email?: string;

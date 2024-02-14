@@ -17,6 +17,7 @@ import LogoutButton from "./Components/LogoutButton";
 import { Container, MenuButton, StyledLink } from "./Styles/Styles";
 import { getBasicInfo } from "./Services/Getters";
 import UserPage from "./Components/UserPage";
+import UserFinder from "./Components/UserFinder";
 
 function App() {
 	const [userName, setUserName] = useState<string>("");
@@ -112,6 +113,7 @@ function App() {
 								<MenuButton as={StyledLink} to={"/userProfile"}>
 									Change Profile Information
 								</MenuButton>
+								<MenuButton as={StyledLink} to={"/userFinder"}>Find Users</MenuButton>
 								<MenuButton as={StyledLink} to={"#"}
 									onClick={(e) => {
 										e.stopPropagation();
@@ -138,7 +140,8 @@ function App() {
 								<Route path="/userPage" element={<UserPage />} />
 								<Route path="/game" element={<Game />} />
 								<Route path="/levelEditor" element={<LevelEditor />} />
-								<Route path="userProfile" element={<UserProfile />} />
+								<Route path="/userProfile" element={<UserProfile />} />
+								<Route path="/userFinder" element={<UserFinder />} />
 							</Routes>
 						</>
 					)}
