@@ -65,7 +65,7 @@ function App() {
 								<MenuButton as={StyledLink} to={"/passwordReset"}>
 									Password Recovery
 								</MenuButton>
-								<MenuButton
+								<MenuButton as={StyledLink} to={"#"}
 									onClick={(e) => {
 										e.stopPropagation();
 										toggleGameButtons();

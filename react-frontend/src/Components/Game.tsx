@@ -21,6 +21,7 @@ import { AnimatePresence } from "framer-motion";
 import { Modal } from "./Modal";
 import { BrickSettingsProps } from "../BrickBreakerGame/HelperFunctions/GameTypes";
 import { fadeBoxIn } from "../Animations/Animations";
+import { StyledLink } from "../Styles/Styles";
 
 const Game = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -216,10 +217,12 @@ const Game = () => {
 				<canvas ref={canvasRef} className="full-canvas" />
 			</StyledGameContainer>
 			<StyledGameButtonContainer>
-				<StyledGameButton onClick={() => gameInstance?.startGame()}>
+				<StyledGameButton as={StyledLink} to={"#"}
+					onClick={() => gameInstance?.startGame()}>
 					Start Game
 				</StyledGameButton>
-				<StyledGameButton onClick={handleImportClick}>
+				<StyledGameButton as={StyledLink} to={"#"}
+					onClick={handleImportClick}>
 					Saved Levels
 				</StyledGameButton>
 				<AnimatePresence
@@ -238,10 +241,10 @@ const Game = () => {
 						></Modal>
 					)}
 				</AnimatePresence>
-				<StyledGameButton as={Link} to="/LevelEditor">
+				<StyledGameButton as={StyledLink} to="/LevelEditor">
 					Level Editor
 				</StyledGameButton>
-				<StyledGameButton
+				<StyledGameButton as={StyledLink} to={"#"}
 					onClick={() => {
 						setLevel([]);
 						setSettings(defaultBrickSettings);
@@ -250,7 +253,7 @@ const Game = () => {
 				>
 					Create Random Level
 				</StyledGameButton>
-				<StyledGameButton as={Link} to="/">
+				<StyledGameButton as={StyledLink} to="/">
 					Landing
 				</StyledGameButton>
 			</StyledGameButtonContainer>
