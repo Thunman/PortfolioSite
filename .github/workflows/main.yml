@@ -16,16 +16,19 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Change directory
-      run: cd react-frontend
-
     - name: Install Dependencies
-      run: npm ci
+      run: |
+        cd react-frontend
+        npm install
 
     - name: Build
-      run: npm run build
+      run: |
+        cd react-frontend
+        npm run build
 
     - name: Deploy to Firebase
-      run: firebase deploy --only hosting
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
