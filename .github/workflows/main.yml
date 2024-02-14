@@ -8,12 +8,16 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
     - name: Use Node.js 20
       uses: actions/setup-node@v2
       with:
         node-version: '20'
-    - name: Checkout Repo
-      uses: actions/checkout@v2
+
+    - name: Change directory
+      run: cd react-frontend
 
     - name: Install Dependencies
       run: npm ci
