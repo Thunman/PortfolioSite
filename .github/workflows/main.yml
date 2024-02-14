@@ -19,17 +19,17 @@ jobs:
     - name: Install Dependencies
       run: |
         cd react-frontend
-        npm install
+        npm ci
 
     - name: Build
       run: |
         cd react-frontend
         npm run build
 
-- name: Deploy to Firebase
-  uses: w9jds/firebase-action@master
-  with:
-    args: deploy --only hosting
-  env:
-    FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-  working-directory: ./react-frontend
+    - name: Deploy to Firebase
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      working-directory: ./react-frontend
