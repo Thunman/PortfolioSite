@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 export const StyledGameContainer = styled(motion.div)`
 	position: relative;
-	width: 80%;
-	height: 80%;
+	width: 80vw;
+	height: 80vh;
 	background: radial-gradient(circle, #000020, #000000);
 	border: 4px solid #202040;
 	border-radius: 20px;

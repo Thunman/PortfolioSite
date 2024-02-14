@@ -1,21 +1,6 @@
 import mongoose from "mongoose";
 
-const highScoreSchema = new mongoose.Schema({
-  email: {
-    type: String,
-  },
-  score: {
-    type: Number,
-  },
-});
-
 const userSchema = new mongoose.Schema({
-
-  userName: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   email: {
     type: String,
     lowercase: true,
@@ -26,26 +11,21 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isAdmin: { type: Boolean, default: false },
-
-  gameState: {
-    score: { type: Number, default: 0 },
-    timeLeft: { type: Number, default: 0 },
-    circles: [
-      {
-        color: { type: String, default: "" },
-        id: { type: Number, default: 0 },
-        top: { type: String, default: "" },
-        left: { type: String, default: "" },
-      },
-    ],
+  basicInfo: {
+      name: { type: String },
+      age: { type: String },
+      userName: { type: String },
+      location: { type: String },
+  },
+  about: {
+      aboutText: { type: String },
+      aboutHeader: { type: String },
   },
 
-
-
+  showEmail: { type: Boolean, default: false },
+  profilePic: { type: String },
 }, { timestamps: true });
 
-const HighScore = mongoose.model("highScore", highScoreSchema);
 const User = mongoose.model("user", userSchema);
 
-export {User, HighScore};
+export {User};

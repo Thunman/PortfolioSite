@@ -130,8 +130,11 @@ const UserProfile = () => {
 		const basicInfoSucces = await saveBasicInfo(basicInfo);
 		const headerSucces = await saveAboutHeaderText(aboutHeaderText);
 		const textSucces = await saveAboutText(aboutText);
-		console.log(aboutHeaderText);
-		console.log(basicInfoSucces, headerSucces, textSucces);
+		if (basicInfoSucces && headerSucces && textSucces) {
+            alert("Saved successfully");
+        } else {
+            alert("Failed to save");
+        }
 	};
     const checkIsAdmin = async () => {
         const user = auth.currentUser;

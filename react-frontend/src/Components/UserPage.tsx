@@ -11,8 +11,8 @@ import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
 import { fadeBoxIn } from "../Animations/Animations";
 import { getBasicInfo, getAboutInfo } from "../Services/Getters";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const UserPage = () => {
 	const [basicInfo, setBasicInfo] = useState<Partial<BasicInfoProps>>({});
@@ -32,7 +32,6 @@ const UserPage = () => {
 				if (typeof aboutData.aboutTextHeader === "string") {
 					setAboutHeaderText(aboutData.aboutTextHeader);
 				}
-				
 			}
 		};
 		fetchData();
@@ -52,26 +51,21 @@ const UserPage = () => {
 						alt="My Image"
 					></ImgContainer>
 					<BasicInfo>
-						<BasicInfoDiv>
-							Name: {basicInfo.name}
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							UserName: {basicInfo.userName}
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							Age: {basicInfo.age}
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							Location: {basicInfo.location}
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							Contact: {basicInfo.email}
-						</BasicInfoDiv>
+						<BasicInfoDiv>Name: {basicInfo.name}</BasicInfoDiv>
+						<BasicInfoDiv>UserName: {basicInfo.userName}</BasicInfoDiv>
+						<BasicInfoDiv>Age: {basicInfo.age}</BasicInfoDiv>
+						<BasicInfoDiv>Location: {basicInfo.location}</BasicInfoDiv>
+						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
 					</BasicInfo>
 				</BasicInfoContainer>
 				<TextContainer>
 					<h1>{aboutHeaderText}</h1>
-					<ReactQuill value={aboutText} readOnly={true} theme={"bubble"} />
+					<ReactQuill
+						value={aboutText}
+						readOnly={true}
+						theme={"bubble"}
+						style={{ height: "80%", width: "100%" }}
+					/>
 				</TextContainer>
 			</AboutMeContainer>
 		</Container>
