@@ -38,6 +38,7 @@ const UserProfile = () => {
 		location: "",
 		age: "",
 		profilePicUrl: "",
+		showEmail: ""
 	});
 	const handleInputChange = (name: string, value: string) => {
 		setBasicInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -58,6 +59,7 @@ const UserProfile = () => {
 		"location",
 		handleInputChange
 	);
+	
 	const [aboutText, setAboutText] = useState("");
 	const [isHeaderInputVisible, setHeaderInputVisible] = useState(false);
 	const [aboutHeaderText, setAboutHeaderText] = useState("");
@@ -75,8 +77,8 @@ const UserProfile = () => {
 					userName: data.userName || "",
 					location: data.location || "",
 					age: data.age || "",
+					showEmail: data.showEmail || "false",
 				};
-                console.log(validData);
 				setBasicInfo(validData);
 			}
 			const aboutInfo: aboutTextProps | undefined = await getAboutInfo();
@@ -146,6 +148,16 @@ const UserProfile = () => {
     const handleAdminSaveInfo = async () => {
         await adminSave(aboutHeaderText, aboutText);
     };
+	const toggleShowEmail = () => {
+		setBasicInfo(prevState => ({
+			...prevState,
+			showEmail: prevState.showEmail === "true" ? "false" : "true"
+		}));
+		
+	};
+	useEffect(() => {
+
+	}, [basicInfo.showEmail]);
 
 	return (
 		<Container>
@@ -174,7 +186,14 @@ const UserProfile = () => {
 						{UserNameInput}
 						{AgeInput}
 						{LocationInput}
+						
 						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
+						<BasicInfoDiv>
+							Show Email in profile?<input type="checkbox"
+								onChange={toggleShowEmail}
+								checked={basicInfo.showEmail === 'true'}
+							/>
+						</BasicInfoDiv>
 					</BasicInfo>
 					<SaveButton onClick={handleSaveInfo}>Save</SaveButton>
 				</BasicInfoContainer>

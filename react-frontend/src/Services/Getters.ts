@@ -16,6 +16,7 @@ export const getBasicInfo = async () => {
 					location: docSnap.data()?.location,
 					age: docSnap.data()?.age,
 					profilePicUrl: docSnap.data()?.profilePicUrl,
+					showEmail: docSnap.data()?.showEmail,
 				};
 				return data;
 			}

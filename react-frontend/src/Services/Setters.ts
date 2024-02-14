@@ -33,6 +33,7 @@ export const saveBasicInfo = async (info: BasicInfoProps) => {
                 userName: info.userName,
                 location: info.location,
                 age: info.age,
+                showEmail: info.showEmail,
             }, { merge: true });
             return true;
         } catch (error) {

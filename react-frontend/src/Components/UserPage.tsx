@@ -55,7 +55,7 @@ const UserPage = () => {
 						<BasicInfoDiv>UserName: {basicInfo.userName}</BasicInfoDiv>
 						<BasicInfoDiv>Age: {basicInfo.age}</BasicInfoDiv>
 						<BasicInfoDiv>Location: {basicInfo.location}</BasicInfoDiv>
-						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
+						{basicInfo.showEmail === "true" && <BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>}
 					</BasicInfo>
 				</BasicInfoContainer>
 				<TextContainer>

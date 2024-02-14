@@ -112,7 +112,7 @@ function App() {
 								<MenuButton as={StyledLink} to={"/userProfile"}>
 									Change Profile Information
 								</MenuButton>
-								<MenuButton
+								<MenuButton as={StyledLink} to={"#"}
 									onClick={(e) => {
 										e.stopPropagation();
 										toggleGameButtons();
