@@ -1,13 +1,11 @@
 import { useState } from "react";
 import {
-	H1,
 	MessageBodyDiv,
 	MessageDisplay,
 	MessageHeaderDiv,
 	MessageListDiv,
 	MessagesContainer,
 	TextArea,
-	UserNameCard,
 } from "../Styles/Styles";
 import { sendMsg } from "../Services/Setters";
 import { auth } from "../firebase";
@@ -16,15 +14,12 @@ import MessageCard from "./MessageCard";
 
 const Messages = () => {
 	const hardCodedAddresToDebug = "o3jRWkCy1DXVmZNEZ3ThL8ChOaI2";
-    const messages = getMessages();
+	const messages = getMessages();
 	const [outgoingText, setOutgoingText] = useState("");
 	const [incomingText, setIncomingText] = useState(
 		"Click a message to display it here"
 	);
 	const [isInputOpen, setIsInputOpen] = useState(false);
-
-    
-
 
 	const handleSend = async () => {
 		const uid = auth.currentUser?.uid;
@@ -62,22 +57,21 @@ const Messages = () => {
 					) : (
 						<textarea readOnly>{incomingText}</textarea>
 					)}
-					
 				</MessageDisplay>
 			</MessageBodyDiv>
 
 			{isInputOpen ? (
 				<MessageHeaderDiv
-                onClick={handleSend}
-                style={{cursor: "pointer"}}
-                >
+					onClick={handleSend}
+					style={{ cursor: "pointer" }}
+				>
 					<h3>Send</h3>
 				</MessageHeaderDiv>
 			) : (
 				<MessageHeaderDiv
-                    onClick={toggleInput}
-                    style={{cursor: "pointer"}}
-                >
+					onClick={toggleInput}
+					style={{ cursor: "pointer" }}
+				>
 					<h3>Write a message</h3>
 				</MessageHeaderDiv>
 			)}

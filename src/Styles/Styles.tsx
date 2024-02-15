@@ -46,7 +46,7 @@ export const MessageBodyDiv = styled.div`
 	justify-content: flex-start;
 	padding-top: 5px;
 	gap: 5px;
-`
+`;
 export const MessageListDiv = styled.div`
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
@@ -57,7 +57,7 @@ export const MessageListDiv = styled.div`
 	background-color: #fff;
 	justify-content: center;
 	width: 20%;
-	
+
 	overflow: auto;
 	padding: 5px;
 `;
@@ -74,7 +74,7 @@ export const UserNameCard = styled.div`
 		background: #475569;
 		border: 4px solid #1a202c;
 	}
-`
+`;
 export const MessageDisplay = styled.div`
 	display: flex;
 	border: 4px solid #475569;
@@ -88,7 +88,7 @@ export const MessageDisplay = styled.div`
 	padding-top: 25px;
 	padding-bottom: 25px;
 	overflow: auto;
-`
+`;
 
 export const UserDiv = styled.div`
 	background-color: #fff;

@@ -109,8 +109,8 @@ export const sendMsg = async (
 			msg,
 			timestamp: new Date(),
 		});
-        return {succes: true, message: "Message sent"}
+		return { succes: true, message: "Message sent" };
 	} catch (error) {
-        return {succes: false, message: error}
+		return { succes: false, message: error };
 	}
 };

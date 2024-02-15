@@ -112,9 +112,8 @@ export const getAllMsgs = async () => {
 		const userMessagesCollection = collection(db, "Users", uid, "messages");
 		const snapshot = await getDocs(userMessagesCollection);
 		const messages: QueryDocumentSnapshot<DocumentData>[] = [];
-		snapshot.forEach((doc) => messages.push(doc))
-		return messages
-			
+		snapshot.forEach((doc) => messages.push(doc));
+		return messages;
 	} else {
 		return [];
 	}
@@ -122,8 +121,7 @@ export const getAllMsgs = async () => {
 export const getNameFromUid = async (uid: string) => {
 	const docSnap = await getDoc(doc(db, "Users", uid));
 	const data = docSnap.data();
-	if(!data) return;
+	if (!data) return;
 	const userName = data.userName;
 	return userName;
-	
 };
