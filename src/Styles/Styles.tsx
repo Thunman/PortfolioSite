@@ -3,34 +3,102 @@ import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 
 export const UserFinderContainer = styled(motion.div)`
-    position: fixed;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); 
-    grid-template-rows: repeat(7, 1fr); 
-    width: 75%;
-    height: 75%;
-    background-color: #fff;
-    border-radius: 16px;
-    border: 4px solid #475569;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    overflow: auto;
-    padding: 5px;
-    gap: 5px;
+	position: fixed;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(7, 1fr);
+	width: 75%;
+	height: 75%;
+	background-color: #fff;
+	border-radius: 16px;
+	border: 4px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	overflow: auto;
+	padding: 5px;
+	gap: 5px;
 `;
+export const MessagesContainer = styled(motion.div)`
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	border: 8px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	border-radius: 16px;
+	background-color: #fff;
+	height: 75vh;
+	width: 75vw;
+	padding: 10px;
+`;
+export const MessageHeaderDiv = styled.div`
+	display: flex;
+	border: 4px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	border-radius: 16px;
+	background-color: #fff;
+	justify-content: center;
+	
+`;
+export const MessageBodyDiv = styled.div`
+	height: 100%;
+	width: auto;
+	display: flex;
+	justify-content: flex-start;
+	padding-top: 5px;
+	gap: 5px;
+`
+export const MessageListDiv = styled.div`
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	grid-template-rows: repeat(8, 1fr);
+	border: 4px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	border-radius: 16px;
+	background-color: #fff;
+	justify-content: center;
+	width: 20%;
+	justify-content: start;
+	overflow: auto;
+	padding: 5px;
+`;
+export const UserNameCard = styled.div`
+	background-color: #fff;
+	border-radius: 16px;
+	border: 4px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	box-sizing: border-box;
+	cursor: pointer;
+	&:hover {
+		background: #475569;
+		border: 4px solid #1a202c;
+	}
+`
+export const MessageDisplay = styled.div`
+	display: flex;
+	border: 4px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	border-radius: 16px;
+	background-color: #fff;
+	justify-content: left;
+	width: 100%;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	overflow: auto;
+	
+`
 
 export const UserDiv = styled.div`
-    
-
-    background-color: #fff;
-    border-radius: 16px;
-    border: 4px solid #475569;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    box-sizing: border-box;
+	background-color: #fff;
+	border-radius: 16px;
+	border: 4px solid #475569;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	box-sizing: border-box;
 	cursor: pointer;
-    &:hover {
-        background: #475569;
-        border: 4px solid #1a202c;
-    }
+	&:hover {
+		background: #475569;
+		border: 4px solid #1a202c;
+	}
 `;
 
 export const StyledBackdrop = styled(motion.div)`
@@ -333,7 +401,6 @@ export const TextArea = styled.textarea`
 	}
 `;
 export const HeaderInput = styled.input`
-	
 	display: flex;
 	justify-content: center;
 	align-items: center;

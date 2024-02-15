@@ -18,6 +18,7 @@ import { Container, MenuButton, StyledLink } from "./Styles/Styles";
 import { getBasicInfo } from "./Services/Getters";
 import UserPage from "./Components/UserPage";
 import UserFinder from "./Components/UserFinder";
+import Messages from "./Components/Messages";
 
 function App() {
 	const [userName, setUserName] = useState<string>("");
@@ -114,6 +115,7 @@ function App() {
 									Change Profile Information
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/userFinder"}>Find Users</MenuButton>
+								<MenuButton as={StyledLink} to={"/messages"}>Messages</MenuButton>
 								<MenuButton as={StyledLink} to={"#"}
 									onClick={(e) => {
 										e.stopPropagation();
@@ -143,6 +145,7 @@ function App() {
 								<Route path="/userProfile/:userId" element={<UserProfile />} />
 								<Route path="/userFinder" element={<UserFinder />} />
 								<Route path="/user/:userId" element={<UserPage />} />
+								<Route path="/messages" element={<Messages />}/>
 							</Routes>
 						</>
 					)}

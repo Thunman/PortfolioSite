@@ -1,4 +1,11 @@
-import { getDoc, doc, collection, getDocs } from "firebase/firestore";
+import {
+	getDoc,
+	doc,
+	collection,
+	getDocs,
+	query,
+	orderBy,
+} from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { aboutTextProps } from "../Interfaces/Interfaces";
@@ -16,7 +23,6 @@ export const getBasicInfo = async (uid: string) => {
 					age: docSnap.data()?.age,
 					profilePicUrl: docSnap.data()?.profilePicUrl,
 					showEmail: docSnap.data()?.showEmail,
-
 				};
 				return data;
 			}
@@ -89,10 +95,42 @@ export const getIsAdmin = async () => {
 export const getAllUsers = async () => {
 	try {
 		const usersFromDB = await getDocs(collection(db, "Users"));
-		const users = usersFromDB.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
+		const users = usersFromDB.docs.map((doc) => ({
+			uid: doc.id,
+			...doc.data(),
+		}));
 		return users;
 	} catch (error) {
-		alert(error)
+		alert(error);
+		return [];
+	}
+};
+
+export const getMsgs = async () => {
+	const uid = auth.currentUser?.uid;
+	if (uid) {
+		const userMessagesCollection = collection(db, "Users", uid, "messages");
+		const userMessageDocs = await getDocs(userMessagesCollection);
+		const msgsFromUsers = await Promise.all(
+			userMessageDocs.docs.map(async (doc) => {
+				const senderId = doc.id;
+				const messagesCollection = collection(
+					db,
+					"Users",
+					uid,
+					"messages",
+					senderId
+				);
+				const q = query(messagesCollection, orderBy("timestamp"));
+				const messageDocs = await getDocs(q);
+				return messageDocs.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+			})
+		);
+		return msgsFromUsers;
+	} else {
 		return [];
 	}
 };
