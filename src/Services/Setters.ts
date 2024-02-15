@@ -102,19 +102,15 @@ export const sendMsg = async (
 	senderId: string,
 	msg: string
 ) => {
-	const messagesCollection = collection(
-		db,
-		"Users",
-		reciverId,
-		"messages",
-		senderId
-	);
+	const messagesCollection = collection(db, "Users", reciverId, "messages");
 	try {
 		await addDoc(messagesCollection, {
+			senderId,
 			msg,
 			timestamp: new Date(),
 		});
+        return {succes: true, message: "Message sent"}
 	} catch (error) {
-		alert(error);
+        return {succes: false, message: error}
 	}
 };

@@ -3,8 +3,8 @@ import {
 	doc,
 	collection,
 	getDocs,
-	query,
-	orderBy,
+	QueryDocumentSnapshot,
+	DocumentData,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
@@ -106,31 +106,24 @@ export const getAllUsers = async () => {
 	}
 };
 
-export const getMsgs = async () => {
+export const getAllMsgs = async () => {
 	const uid = auth.currentUser?.uid;
 	if (uid) {
 		const userMessagesCollection = collection(db, "Users", uid, "messages");
-		const userMessageDocs = await getDocs(userMessagesCollection);
-		const msgsFromUsers = await Promise.all(
-			userMessageDocs.docs.map(async (doc) => {
-				const senderId = doc.id;
-				const messagesCollection = collection(
-					db,
-					"Users",
-					uid,
-					"messages",
-					senderId
-				);
-				const q = query(messagesCollection, orderBy("timestamp"));
-				const messageDocs = await getDocs(q);
-				return messageDocs.docs.map((doc) => ({
-					id: doc.id,
-					...doc.data(),
-				}));
-			})
-		);
-		return msgsFromUsers;
+		const snapshot = await getDocs(userMessagesCollection);
+		const messages: QueryDocumentSnapshot<DocumentData>[] = [];
+		snapshot.forEach((doc) => messages.push(doc))
+		return messages
+			
 	} else {
 		return [];
 	}
+};
+export const getNameFromUid = async (uid: string) => {
+	const docSnap = await getDoc(doc(db, "Users", uid));
+	const data = docSnap.data();
+	if(!data) return;
+	const userName = data.userName;
+	return userName;
+	
 };

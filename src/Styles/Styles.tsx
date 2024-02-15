@@ -36,7 +36,8 @@ export const MessageHeaderDiv = styled.div`
 	border-radius: 16px;
 	background-color: #fff;
 	justify-content: center;
-	
+	height: 10%;
+	cursor: default;
 `;
 export const MessageBodyDiv = styled.div`
 	height: 100%;
@@ -56,7 +57,7 @@ export const MessageListDiv = styled.div`
 	background-color: #fff;
 	justify-content: center;
 	width: 20%;
-	justify-content: start;
+	
 	overflow: auto;
 	padding: 5px;
 `;
@@ -64,6 +65,8 @@ export const UserNameCard = styled.div`
 	background-color: #fff;
 	border-radius: 16px;
 	border: 4px solid #475569;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	box-sizing: border-box;
 	cursor: pointer;
@@ -85,7 +88,6 @@ export const MessageDisplay = styled.div`
 	padding-top: 25px;
 	padding-bottom: 25px;
 	overflow: auto;
-	
 `
 
 export const UserDiv = styled.div`
@@ -276,7 +278,6 @@ export const Container = styled.div`
 	text-align: center;
 	display: grid;
 	place-items: center;
-
 	min-height: 100vh;
 	min-width: 100vw;
 	align-items: center;
@@ -393,7 +394,7 @@ export const TextArea = styled.textarea`
 	border-radius: 8px;
 	background-color: #f7fafc;
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	&:focus {
 		outline: none;
 		border: 4px solid #1a202c;
