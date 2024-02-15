@@ -1,4 +1,4 @@
-import { UserDiv, UserFinderContainer } from "../Styles/Styles";
+import { UserFinderContainer } from "../Styles/Styles";
 import UserCard from "./UserCard";
 
 

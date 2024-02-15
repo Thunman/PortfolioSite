@@ -20,7 +20,9 @@ const UserCard = () => {
         <>
             {allUsers.map((user, index) => (
                 <UserDiv key={index}>
-                    {user.userName}
+                    <h3>{user.userName}</h3>
+                    
+                    <p>{user.location}</p>
                 </UserDiv>
             ))}
         </>

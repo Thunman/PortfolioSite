@@ -26,6 +26,7 @@ export const UserDiv = styled.div`
     border: 4px solid #475569;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
+	cursor: pointer;
     &:hover {
         background: #475569;
         border: 4px solid #1a202c;
