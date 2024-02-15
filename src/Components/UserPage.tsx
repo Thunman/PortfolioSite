@@ -13,18 +13,23 @@ import { fadeBoxIn } from "../Animations/Animations";
 import { getBasicInfo, getAboutInfo } from "../Services/Getters";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useParams } from "react-router-dom";
 
 const UserPage = () => {
+	const { userId } = useParams();
 	const [basicInfo, setBasicInfo] = useState<Partial<BasicInfoProps>>({});
 	const [aboutText, setAboutText] = useState("");
 	const [aboutHeaderText, setAboutHeaderText] = useState("");
 	useEffect(() => {
+
 		const fetchData = async () => {
-			const data = await getBasicInfo();
+			console.log(userId)
+			if (!userId) return
+			const data = await getBasicInfo(userId);
 			if (data) {
 				setBasicInfo(data);
 			}
-			const aboutData = await getAboutInfo();
+			const aboutData = await getAboutInfo(userId);
 			if (aboutData) {
 				if (typeof aboutData.aboutText === "string") {
 					setAboutText(aboutData.aboutText);
@@ -35,7 +40,7 @@ const UserPage = () => {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [userId]);
 
 	return (
 		<Container>

@@ -10,6 +10,7 @@ export interface LogoutButtonProps {
 export interface GameButtonProps {
 	showGameButtons: boolean;
 }
+
 export interface BasicInfoProps {
 	name?: string;
 	email?: string;
@@ -18,6 +19,7 @@ export interface BasicInfoProps {
 	age?: string;
 	profilePicUrl?: string;
 	showEmail?: string;
+	uid?: string
 }
 export interface DropDownButtonProps {
 	isMenuOpen: boolean;

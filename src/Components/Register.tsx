@@ -84,9 +84,6 @@ const Register: React.FC<LoginProps> = (props) => {
 						</div>
 					</Styles.TooltipContainer>
 					<Styles.Button type="submit">Submit</Styles.Button>
-					<Styles.Button as={Link} to="/">
-						Login
-					</Styles.Button>
 				</Styles.Form>
 			</Styles.FormContainer>
 		</Styles.Container>
