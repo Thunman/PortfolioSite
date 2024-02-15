@@ -3,9 +3,8 @@ import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { aboutTextProps } from "../Interfaces/Interfaces";
 
-export const getBasicInfo = async () => {
+export const getBasicInfo = async (uid: string) => {
 	try {
-		const uid = auth.currentUser?.uid;
 		if (uid) {
 			const docSnap = await getDoc(doc(db, "Users", uid));
 			if (docSnap.exists()) {
@@ -17,6 +16,7 @@ export const getBasicInfo = async () => {
 					age: docSnap.data()?.age,
 					profilePicUrl: docSnap.data()?.profilePicUrl,
 					showEmail: docSnap.data()?.showEmail,
+
 				};
 				return data;
 			}
@@ -35,9 +35,8 @@ export const getBasicInfo = async () => {
 		alert("Error getting user info");
 	}
 };
-export const getAboutInfo = async () => {
+export const getAboutInfo = async (uid: string) => {
 	try {
-		const uid = auth.currentUser?.uid;
 		if (uid) {
 			const docSnap = await getDoc(doc(db, "Users", uid, "about", "info"));
 			if (docSnap.exists()) {
@@ -90,7 +89,7 @@ export const getIsAdmin = async () => {
 export const getAllUsers = async () => {
 	try {
 		const usersFromDB = await getDocs(collection(db, "Users"));
-		const users = usersFromDB.docs.map(doc => doc.data());
+		const users = usersFromDB.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
 		return users;
 	} catch (error) {
 		alert(error)

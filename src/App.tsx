@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 import Landing from "./Components/Landing";
 import Game from "./Components/Game";
 import LevelEditor from "./Components/LevelEditor";
@@ -38,7 +38,7 @@ function App() {
 	};
 	const getUserName = async () => {
 		if (auth.currentUser) {
-			const user = await getBasicInfo();
+			const user = await getBasicInfo(auth.currentUser?.uid);
 			setUserName(user?.userName || "");
 		}
 	};
@@ -82,7 +82,7 @@ function App() {
 								<GameButtons showGameButtons={showGameButtons} />
 								<div style={{ flexGrow: 1 }}></div>
 								<MenuButton as="a" href="https://github.com/Thunman" target="_blank" rel="noopener noreferrer">GitHub</MenuButton>
-									
+
 							</DropDownMenu>
 							<DropDownButton
 								isMenuOpen={isMenuOpen}
@@ -94,7 +94,7 @@ function App() {
 									path="/login"
 									element={<Login setIsLoggedIn={setIsLoggedIn} />}
 								/>
-								<Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn}/>} />
+								<Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
 								<Route
 									path="/passwordReset"
 									element={<PasswordReset />}
@@ -107,10 +107,10 @@ function App() {
 					{isLoggedIn && (
 						<>
 							<DropDownMenu isMenuOpen={isMenuOpen}>
-								<MenuButton as={StyledLink} to={"/userPage"}>
+								<MenuButton as={StyledLink} to={`/user/${auth.currentUser?.uid}`}>
 									{userName ? `${userName}'s Profile` : "Profile"}
 								</MenuButton>
-								<MenuButton as={StyledLink} to={"/userProfile"}>
+								<MenuButton as={StyledLink} to={`/userProfile/${auth.currentUser?.uid}`}>
 									Change Profile Information
 								</MenuButton>
 								<MenuButton as={StyledLink} to={"/userFinder"}>Find Users</MenuButton>
@@ -137,11 +137,12 @@ function App() {
 							/>
 							<Routes>
 								<Route path="/" element={<Landing />} />
-								<Route path="/userPage" element={<UserPage />} />
+								<Route path="/userPage/:userId" element={<UserPage />} />
 								<Route path="/game" element={<Game />} />
 								<Route path="/levelEditor" element={<LevelEditor />} />
-								<Route path="/userProfile" element={<UserProfile />} />
+								<Route path="/userProfile/:userId" element={<UserProfile />} />
 								<Route path="/userFinder" element={<UserFinder />} />
+								<Route path="/user/:userId" element={<UserPage />} />
 							</Routes>
 						</>
 					)}

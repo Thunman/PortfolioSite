@@ -19,6 +19,7 @@ export interface BasicInfoProps {
 	age?: string;
 	profilePicUrl?: string;
 	showEmail?: string;
+	uid?: string
 }
 export interface DropDownButtonProps {
 	isMenuOpen: boolean;
