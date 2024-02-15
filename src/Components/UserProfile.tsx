@@ -18,7 +18,7 @@ import { fadeBoxIn } from "../Animations/Animations";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, fileStorage } from "../firebase";
 import {
-    adminSave,
+	adminSave,
 	saveAboutHeaderText,
 	saveAboutText,
 	saveBasicInfo,
@@ -29,8 +29,10 @@ import { getAboutInfo, getBasicInfo, getIsAdmin } from "../Services/Getters";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { aboutTextProps } from "../Interfaces/Interfaces";
+import { useParams } from "react-router-dom";
 
 const UserProfile = () => {
+	const { userId } = useParams();
 	const [basicInfo, setBasicInfo] = useState<BasicInfoProps>({
 		name: "",
 		email: "",
@@ -59,7 +61,7 @@ const UserProfile = () => {
 		"location",
 		handleInputChange
 	);
-	
+
 	const [aboutText, setAboutText] = useState("");
 	const [isHeaderInputVisible, setHeaderInputVisible] = useState(false);
 	const [aboutHeaderText, setAboutHeaderText] = useState("");
@@ -68,7 +70,8 @@ const UserProfile = () => {
 	const [amIAdmin, setAmIAdmin] = useState(false);
 	useEffect(() => {
 		const fetchData = async () => {
-			const data: BasicInfoProps | undefined = await getBasicInfo();
+			if (!userId) return
+			const data: BasicInfoProps | undefined = await getBasicInfo(userId);
 			if (data) {
 				const validData: BasicInfoProps = {
 					profilePicUrl: data.profilePicUrl || "",
@@ -81,15 +84,15 @@ const UserProfile = () => {
 				};
 				setBasicInfo(validData);
 			}
-			const aboutInfo: aboutTextProps | undefined = await getAboutInfo();
+			const aboutInfo: aboutTextProps | undefined = await getAboutInfo(userId);
 			if (typeof aboutInfo?.aboutText === "string") {
 				setAboutText(aboutInfo.aboutText);
 			}
 			if (typeof aboutInfo?.aboutTextHeader === "string") {
 				setAboutHeaderText(aboutInfo.aboutTextHeader);
 			}
-            checkIsAdmin();
-            
+			checkIsAdmin();
+
 		};
 		fetchData();
 	}, []);
@@ -133,27 +136,27 @@ const UserProfile = () => {
 		const headerSucces = await saveAboutHeaderText(aboutHeaderText);
 		const textSucces = await saveAboutText(aboutText);
 		if (basicInfoSucces && headerSucces && textSucces) {
-            alert("Saved successfully");
-        } else {
-            alert("Failed to save");
-        }
+			alert("Saved successfully");
+		} else {
+			alert("Failed to save");
+		}
 	};
-    const checkIsAdmin = async () => {
-        const user = auth.currentUser;
-        const isAdmin = await getIsAdmin();
-        if (isAdmin && user) {
-            setAmIAdmin(true);
-        }
-    };
-    const handleAdminSaveInfo = async () => {
-        await adminSave(aboutHeaderText, aboutText);
-    };
+	const checkIsAdmin = async () => {
+		const user = auth.currentUser;
+		const isAdmin = await getIsAdmin();
+		if (isAdmin && user) {
+			setAmIAdmin(true);
+		}
+	};
+	const handleAdminSaveInfo = async () => {
+		await adminSave(aboutHeaderText, aboutText);
+	};
 	const toggleShowEmail = () => {
 		setBasicInfo(prevState => ({
 			...prevState,
 			showEmail: prevState.showEmail === "true" ? "false" : "true"
 		}));
-		
+
 	};
 	useEffect(() => {
 
@@ -186,7 +189,7 @@ const UserProfile = () => {
 						{UserNameInput}
 						{AgeInput}
 						{LocationInput}
-						
+
 						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
 						<BasicInfoDiv>
 							Show Email in profile?<input type="checkbox"
