@@ -1,4 +1,5 @@
 import { MouseEventHandler, ReactNode } from "react";
+import { MouseEvent } from "react";
 
 export interface DropDownMenuProps {
 	isMenuOpen: boolean;
@@ -10,7 +11,9 @@ export interface LogoutButtonProps {
 export interface GameButtonProps {
 	showGameButtons: boolean;
 }
-
+export interface MessageCardProps {
+	handleClick: (event: MouseEvent<HTMLDivElement>) => void;
+}
 export interface BasicInfoProps {
 	name?: string;
 	email?: string;
@@ -19,7 +22,7 @@ export interface BasicInfoProps {
 	age?: string;
 	profilePicUrl?: string;
 	showEmail?: string;
-	uid?: string
+	uid?: string;
 }
 export interface DropDownButtonProps {
 	isMenuOpen: boolean;

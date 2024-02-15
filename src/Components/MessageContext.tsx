@@ -8,14 +8,12 @@ const MessagesContext = createContext<
 
 export const MessagesProvider = ({ children }: { children: ReactNode }) => {
 	const messages = useGetMessages();
-
 	return (
 		<MessagesContext.Provider value={messages}>
 			{children}
 		</MessagesContext.Provider>
 	);
 };
-
 export const useMessages = () => {
 	const context = useContext(MessagesContext);
 	if (context === null) {

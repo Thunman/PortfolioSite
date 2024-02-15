@@ -53,7 +53,7 @@ function App() {
 		getUserName();
 	}, [isLoggedIn]);
 	return (
-		<MessagesProvider>
+		
 			<div className="App">
 				<Container
 					onClick={() => {
@@ -129,6 +129,7 @@ function App() {
 							</>
 						)}
 						{isLoggedIn && (
+							<MessagesProvider>
 							<>
 								<DropDownMenu isMenuOpen={isMenuOpen}>
 									<MenuButton
@@ -192,11 +193,12 @@ function App() {
 									<Route path="/messages" element={<Messages />} />
 								</Routes>
 							</>
+							</MessagesProvider>
 						)}
 					</Router>
 				</Container>
 			</div>
-		</MessagesProvider>
+		
 	);
 }
 

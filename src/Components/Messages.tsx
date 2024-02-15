@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	MessageBodyDiv,
 	MessageDisplay,
@@ -9,12 +9,12 @@ import {
 } from "../Styles/Styles";
 import { sendMsg } from "../Services/Setters";
 import { auth } from "../firebase";
-import getMessages from "../Hooks/getMessages";
 import MessageCard from "./MessageCard";
+import { useMessages } from "./MessageContext";
 
 const Messages = () => {
 	const hardCodedAddresToDebug = "o3jRWkCy1DXVmZNEZ3ThL8ChOaI2";
-	const messages = getMessages();
+	const messages = useMessages()
 	const [outgoingText, setOutgoingText] = useState("");
 	const [incomingText, setIncomingText] = useState(
 		"Click a message to display it here"
@@ -38,6 +38,9 @@ const Messages = () => {
 	const toggleInput = () => {
 		setIsInputOpen((prevState) => !prevState);
 	};
+    useEffect(() => {
+        console.log("new effect")
+    },[messages])
 
 	return (
 		<MessagesContainer>
@@ -46,7 +49,7 @@ const Messages = () => {
 			</MessageHeaderDiv>
 			<MessageBodyDiv>
 				<MessageListDiv>
-					<MessageCard />
+					<MessageCard handleClick={(event) => console.log("click")} />
 				</MessageListDiv>
 				<MessageDisplay>
 					{isInputOpen ? (
@@ -55,7 +58,7 @@ const Messages = () => {
 							onChange={handleTextChange}
 						/>
 					) : (
-						<textarea readOnly>{incomingText}</textarea>
+						<div>{incomingText}</div>
 					)}
 				</MessageDisplay>
 			</MessageBodyDiv>
