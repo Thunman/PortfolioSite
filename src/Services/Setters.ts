@@ -1,6 +1,7 @@
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
+import { getNameFromUid } from "./Getters";
 
 export const setProfilePicUrl = async (url: string) => {
 	if (auth.currentUser) {
@@ -98,19 +99,23 @@ export const adminSave = (header: string, text: string) => {
 };
 
 export const sendMsg = async (
-	reciverId: string,
-	senderId: string,
-	msg: string
+    reciverId: string,
+    senderId: string,
+    msg: string
 ) => {
-	const messagesCollection = collection(db, "Users", reciverId, "messages");
-	try {
-		await addDoc(messagesCollection, {
-			senderId,
-			msg,
-			timestamp: new Date(),
-		});
-		return { succes: true, message: "Message sent" };
-	} catch (error) {
-		return { succes: false, message: error };
-	}
+	const senderName = await getNameFromUid(senderId)
+    const messagesCollection = collection(db, "Users", reciverId, "messages");
+    const messageDoc = doc(messagesCollection, senderName);
+    try {
+        await setDoc(messageDoc, {
+            senderId,
+            messages: arrayUnion({
+                msg,
+                timestamp: new Date(),
+            }),
+        }, { merge: true });
+        return { succes: true, message: "Message sent" };
+    } catch (error) {
+        return { succes: false, message: error };
+    }
 };

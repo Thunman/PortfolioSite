@@ -12,8 +12,20 @@ export interface GameButtonProps {
 	showGameButtons: boolean;
 }
 export interface MessageCardProps {
-	handleClick: (event: MouseEvent<HTMLDivElement>) => void;
+
+	handleClick: (userName: string) => void;
+
 }
+
+export interface MessageProps {
+	msg: string;
+	timestamp: { seconds: number; nanoseconds: number };
+  };
+
+ export interface MessageDivProps {
+	messages: MessageProps[];
+  };
+
 export interface BasicInfoProps {
 	name?: string;
 	email?: string;

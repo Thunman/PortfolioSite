@@ -6,7 +6,6 @@ import {
 	BrowserRouter as Router,
 	Route,
 	Routes,
-	useParams,
 } from "react-router-dom";
 import Landing from "./Components/Landing";
 import Game from "./Components/Game";
@@ -24,7 +23,7 @@ import { getBasicInfo } from "./Services/Getters";
 import UserPage from "./Components/UserPage";
 import UserFinder from "./Components/UserFinder";
 import Messages from "./Components/Messages";
-import { MessagesProvider } from "./Components/MessageContext";
+import { MessagesProvider } from "./Hooks/MessageContext";
 
 function App() {
 	const [userName, setUserName] = useState<string>("");
@@ -198,7 +197,6 @@ function App() {
 					</Router>
 				</Container>
 			</div>
-		
 	);
 }
 

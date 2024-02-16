@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext } from "react";
-import useGetMessages from "../Hooks/getMessages";
+import useGetMessages from "./getMessages";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
 const MessagesContext = createContext<

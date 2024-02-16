@@ -27,7 +27,10 @@ export const MessagesContainer = styled(motion.div)`
 	background-color: #fff;
 	height: 75vh;
 	width: 75vw;
+	max-height: 75vh;
+	max-width: 75vw;
 	padding: 10px;
+	overflow: hidden;
 `;
 export const MessageHeaderDiv = styled.div`
 	display: flex;
@@ -45,20 +48,22 @@ export const MessageBodyDiv = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	padding-top: 5px;
+	padding-bottom: 5px;
 	gap: 5px;
+	overflow: hidden;
 `;
 export const MessageListDiv = styled.div`
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
 	grid-template-rows: repeat(8, 1fr);
 	border: 4px solid #475569;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	border-radius: 16px;
+	box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
 	background-color: #fff;
 	justify-content: center;
 	width: 20%;
-
 	overflow: auto;
+	gap: 5px;
 	padding: 5px;
 `;
 export const UserNameCard = styled.div`
@@ -75,19 +80,35 @@ export const UserNameCard = styled.div`
 		border: 4px solid #1a202c;
 	}
 `;
-export const MessageDisplay = styled.div`
-	display: flex;
+export const MessageBubble = styled.div`
+	background-color: #fff;
+	border-radius: 16px;
 	border: 4px solid #475569;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	box-sizing: border-box;
+    display: inline-block;
+	max-width: 20px;
+	&:hover {
+		background: #475569;
+		border: 4px solid #1a202c;
+	}
+`;
+
+export const MessageDisplay = styled.div`
+	display: block;
+	border: 4px solid #475569;
+	box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
 	border-radius: 16px;
 	background-color: #fff;
 	justify-content: left;
 	width: 100%;
-	padding-left: 50px;
-	padding-right: 50px;
-	padding-top: 25px;
-	padding-bottom: 25px;
+	flex: 1;
 	overflow: auto;
+	&::-webkit-scrollbar {
+        width: 0%;
+    }
 `;
 
 export const UserDiv = styled.div`
@@ -393,7 +414,7 @@ export const TextArea = styled.textarea`
 	border: 8px solid #ccc;
 	border-radius: 8px;
 	background-color: #f7fafc;
-	width: 100%;
+	width: 90%;
 	height: 90%;
 	&:focus {
 		outline: none;

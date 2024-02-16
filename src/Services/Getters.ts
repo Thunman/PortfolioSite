@@ -125,3 +125,4 @@ export const getNameFromUid = async (uid: string) => {
 	const userName = data.userName;
 	return userName;
 };
+

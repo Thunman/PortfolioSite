@@ -10,15 +10,15 @@ import {
 import { sendMsg } from "../Services/Setters";
 import { auth } from "../firebase";
 import MessageCard from "./MessageCard";
-import { useMessages } from "./MessageContext";
+import { useMessages } from "../Hooks/MessageContext";
+import Work from "./MessageBubble";
 
 const Messages = () => {
 	const hardCodedAddresToDebug = "o3jRWkCy1DXVmZNEZ3ThL8ChOaI2";
-	const messages = useMessages()
+	const messages = useMessages();
+	const [cardClicked, setCardClicked] = useState(false);
 	const [outgoingText, setOutgoingText] = useState("");
-	const [incomingText, setIncomingText] = useState(
-		"Click a message to display it here"
-	);
+	const [messagesArray, setMessagesArray] = useState([]);
 	const [isInputOpen, setIsInputOpen] = useState(false);
 
 	const handleSend = async () => {
@@ -38,9 +38,15 @@ const Messages = () => {
 	const toggleInput = () => {
 		setIsInputOpen((prevState) => !prevState);
 	};
-    useEffect(() => {
-        console.log("new effect")
-    },[messages])
+	const onClickHandler = (id: string) => {
+		console.log(id);
+		setCardClicked(true);
+		const doc = messages.find((msg) => msg.id === id);
+		if (doc) {
+			const data = doc.data();
+			setMessagesArray(data.messages)
+		}
+	};
 
 	return (
 		<MessagesContainer>
@@ -49,7 +55,7 @@ const Messages = () => {
 			</MessageHeaderDiv>
 			<MessageBodyDiv>
 				<MessageListDiv>
-					<MessageCard handleClick={(event) => console.log("click")} />
+					<MessageCard handleClick={onClickHandler} />
 				</MessageListDiv>
 				<MessageDisplay>
 					{isInputOpen ? (
@@ -58,11 +64,13 @@ const Messages = () => {
 							onChange={handleTextChange}
 						/>
 					) : (
-						<div>{incomingText}</div>
+						cardClicked &&(
+							<Work messages={messagesArray} />
+						)
 					)}
 				</MessageDisplay>
+				
 			</MessageBodyDiv>
-
 			{isInputOpen ? (
 				<MessageHeaderDiv
 					onClick={handleSend}
@@ -78,6 +86,7 @@ const Messages = () => {
 					<h3>Write a message</h3>
 				</MessageHeaderDiv>
 			)}
+
 		</MessagesContainer>
 	);
 };
