@@ -128,7 +128,13 @@ const Messages = () => {
 
 			<MessagesContainer>
 				<MessageHeaderDiv>
-					<TextForMsgHeader>{`Conversation with ${clickedName}` || "Conversations"}</TextForMsgHeader>
+					{clickedName && (
+						<TextForMsgHeader>{`Conversation with ${clickedName}`}</TextForMsgHeader>
+					)}
+					{!clickedName && (
+						<TextForMsgHeader>Conversations</TextForMsgHeader>
+					)}
+					
 				</MessageHeaderDiv>
 				<MessageBodyDiv>
 					<MessageListDiv>
