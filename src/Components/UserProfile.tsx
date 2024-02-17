@@ -40,7 +40,7 @@ const UserProfile = () => {
 		location: "",
 		age: "",
 		profilePicUrl: "",
-		showEmail: ""
+		showEmail: "",
 	});
 	const handleInputChange = (name: string, value: string) => {
 		setBasicInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -70,7 +70,7 @@ const UserProfile = () => {
 	const [amIAdmin, setAmIAdmin] = useState(false);
 	useEffect(() => {
 		const fetchData = async () => {
-			if (!userId) return
+			if (!userId) return;
 			const data: BasicInfoProps | undefined = await getBasicInfo(userId);
 			if (data) {
 				const validData: BasicInfoProps = {
@@ -84,7 +84,9 @@ const UserProfile = () => {
 				};
 				setBasicInfo(validData);
 			}
-			const aboutInfo: aboutTextProps | undefined = await getAboutInfo(userId);
+			const aboutInfo: aboutTextProps | undefined = await getAboutInfo(
+				userId
+			);
 			if (typeof aboutInfo?.aboutText === "string") {
 				setAboutText(aboutInfo.aboutText);
 			}
@@ -92,7 +94,6 @@ const UserProfile = () => {
 				setAboutHeaderText(aboutInfo.aboutTextHeader);
 			}
 			checkIsAdmin();
-
 		};
 		fetchData();
 	}, []);
@@ -152,15 +153,12 @@ const UserProfile = () => {
 		await adminSave(aboutHeaderText, aboutText);
 	};
 	const toggleShowEmail = () => {
-		setBasicInfo(prevState => ({
+		setBasicInfo((prevState) => ({
 			...prevState,
-			showEmail: prevState.showEmail === "true" ? "false" : "true"
+			showEmail: prevState.showEmail === "true" ? "false" : "true",
 		}));
-
 	};
-	useEffect(() => {
-
-	}, [basicInfo.showEmail]);
+	useEffect(() => {}, [basicInfo.showEmail]);
 
 	return (
 		<Container>
@@ -192,9 +190,11 @@ const UserProfile = () => {
 
 						<BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>
 						<BasicInfoDiv>
-							Show Email in profile?<input type="checkbox"
+							Show Email in profile?
+							<input
+								type="checkbox"
 								onChange={toggleShowEmail}
-								checked={basicInfo.showEmail === 'true'}
+								checked={basicInfo.showEmail === "true"}
 							/>
 						</BasicInfoDiv>
 					</BasicInfo>
