@@ -2,14 +2,17 @@ import { ReactNode, createContext, useContext } from "react";
 import useGetMessages from "./getMessages";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
-const MessagesContext = createContext<
-	QueryDocumentSnapshot<DocumentData>[] | null
->(null);
+interface MessagesContextType {
+	messages: QueryDocumentSnapshot<DocumentData>[];
+	refresh: () => void;
+}
+
+const MessagesContext = createContext<MessagesContextType | null>(null);
 
 export const MessagesProvider = ({ children }: { children: ReactNode }) => {
-	const messages = useGetMessages();
+	const { messages, refresh } = useGetMessages();
 	return (
-		<MessagesContext.Provider value={messages}>
+		<MessagesContext.Provider value={{ messages, refresh }}>
 			{children}
 		</MessagesContext.Provider>
 	);

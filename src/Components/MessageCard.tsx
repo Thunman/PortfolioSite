@@ -3,7 +3,7 @@ import { useMessages } from "../Hooks/MessageContext";
 import { MessageCardProps } from "../Interfaces/Interfaces";
 
 const MessageCard: React.FC<MessageCardProps> = ({ handleClick }) => {
-	const messages = useMessages();
+	const { messages, refresh } = useMessages();
 	return (
 		<>
 			{messages.map((msg, index) => (

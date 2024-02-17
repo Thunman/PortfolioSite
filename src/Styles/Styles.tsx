@@ -80,16 +80,17 @@ export const UserNameCard = styled.div`
 		border: 4px solid #1a202c;
 	}
 `;
-export const MessageBubble = styled.div`
-	background-color: #fff;
+export const MessageTextContainer = styled.div`
+	margin: 5px;
+	color: #fff;
+	background-color: #475569;
 	border-radius: 16px;
 	border: 4px solid #475569;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 5px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-	box-sizing: border-box;
-    display: inline-block;
-	max-width: 20px;
+	min-width: fit-content;
+	min-height: fit-content;
+	max-width: fit-content;
 	&:hover {
 		background: #475569;
 		border: 4px solid #1a202c;
@@ -97,7 +98,10 @@ export const MessageBubble = styled.div`
 `;
 
 export const MessageDisplay = styled.div`
-	display: block;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 5px;
 	border: 4px solid #475569;
 	box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
 	border-radius: 16px;
@@ -105,12 +109,18 @@ export const MessageDisplay = styled.div`
 	justify-content: left;
 	width: 100%;
 	flex: 1;
+
 	overflow: auto;
 	&::-webkit-scrollbar {
         width: 0%;
     }
 `;
-
+export const MessageReplyInput = styled.input`
+	border-radius: 8px;
+	background-color: #475569;
+	color: #fff;
+	height: 5%;
+`
 export const UserDiv = styled.div`
 	background-color: #fff;
 	border-radius: 16px;

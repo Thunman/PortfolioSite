@@ -104,16 +104,27 @@ export const sendMsg = async (
     msg: string
 ) => {
 	const senderName = await getNameFromUid(senderId)
-    const messagesCollection = collection(db, "Users", reciverId, "messages");
-    const messageDoc = doc(messagesCollection, senderName);
+	const reciverName = await getNameFromUid(reciverId);
+    const reciverMessagesCollection = collection(db, "Users", reciverId, "messages");
+    const reciverMessageDoc = doc(reciverMessagesCollection, senderName);
+	const senderMessageCollection = collection(db, "Users", senderId, "messages")
+	const senderMessageDoc = doc(senderMessageCollection, reciverName )
     try {
-        await setDoc(messageDoc, {
+        await setDoc(reciverMessageDoc, {
             senderId,
             messages: arrayUnion({
                 msg,
                 timestamp: new Date(),
             }),
         }, { merge: true });
+		await setDoc(senderMessageDoc, {
+			reciverId,
+			messages: arrayUnion({
+                msg,
+                timestamp: new Date(),
+            }),
+        }, { merge: true });
+	
         return { succes: true, message: "Message sent" };
     } catch (error) {
         return { succes: false, message: error };
