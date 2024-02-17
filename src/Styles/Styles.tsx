@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
+import { IoSendSharp } from "react-icons/io5";
 
 export const UserFinderContainer = styled(motion.div)`
 	position: fixed;
@@ -16,6 +17,36 @@ export const UserFinderContainer = styled(motion.div)`
 	overflow: auto;
 	padding: 5px;
 	gap: 5px;
+`;
+export const StyledUserSeletorModal = styled(motion.div)`
+	position: fixed;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(7, 1fr);
+	width: 50%;
+	height: 50%;
+	background-color: #000000a6;
+	border-radius: 16px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	overflow: auto;
+	padding: 5px;
+	gap: 5px;
+`;
+export const UserNameCardForModal = styled.div`
+	background-color: #ffffff6e;
+	min-height: 25%;
+	border-radius: 16px;
+	border: 4px solid #475569;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	box-sizing: border-box;
+	justify-content: center;
+	cursor: pointer;
+	&:hover {
+		background-color: #fff;
+		border: 4px solid #1a202c;
+	}
 `;
 export const MessagesContainer = styled(motion.div)`
 	display: flex;
@@ -34,12 +65,13 @@ export const MessagesContainer = styled(motion.div)`
 `;
 export const MessageHeaderDiv = styled.div`
 	display: flex;
-	border: 4px solid #475569;
+	background-color: #475569;
+	border: 4px solid #1a202c;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	border-radius: 16px;
-	background-color: #fff;
 	justify-content: center;
 	height: 10%;
+	align-items: center;
 	cursor: default;
 `;
 export const MessageBodyDiv = styled.div`
@@ -56,15 +88,23 @@ export const MessageListDiv = styled.div`
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
 	grid-template-rows: repeat(8, 1fr);
-	border: 4px solid #475569;
+	border: 4px solid #1a202c;
 	border-radius: 16px;
 	box-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
-	background-color: #fff;
+	background-color: #475569;
 	justify-content: center;
 	width: 20%;
 	overflow: auto;
 	gap: 5px;
 	padding: 5px;
+`;
+export const TextForMsgHeader = styled.h1`
+	color: #fff;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+`;
+export const TextForMsgBottom = styled.h3`
+color: #fff;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
 export const UserNameCard = styled.div`
 	background-color: #fff;
@@ -80,20 +120,52 @@ export const UserNameCard = styled.div`
 		border: 4px solid #1a202c;
 	}
 `;
-export const MessageTextContainer = styled.div`
+type MessageTextContainerProps = {
+    isCurrentUser: boolean; // Change this line
+};
+
+export const MessageTextContainer = styled.div<MessageTextContainerProps>`
+    display: flex;
+    min-height: fit-content;
+    justify-content: ${props => props.isCurrentUser ? 'flex-end' : 'flex-start'}; // And this line
+`;
+export const MessageContentBubble = styled.div`
+	font-size: larger;
+	border-radius: 8px;
 	margin: 5px;
-	color: #fff;
+	padding: 15px;
+
 	background-color: #475569;
-	border-radius: 16px;
-	border: 4px solid #475569;
-	padding: 5px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-	min-width: fit-content;
-	min-height: fit-content;
-	max-width: fit-content;
+  	color: #fff;
 	&:hover {
 		background: #475569;
-		border: 4px solid #1a202c;
+		border: 1px solid #1a202c;
+	}
+`
+export const SendButton = styled.button`
+	width: 35px;
+	height: 35px;
+	align-items: center; 
+	display: flex;
+	justify-content: center;
+	border-radius: 20px;
+	border: 1px solid #fff;
+	background-color: #fff;
+	
+	padding: 2px;
+	margin: 2px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	&:hover {
+		background: #475569;
+		border: 1px solid #475569;
+		color: #fff;
+	}
+`
+export const StyledIoSendSharp = styled(IoSendSharp)`
+    color: #475569;
+	font-size: x-large;
+	&:hover {	
+		color: #fff;
 	}
 `;
 
@@ -119,11 +191,13 @@ export const MessageReplyInput = styled.input`
 	border-radius: 8px;
 	background-color: #475569;
 	color: #fff;
-	height: 5%;
+	min-height: 5vh;
+	font-size: 1vw;
 `
 export const UserDiv = styled.div`
 	background-color: #fff;
 	border-radius: 16px;
+	color: black;
 	border: 4px solid #475569;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	box-sizing: border-box;

@@ -5,6 +5,8 @@ import {
 	getDocs,
 	QueryDocumentSnapshot,
 	DocumentData,
+	query,
+	where,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
@@ -92,6 +94,16 @@ export const getIsAdmin = async () => {
 	return false;
 };
 
+export const getAllUserNames = async () => {
+    try {
+        const usersFromDB = await getDocs(collection(db, "Users"));
+        const userNames = await Promise.all(usersFromDB.docs.map((doc) => getNameFromUid(doc.id)));
+        return userNames;
+    } catch (error) {
+        alert(error);
+        return [];
+    }
+};
 export const getAllUsers = async () => {
 	try {
 		const usersFromDB = await getDocs(collection(db, "Users"));
@@ -126,3 +138,10 @@ export const getNameFromUid = async (uid: string) => {
 	return userName;
 };
 
+export const getUidFromName = async (name: string) => {
+    const querySnapshot = await getDocs(query(collection(db, "Users"), where("userName", "==", name)));
+    if (querySnapshot.empty) return;
+    const doc = querySnapshot.docs[0];
+    const uid = doc.id;
+    return uid;
+};

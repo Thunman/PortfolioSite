@@ -16,14 +16,22 @@ export interface MessageCardProps {
 	handleClick: (userName: string) => void;
 
 }
+export interface UserSelectorModalProps {
+	handleClose: (
+		event?: React.MouseEvent<HTMLDivElement | HTMLButtonElement>
+	) => void;
+	handleSelect: (id: string) => void;
+}
 
 export interface MessageProps {
 	msg: string;
 	timestamp: { seconds: number; nanoseconds: number };
+	name: string;
   };
 
  export interface MessageDivProps {
 	messages: MessageProps[];
+	currentUser: string;
   };
 
 export interface BasicInfoProps {

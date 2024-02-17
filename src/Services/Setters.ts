@@ -1,4 +1,4 @@
-import { addDoc, arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { getNameFromUid } from "./Getters";
@@ -109,12 +109,15 @@ export const sendMsg = async (
     const reciverMessageDoc = doc(reciverMessagesCollection, senderName);
 	const senderMessageCollection = collection(db, "Users", senderId, "messages")
 	const senderMessageDoc = doc(senderMessageCollection, reciverName )
+	console.log(senderName)
+	console.log(reciverName)
     try {
         await setDoc(reciverMessageDoc, {
             senderId,
             messages: arrayUnion({
                 msg,
                 timestamp: new Date(),
+				name: senderName
             }),
         }, { merge: true });
 		await setDoc(senderMessageDoc, {
@@ -122,6 +125,7 @@ export const sendMsg = async (
 			messages: arrayUnion({
                 msg,
                 timestamp: new Date(),
+				name: senderName
             }),
         }, { merge: true });
 	
@@ -129,4 +133,21 @@ export const sendMsg = async (
     } catch (error) {
         return { succes: false, message: error };
     }
+};
+export const initMsgDB = async (
+    reciverId: string,
+    senderId: string,
+) => {
+    const reciverName = await getNameFromUid(reciverId);
+    const senderName = await getNameFromUid(senderId);
+
+    const collectionRef = collection(db, "Users", reciverId, "messages");
+    const placeholderDoc = doc(collectionRef, "placeholder");
+    const docSnap = await getDoc(placeholderDoc);
+	console.log("here")
+    if (!docSnap.exists()) {
+        console.log("setting db")
+        await setDoc(placeholderDoc, { placeholder: true });
+		return "DB init"
+    } else return "DB exists"
 };
