@@ -1,4 +1,13 @@
-import { getDoc, doc, collection, getDocs } from "firebase/firestore";
+import {
+	getDoc,
+	doc,
+	collection,
+	getDocs,
+	QueryDocumentSnapshot,
+	DocumentData,
+	query,
+	where,
+} from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { aboutTextProps } from "../Interfaces/Interfaces";
@@ -16,7 +25,6 @@ export const getBasicInfo = async (uid: string) => {
 					age: docSnap.data()?.age,
 					profilePicUrl: docSnap.data()?.profilePicUrl,
 					showEmail: docSnap.data()?.showEmail,
-
 				};
 				return data;
 			}
@@ -86,13 +94,54 @@ export const getIsAdmin = async () => {
 	return false;
 };
 
+export const getAllUserNames = async () => {
+    try {
+        const usersFromDB = await getDocs(collection(db, "Users"));
+        const userNames = await Promise.all(usersFromDB.docs.map((doc) => getNameFromUid(doc.id)));
+        return userNames;
+    } catch (error) {
+        alert(error);
+        return [];
+    }
+};
 export const getAllUsers = async () => {
 	try {
 		const usersFromDB = await getDocs(collection(db, "Users"));
-		const users = usersFromDB.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
+		const users = usersFromDB.docs.map((doc) => ({
+			uid: doc.id,
+			...doc.data(),
+		}));
 		return users;
 	} catch (error) {
-		alert(error)
+		alert(error);
 		return [];
 	}
+};
+
+export const getAllMsgs = async () => {
+	const uid = auth.currentUser?.uid;
+	if (uid) {
+		const userMessagesCollection = collection(db, "Users", uid, "messages");
+		const snapshot = await getDocs(userMessagesCollection);
+		const messages: QueryDocumentSnapshot<DocumentData>[] = [];
+		snapshot.forEach((doc) => messages.push(doc));
+		return messages;
+	} else {
+		return [];
+	}
+};
+export const getNameFromUid = async (uid: string) => {
+	const docSnap = await getDoc(doc(db, "Users", uid));
+	const data = docSnap.data();
+	if (!data) return;
+	const userName = data.userName;
+	return userName;
+};
+
+export const getUidFromName = async (name: string) => {
+    const querySnapshot = await getDocs(query(collection(db, "Users"), where("userName", "==", name)));
+    if (querySnapshot.empty) return;
+    const doc = querySnapshot.docs[0];
+    const uid = doc.id;
+    return uid;
 };

@@ -6,7 +6,6 @@ import {
 } from "../Styles/GameStyles";
 import { useEffect, useRef, useState } from "react";
 import game from "../BrickBreakerGame/mainGameLoop";
-import { Link } from "react-router-dom";
 import { GameInstance } from "../Interfaces/Interfaces";
 import { auth, db } from "../firebase";
 import {
