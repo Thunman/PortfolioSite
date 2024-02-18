@@ -1,4 +1,11 @@
-import { addDoc, arrayUnion, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+	arrayUnion,
+	collection,
+	doc,
+	getDoc,
+	setDoc,
+	updateDoc,
+} from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { BasicInfoProps } from "../Interfaces/Interfaces";
 import { getNameFromUid } from "./Getters";
@@ -99,55 +106,67 @@ export const adminSave = (header: string, text: string) => {
 };
 
 export const sendMsg = async (
-    reciverId: string,
-    senderId: string,
-    msg: string
+	reciverId: string,
+	senderId: string,
+	msg: string
 ) => {
-	const senderName = await getNameFromUid(senderId)
+	const senderName = await getNameFromUid(senderId);
 	const reciverName = await getNameFromUid(reciverId);
-    const reciverMessagesCollection = collection(db, "Users", reciverId, "messages");
-    const reciverMessageDoc = doc(reciverMessagesCollection, senderName);
-	const senderMessageCollection = collection(db, "Users", senderId, "messages")
-	const senderMessageDoc = doc(senderMessageCollection, reciverName )
-	console.log(senderName)
-	console.log(reciverName)
-    try {
-        await setDoc(reciverMessageDoc, {
-            senderId,
-            messages: arrayUnion({
-                msg,
-                timestamp: new Date(),
-				name: senderName
-            }),
-        }, { merge: true });
-		await setDoc(senderMessageDoc, {
-			reciverId,
-			messages: arrayUnion({
-                msg,
-                timestamp: new Date(),
-				name: senderName
-            }),
-        }, { merge: true });
-	
-        return { succes: true, message: "Message sent" };
-    } catch (error) {
-        return { succes: false, message: error };
-    }
-};
-export const initMsgDB = async (
-    reciverId: string,
-    senderId: string,
-) => {
-    const reciverName = await getNameFromUid(reciverId);
-    const senderName = await getNameFromUid(senderId);
+	const reciverMessagesCollection = collection(
+		db,
+		"Users",
+		reciverId,
+		"messages"
+	);
+	const reciverMessageDoc = doc(reciverMessagesCollection, senderName);
+	const senderMessageCollection = collection(
+		db,
+		"Users",
+		senderId,
+		"messages"
+	);
+	const senderMessageDoc = doc(senderMessageCollection, reciverName);
+	try {
+		await setDoc(
+			reciverMessageDoc,
+			{
+				senderId,
+				messages: arrayUnion({
+					msg,
+					timestamp: new Date(),
+					name: senderName,
+					unread: true,
+				}),
+			},
+			{ merge: true }
+		);
+		await setDoc(
+			senderMessageDoc,
+			{
+				reciverId,
+				messages: arrayUnion({
+					msg,
+					timestamp: new Date(),
+					name: senderName,
+				}),
+			},
+			{ merge: true }
+		);
 
-    const collectionRef = collection(db, "Users", reciverId, "messages");
-    const placeholderDoc = doc(collectionRef, "placeholder");
-    const docSnap = await getDoc(placeholderDoc);
-	console.log("here")
-    if (!docSnap.exists()) {
-        console.log("setting db")
-        await setDoc(placeholderDoc, { placeholder: true });
-		return "DB init"
-    } else return "DB exists"
+		return { succes: true, message: "Message sent" };
+	} catch (error) {
+		return { succes: false, message: error };
+	}
+};
+
+export const setReadTrue = async (uid: string, conversationName: string) => {
+	const docRef = doc(db, "Users", uid, "messages", conversationName);
+	const docSnap = await getDoc(docRef);
+	if (docSnap.exists()) {
+		await updateDoc(docRef, {
+			unread: false,
+		});
+	} else {
+		console.log("No such document!");
+	}
 };

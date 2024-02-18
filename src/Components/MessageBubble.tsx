@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { MessageDivProps, MessageProps } from "../Interfaces/Interfaces";
 import { MessageContentBubble, MessageTextContainer } from "../Styles/Styles";
+import { DocumentData } from "firebase/firestore";
 
 const MessageBubble: React.FC<MessageDivProps> = ({
-	messages,
+	document,
 	currentUser,
 }) => {
 	const [showDate, setShowDate] = useState(false);
+	const toggleDate = () => {
+		setShowDate((prevShowDate) => !prevShowDate);
+	};
 	return (
 		<>
-			{messages.map((item: MessageProps, index: number) => {
+			{document.map((item: MessageProps, index: number) => {
 				let formattedDate = "";
 				if (showDate) {
 					const date = new Date(item.timestamp.seconds * 1000);
@@ -17,7 +21,6 @@ const MessageBubble: React.FC<MessageDivProps> = ({
 					const hours = String(date.getHours()).padStart(2, "0");
 					const minutes = String(date.getMinutes()).padStart(2, "0");
 					const time = `${hours}:${minutes}`;
-
 					if (
 						date.getDate() === today.getDate() &&
 						date.getMonth() === today.getMonth() &&
@@ -35,15 +38,14 @@ const MessageBubble: React.FC<MessageDivProps> = ({
 					<MessageTextContainer
 						key={index}
 						id={item.name}
-						isCurrentUser={item.name === currentUser}
+						$isCurrentUser={item.name === currentUser}
 					>
-						<MessageContentBubble>
+						<MessageContentBubble onClick={toggleDate}>
 							{formattedDate && (
 								<>
-									<p>
+									<div style={{ fontSize: "x-small" }}>
 										{formattedDate}
-										<br />
-									</p>
+									</div>
 								</>
 							)}
 							{item.msg}

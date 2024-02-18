@@ -3,9 +3,6 @@ import { logout } from "../Services/auth";
 import { MenuButton, StyledLink } from "../Styles/Styles";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const LogoutButton: React.FC<LogoutButtonProps> = ({ setIsLoggedIn }) => {
     const navigate = useNavigate();
     const handleSubmit = (e: React.FormEvent) => {
