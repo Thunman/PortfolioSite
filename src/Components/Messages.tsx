@@ -39,12 +39,11 @@ const Messages = () => {
 	const openModal = () => setIsModalOpen(true);
 
 	const handleSend = async () => {
-		const uid = auth.currentUser?.uid;
 		if (!uid) return;
-
 		const response = await sendMsg(recipient, uid, outgoingText);
 		if (response.succes) {
 			setOutgoingText("");
+			scrollToBottom();
 		} else {
 			alert(response.message);
 		}
@@ -52,7 +51,6 @@ const Messages = () => {
 
 	useEffect(() => {
 		const getName = async () => {
-			const uid = auth.currentUser?.uid;
 			if (!uid) return;
 			const name = await getNameFromUid(uid);
 			setCurrentUser(name);
@@ -80,6 +78,7 @@ const Messages = () => {
 		if (!uid) return;
 		setRecipient(recipientUid);
 		setCardClicked(true);
+		scrollToBottom();
 		closeModal();
 	};
 	useEffect(() => {
@@ -87,6 +86,7 @@ const Messages = () => {
 		if (doc) {
 			setMessagesArray(doc.messages);
 		}
+		scrollToBottom()
 	}, [clickedName]);
 	const handleKeyPress = (event: React.KeyboardEvent) => {
 		if (event.key === "Enter") {
@@ -97,12 +97,6 @@ const Messages = () => {
 		scrollToBottom();
 	}, [messagesArray]);
 
-	useEffect(() => {
-		const doc = messages.find((msg) => msg.id === clickedName);
-		if (doc) {
-			setMessagesArray(doc.messages);
-		}
-	}, [clickedName]);
 	return (
 		<>
 			<AnimatePresence
@@ -138,8 +132,7 @@ const Messages = () => {
 							cardClicked && (
 								<>
 									<MessageBubble
-										document={messagesArray || []}
-										currentUser={currentUser}
+										sender={clickedName}
 									/>
 									<div style={{ flex: 1 }} />
 									<div

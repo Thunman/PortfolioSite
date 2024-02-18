@@ -4,20 +4,26 @@ import { MessageCardProps } from "../Interfaces/Interfaces";
 
 const MessageCard: React.FC<MessageCardProps> = ({ handleClick }) => {
 	const { messages } = useGetMessages();
+	let unread = false;
 	return (
 		<>
-			{messages.map((msg, index) => {
-				const hasUnread = msg.unread;
+			{messages.map((user, index) => {
+				unread = false;
+				if(user.unread)	{
+					unread = user.unread;
+				}
+				
+				
 				return (
 					<UserNameCard
 						key={index}
-						id={msg.id}
+						id={user.id}
 						style={{
-							backgroundColor: hasUnread ? "orange" : "#fff",
+							backgroundColor: unread ? "orange" : "#fff",
 						}}
-						onClick={() => handleClick(msg.id)}
+						onClick={() => handleClick(user.id)}
 					>
-						<p>{msg.id}</p>
+						<p>{user.id}</p>
 					</UserNameCard>
 				);
 			})}

@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { MessageDivProps, MessageProps } from "../Interfaces/Interfaces";
 import { MessageContentBubble, MessageTextContainer } from "../Styles/Styles";
-import { DocumentData } from "firebase/firestore";
+import useGetMessages from "../Hooks/getMessages";
 
-const MessageBubble: React.FC<MessageDivProps> = ({
-	document,
-	currentUser,
-}) => {
+const MessageBubble: React.FC<MessageDivProps> = ({ sender }) => {
 	const [showDate, setShowDate] = useState(false);
 	const toggleDate = () => {
 		setShowDate((prevShowDate) => !prevShowDate);
 	};
+	const { messages } = useGetMessages();
+	const doc = messages.find((msg) => msg.id === sender);
 	return (
 		<>
-			{document.map((item: MessageProps, index: number) => {
+			{doc?.messages.map((item: MessageProps, index: number) => {
 				let formattedDate = "";
 				if (showDate) {
 					const date = new Date(item.timestamp.seconds * 1000);
@@ -38,7 +37,7 @@ const MessageBubble: React.FC<MessageDivProps> = ({
 					<MessageTextContainer
 						key={index}
 						id={item.name}
-						$isCurrentUser={item.name === currentUser}
+						$isCurrentUser={item.name === sender}
 					>
 						<MessageContentBubble onClick={toggleDate}>
 							{formattedDate && (

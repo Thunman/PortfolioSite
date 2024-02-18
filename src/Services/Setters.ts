@@ -130,12 +130,13 @@ export const sendMsg = async (
 		await setDoc(
 			reciverMessageDoc,
 			{
+				unread: true,
 				senderId,
 				messages: arrayUnion({
 					msg,
 					timestamp: new Date(),
 					name: senderName,
-					unread: true,
+					
 				}),
 			},
 			{ merge: true }

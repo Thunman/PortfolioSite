@@ -8,6 +8,7 @@ const useGetMessages = () => {
 	const [messages, setMessages] = useState<DocumentData[]>([]);
 	const [uid, setUid] = useState(auth.currentUser?.uid || "");
 	const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+
 	const fetchMessages = async () => {
 		const messagesFromDb = await getAllMsgs();
 		setMessages(messagesFromDb);
@@ -27,12 +28,12 @@ const useGetMessages = () => {
 					})
 				);
 				setMessages(messagesFromDb);
-				const hasNew = messagesFromDb.find((msg) => msg.unread === true);
-				if (hasNew?.unread) {
-					setHasUnreadMessages(true);
-				} else {
-					setHasUnreadMessages(false);
-				}
+                /*  
+                ////This needs debugging\\\\
+				const hasUnread = messagesFromDb.some((msg) => msg.unread);
+                console.log(hasUnread);
+                setHasUnreadMessages(hasUnread);
+				*/
 			});
 			return () => unsubscribe();
 		}

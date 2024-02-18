@@ -141,7 +141,7 @@ export const MessageTextContainer = styled.div<MessageTextContainerProps>`
 	display: flex;
 	min-height: fit-content;
 	justify-content: ${(props) =>
-		props.$isCurrentUser ? "flex-end" : "flex-start"};
+		props.$isCurrentUser ? "flex-start" : "flex-end"};
 `;
 export const MessageContentBubble = styled.div`
 	font-size: larger;

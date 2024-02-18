@@ -37,8 +37,7 @@ export interface DataProps {
 	unread: boolean;
 }
 export interface MessageDivProps {
-	document: DocumentData;
-	currentUser: string;
+	sender: string;
 }
 
 export interface BasicInfoProps {
