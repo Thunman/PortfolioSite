@@ -6,17 +6,19 @@ import {
 	BasicInfoContainer,
 	BasicInfo,
 	BasicInfoDiv,
+	StyledLinkedin,
+	StyledGithub,
 } from "../Styles/Styles";
 import { useEffect, useState } from "react";
 import { fadeBoxIn } from "../Animations/Animations";
 import { getAboutAuthor } from "../Services/Getters";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const Landing = () => {
 	const [aboutText, setAboutText] = useState("");
 	const [aboutHeaderText, setAboutHeaderText] = useState("");
-	
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const aboutData = await getAboutAuthor();
@@ -46,21 +48,32 @@ const Landing = () => {
 						alt="My Image"
 					></ImgContainer>
 					<BasicInfo>
+						<BasicInfoDiv>Name: Daniel Thunman</BasicInfoDiv>
+						<BasicInfoDiv>UserName: Thunman</BasicInfoDiv>
+						<BasicInfoDiv>Age: 37</BasicInfoDiv>
+						<BasicInfoDiv>Location: Gävle, SE</BasicInfoDiv>
 						<BasicInfoDiv>
-							Name: Daniel Thunman
+							Contact:{" "}
+							<a href="mailto:Thunman42@gmail.com">
+								Thunman42@gmail.com
+							</a>
 						</BasicInfoDiv>
-						<BasicInfoDiv>
-							UserName: Thunman
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							Age: 37
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							Location: Gävle, SE
-						</BasicInfoDiv>
-						<BasicInfoDiv>
-							Contact: Thunman42@gmail.com
-						</BasicInfoDiv>
+						<div style={{ alignItems: "row" }}>
+							<a
+								href="https://www.linkedin.com/in/daniel-thunman-ba9641252/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<StyledLinkedin />
+							</a>
+							<a
+								href="https://github.com/Thunman"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<StyledGithub />
+							</a>
+						</div>
 					</BasicInfo>
 				</BasicInfoContainer>
 				<TextContainer>

@@ -23,7 +23,6 @@ const UserPage = () => {
 	useEffect(() => {
 
 		const fetchData = async () => {
-			console.log(userId)
 			if (!userId) return
 			const data = await getBasicInfo(userId);
 			if (data) {
@@ -60,7 +59,8 @@ const UserPage = () => {
 						<BasicInfoDiv>UserName: {basicInfo.userName}</BasicInfoDiv>
 						<BasicInfoDiv>Age: {basicInfo.age}</BasicInfoDiv>
 						<BasicInfoDiv>Location: {basicInfo.location}</BasicInfoDiv>
-						{basicInfo.showEmail === "true" && <BasicInfoDiv>Contact: {basicInfo.email}</BasicInfoDiv>}
+						{basicInfo.showEmail === "true" && <BasicInfoDiv>Contact: <a href={`mailto:${basicInfo.email}`}>{basicInfo.email}</a></BasicInfoDiv>}
+						
 					</BasicInfo>
 				</BasicInfoContainer>
 				<TextContainer>

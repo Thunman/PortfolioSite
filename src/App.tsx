@@ -46,6 +46,7 @@ function App() {
 			setUserName(user?.userName || "");
 		}
 	};
+
 	useEffect(() => {
 		getUserName();
 	}, [isLoggedIn]);
@@ -138,14 +139,15 @@ function App() {
 									<MenuButton as={StyledLink} to={"/userFinder"}>
 										Find Users
 									</MenuButton>
-				
+
 									<MenuButton
 										as={StyledLink}
 										to={"/messages"}
 										style={{
-											backgroundColor: messages.some((msg) => msg.unread)
-												? "orange"
-												: "#475569",
+											backgroundColor: (() => {
+												let hasUnread = false;
+												return hasUnread ? "orange" : "#475569";
+											})(),
 										}}
 									>
 										Messages

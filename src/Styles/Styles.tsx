@@ -3,6 +3,28 @@ import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import { IoSendSharp } from "react-icons/io5";
 import { MessageTextContainerProps } from "../Interfaces/Interfaces";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
+
+export const StyledLinkedin = styled(FaLinkedin)`
+	color: #475569;
+	height: 2vw;
+	width: 2vw;
+	font-size: x-large;
+	&:hover {
+		border: 1px solid;
+	}
+`;
+export const StyledGithub = styled(FaGithub)`
+	height: 2vw;
+	width: 2vw;
+	color: #fff;
+	background-color: #475569;
+	font-size: x-large;
+	&:hover {
+		border: 1px solid;
+	}
+`;
 
 export const UserFinderContainer = styled(motion.div)`
 	position: fixed;
@@ -10,7 +32,7 @@ export const UserFinderContainer = styled(motion.div)`
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(7, 1fr);
 	width: 75%;
-	height: 75%;
+	max-height: 75%;
 	background-color: #fff;
 	border-radius: 16px;
 	border: 4px solid #475569;
@@ -114,6 +136,13 @@ export const MessageListDiv = styled.div`
 	gap: 5px;
 	padding: 5px;
 `;
+export const MessageCardText = styled.p`
+	font-weight: bolder;
+`;
+export const UserCardText = styled.h3`
+	color: #fff;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+`;
 export const TextForMsgHeader = styled.h1`
 	color: #fff;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -211,15 +240,15 @@ export const MessageReplyInput = styled.input`
 	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
 `;
 export const UserDiv = styled.div`
-	background-color: #fff;
+	background-color: #475569;
 	border-radius: 16px;
-	color: black;
+	color: #fff;
 	border: 4px solid #475569;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	box-sizing: border-box;
 	cursor: pointer;
 	&:hover {
-		background: #475569;
+		background: #1a202c;
 		border: 4px solid #1a202c;
 	}
 `;
@@ -562,6 +591,7 @@ export const Form = styled.form`
 	flex-direction: column;
 	gap: 1rem;
 `;
+
 export const H1 = styled.h1`
 	font-size: 2rem;
 	margin-bottom: 1rem;

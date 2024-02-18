@@ -1,4 +1,4 @@
-import { UserNameCard } from "../Styles/Styles";
+import { MessageCardText, UserNameCard } from "../Styles/Styles";
 import useGetMessages from "../Hooks/getMessages";
 import { MessageCardProps } from "../Interfaces/Interfaces";
 
@@ -9,7 +9,7 @@ const MessageCard: React.FC<MessageCardProps> = ({ handleClick }) => {
 		<>
 			{messages.map((user, index) => {
 				unread = false;
-				if(user.unread)	{
+				if (user.unread) {
 					unread = user.unread;
 				}
 				return (
@@ -21,7 +21,7 @@ const MessageCard: React.FC<MessageCardProps> = ({ handleClick }) => {
 						}}
 						onClick={() => handleClick(user.id)}
 					>
-						<p>{user.id}</p>
+						<MessageCardText>{user.id}</MessageCardText>
 					</UserNameCard>
 				);
 			})}
