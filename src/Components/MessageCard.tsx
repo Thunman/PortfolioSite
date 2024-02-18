@@ -12,8 +12,6 @@ const MessageCard: React.FC<MessageCardProps> = ({ handleClick }) => {
 				if(user.unread)	{
 					unread = user.unread;
 				}
-				
-				
 				return (
 					<UserNameCard
 						key={index}

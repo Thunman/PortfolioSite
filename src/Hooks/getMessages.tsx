@@ -28,6 +28,7 @@ const useGetMessages = () => {
 					})
 				);
 				setMessages(messagesFromDb);
+                setHasUnreadMessages(true);
                 /*  
                 ////This needs debugging\\\\
 				const hasUnread = messagesFromDb.some((msg) => msg.unread);

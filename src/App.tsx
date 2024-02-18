@@ -23,7 +23,7 @@ import { MessagesProvider } from "./Hooks/MessageContext";
 import useGetMessages from "./Hooks/getMessages";
 
 function App() {
-	const { hasUnreadMessages } = useGetMessages();
+	const { messages } = useGetMessages();
 	const [userName, setUserName] = useState<string>("");
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [showGameButtons, setShowGameButtons] = useState(false);
@@ -138,11 +138,12 @@ function App() {
 									<MenuButton as={StyledLink} to={"/userFinder"}>
 										Find Users
 									</MenuButton>
+				
 									<MenuButton
 										as={StyledLink}
 										to={"/messages"}
 										style={{
-											backgroundColor: hasUnreadMessages
+											backgroundColor: messages.some((msg) => msg.unread)
 												? "orange"
 												: "#475569",
 										}}
