@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
 import { IoSendSharp } from "react-icons/io5";
+import { MessageTextContainerProps } from "../Interfaces/Interfaces";
 
 export const UserFinderContainer = styled(motion.div)`
 	position: fixed;
@@ -74,6 +75,21 @@ export const MessageHeaderDiv = styled.div`
 	align-items: center;
 	cursor: default;
 `;
+export const MessageBottomDiv = styled.div`
+	display: flex;
+	background-color: #475569;
+	border: 4px solid #1a202c;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	border-radius: 16px;
+	justify-content: center;
+	height: 10%;
+	align-items: center;
+	cursor: pointer;
+	&:hover {
+		background-color: #1a202c;
+		border: 4px solid #1a202c;
+	}
+`;
 export const MessageBodyDiv = styled.div`
 	height: 100%;
 	width: auto;
@@ -103,8 +119,8 @@ export const TextForMsgHeader = styled.h1`
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
 export const TextForMsgBottom = styled.h3`
-color: #fff;
-text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	color: #fff;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `;
 export const UserNameCard = styled.div`
 	background-color: #fff;
@@ -120,14 +136,12 @@ export const UserNameCard = styled.div`
 		border: 4px solid #1a202c;
 	}
 `;
-type MessageTextContainerProps = {
-    isCurrentUser: boolean; // Change this line
-};
 
 export const MessageTextContainer = styled.div<MessageTextContainerProps>`
-    display: flex;
-    min-height: fit-content;
-    justify-content: ${props => props.isCurrentUser ? 'flex-end' : 'flex-start'}; // And this line
+	display: flex;
+	min-height: fit-content;
+	justify-content: ${(props) =>
+		props.$isCurrentUser ? "flex-end" : "flex-start"};
 `;
 export const MessageContentBubble = styled.div`
 	font-size: larger;
@@ -136,22 +150,22 @@ export const MessageContentBubble = styled.div`
 	padding: 15px;
 
 	background-color: #475569;
-  	color: #fff;
+	color: #fff;
 	&:hover {
 		background: #475569;
 		border: 1px solid #1a202c;
 	}
-`
+`;
 export const SendButton = styled.button`
 	width: 35px;
 	height: 35px;
-	align-items: center; 
+	align-items: center;
 	display: flex;
 	justify-content: center;
 	border-radius: 20px;
 	border: 1px solid #fff;
 	background-color: #fff;
-	
+
 	padding: 2px;
 	margin: 2px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
@@ -160,11 +174,11 @@ export const SendButton = styled.button`
 		border: 1px solid #475569;
 		color: #fff;
 	}
-`
+`;
 export const StyledIoSendSharp = styled(IoSendSharp)`
-    color: #475569;
+	color: #475569;
 	font-size: x-large;
-	&:hover {	
+	&:hover {
 		color: #fff;
 	}
 `;
@@ -184,8 +198,8 @@ export const MessageDisplay = styled.div`
 
 	overflow: auto;
 	&::-webkit-scrollbar {
-        width: 0%;
-    }
+		width: 0%;
+	}
 `;
 export const MessageReplyInput = styled.input`
 	border-radius: 8px;
@@ -193,7 +207,9 @@ export const MessageReplyInput = styled.input`
 	color: #fff;
 	min-height: 5vh;
 	font-size: 1vw;
-`
+	border: 1px solid #000000;
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+`;
 export const UserDiv = styled.div`
 	background-color: #fff;
 	border-radius: 16px;

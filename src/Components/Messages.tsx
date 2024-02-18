@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
 	MessageBodyDiv,
+	MessageBottomDiv,
 	MessageDisplay,
 	MessageHeaderDiv,
 	MessageListDiv,
@@ -11,24 +12,26 @@ import {
 	TextForMsgBottom,
 	TextForMsgHeader,
 } from "../Styles/Styles";
-import { initMsgDB, sendMsg } from "../Services/Setters";
+import { sendMsg, setReadTrue } from "../Services/Setters";
 import { auth } from "../firebase";
 import MessageCard from "./MessageCard";
-import { useMessages } from "../Hooks/MessageContext";
 import MessageBubble from "./MessageBubble";
 import { getNameFromUid, getUidFromName } from "../Services/Getters";
 import UserSelectorModal from "./UserSelectorModal";
 import { AnimatePresence } from "framer-motion";
-import { IoSendSharp } from "react-icons/io5";
+import useGetMessages from "../Hooks/getMessages";
+import { DocumentData } from "firebase/firestore";
 
 const Messages = () => {
+	const [reRender, setRerender] = useState(false);
+	const [uid, setUid] = useState(auth.currentUser?.uid || "");
 	const [clickedName, setClickedName] = useState("");
 	const [recipient, setRecipient] = useState("");
 	const [currentUser, setCurrentUser] = useState("");
-	const { messages, refresh } = useMessages();
+	const { messages } = useGetMessages();
 	const [cardClicked, setCardClicked] = useState(false);
 	const [outgoingText, setOutgoingText] = useState("");
-	const [messagesArray, setMessagesArray] = useState([]);
+	const [messagesArray, setMessagesArray] = useState<DocumentData>([]);
 	const [isInputOpen, setIsInputOpen] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +45,6 @@ const Messages = () => {
 		const response = await sendMsg(recipient, uid, outgoingText);
 		if (response.succes) {
 			setOutgoingText("");
-			refresh();
 		} else {
 			alert(response.message);
 		}
@@ -67,33 +69,25 @@ const Messages = () => {
 	};
 
 	const onClickHandler = async (id: string) => {
-		setCardClicked(true);
 		setClickedName(id);
-		const uidPromise = auth.currentUser?.uid;
 		const recipientUidPromise = getUidFromName(id);
-		const [recipientUid, uid] = await Promise.all([
-			recipientUidPromise,
-			uidPromise,
-		]);
-		if (!recipientUid) {
-			console.log("exit no rec uid");
-			return;
-		}
-		if (!uid) {
-			console.log("exit no uid");
-			return;
-		}
+		await setReadTrue(uid, id).then(() => {
+			if (reRender) setRerender(false);
+			else setRerender(true);
+		});
+		const [recipientUid] = await Promise.all([recipientUidPromise]);
+		if (!recipientUid) return;
+		if (!uid) return;
 		setRecipient(recipientUid);
+		setCardClicked(true);
 		closeModal();
 	};
 	useEffect(() => {
 		const doc = messages.find((msg) => msg.id === clickedName);
 		if (doc) {
-			const data = doc.data();
-			setMessagesArray(data.messages);
+			setMessagesArray(doc.messages);
 		}
-	}, [recipient]);
-
+	}, [clickedName]);
 	const handleKeyPress = (event: React.KeyboardEvent) => {
 		if (event.key === "Enter") {
 			handleSend();
@@ -105,12 +99,10 @@ const Messages = () => {
 
 	useEffect(() => {
 		const doc = messages.find((msg) => msg.id === clickedName);
-		console.log(doc);
 		if (doc) {
-			const data = doc.data();
-			setMessagesArray(data.messages);
+			setMessagesArray(doc.messages);
 		}
-	}, [messages]);
+	}, [clickedName]);
 	return (
 		<>
 			<AnimatePresence
@@ -128,7 +120,7 @@ const Messages = () => {
 
 			<MessagesContainer>
 				<MessageHeaderDiv>
-				{clickedName && (
+					{clickedName && (
 						<TextForMsgHeader>{`Conversation with ${clickedName}`}</TextForMsgHeader>
 					)}
 					{!clickedName && (
@@ -146,7 +138,7 @@ const Messages = () => {
 							cardClicked && (
 								<>
 									<MessageBubble
-										messages={messagesArray}
+										document={messagesArray || []}
 										currentUser={currentUser}
 									/>
 									<div style={{ flex: 1 }} />
@@ -163,7 +155,7 @@ const Messages = () => {
 											value={outgoingText}
 											onChange={handleTextChange}
 											onKeyDown={handleKeyPress}
-											style={{ flex: 1, paddingRight: "50px" }} // Add padding to prevent text going under the button
+											style={{ flex: 1, paddingRight: "50px" }}
 										/>
 										<SendButton
 											onClick={handleSend}
@@ -171,7 +163,7 @@ const Messages = () => {
 												position: "absolute",
 												right: "10px",
 												top: "50%",
-												transform: "translateY(-50%)", // This will center the button vertically
+												transform: "translateY(-50%)",
 											}}
 										>
 											<StyledIoSendSharp />
@@ -195,9 +187,9 @@ const Messages = () => {
 						></UserSelectorModal>
 					)}
 				</AnimatePresence>
-				<MessageHeaderDiv onClick={openModal} style={{ cursor: "pointer" }}>
+				<MessageBottomDiv onClick={openModal} style={{ cursor: "pointer" }}>
 					<TextForMsgBottom>New Conversation</TextForMsgBottom>
-				</MessageHeaderDiv>
+				</MessageBottomDiv>
 			</MessagesContainer>
 		</>
 	);

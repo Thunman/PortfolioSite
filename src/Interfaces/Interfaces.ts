@@ -1,5 +1,9 @@
+import { DocumentData } from "firebase/firestore";
 import { MouseEventHandler, ReactNode } from "react";
-import { MouseEvent } from "react";
+
+export interface MessageTextContainerProps {
+	$isCurrentUser: boolean;
+}
 
 export interface DropDownMenuProps {
 	isMenuOpen: boolean;
@@ -12,9 +16,7 @@ export interface GameButtonProps {
 	showGameButtons: boolean;
 }
 export interface MessageCardProps {
-
 	handleClick: (userName: string) => void;
-
 }
 export interface UserSelectorModalProps {
 	handleClose: (
@@ -27,12 +29,17 @@ export interface MessageProps {
 	msg: string;
 	timestamp: { seconds: number; nanoseconds: number };
 	name: string;
-  };
-
- export interface MessageDivProps {
-	messages: MessageProps[];
+}
+export interface DataProps {
+	messages: [MessageProps];
+	reciverId: string;
+	senderId: string;
+	unread: boolean;
+}
+export interface MessageDivProps {
+	document: DocumentData;
 	currentUser: string;
-  };
+}
 
 export interface BasicInfoProps {
 	name?: string;

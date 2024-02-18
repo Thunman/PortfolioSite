@@ -1,13 +1,11 @@
 import {
 	LevelSelectorBackdrop,
 	StyledUserSeletorModal,
-	UserNameCard,
 	UserNameCardForModal,
 } from "../Styles/Styles";
 import { UserSelectorModalProps } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
 import { getAllUserNames } from "../Services/Getters";
-import { initMsgDB } from "../Services/Setters";
 
 const UserSelectorModal = ({
 	handleClose,
