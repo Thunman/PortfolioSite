@@ -4,6 +4,7 @@ import { DocumentData, collection, doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { DataProps } from "../Interfaces/Interfaces";
 
+
 const useGetMessages = () => {
 	const [messages, setMessages] = useState<DocumentData[]>([]);
 	const [uid, setUid] = useState(auth.currentUser?.uid || "");
@@ -28,17 +29,20 @@ const useGetMessages = () => {
 					})
 				);
 				setMessages(messagesFromDb);
-                setHasUnreadMessages(true);
-                /*  
-                ////This needs debugging\\\\
+				
+                
+                
+                
 				const hasUnread = messagesFromDb.some((msg) => msg.unread);
-                console.log(hasUnread);
+                console.log("hasUnread:", hasUnread);
                 setHasUnreadMessages(hasUnread);
-				*/
+				
 			});
+			console.log("log in getMSgs:", hasUnreadMessages)
 			return () => unsubscribe();
 		}
 	}, [uid]);
+	
 	return { messages, hasUnreadMessages };
 };
 

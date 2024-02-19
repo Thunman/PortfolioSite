@@ -23,10 +23,11 @@ import { MessagesProvider } from "./Hooks/MessageContext";
 import useGetMessages from "./Hooks/getMessages";
 
 function App() {
-	const { messages } = useGetMessages();
+	const { messages, hasUnreadMessages } = useGetMessages();
 	const [userName, setUserName] = useState<string>("");
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [showGameButtons, setShowGameButtons] = useState(false);
+	const [color, setColor] = useState("#475569")
 	const toggleGameButtons = () => {
 		setShowGameButtons(!showGameButtons);
 	};
@@ -46,7 +47,14 @@ function App() {
 			setUserName(user?.userName || "");
 		}
 	};
-
+	useEffect(() => {
+		console.log('hasUnreadMessages changed:', hasUnreadMessages);
+		if(hasUnreadMessages){
+			setColor("orange");
+			console.log("here")
+		}
+	  }, [hasUnreadMessages]);
+	console.log("app log")
 	useEffect(() => {
 		getUserName();
 	}, [isLoggedIn]);
@@ -122,7 +130,7 @@ function App() {
 					)}
 					{isLoggedIn && (
 						<MessagesProvider>
-							<>
+							
 								<DropDownMenu isMenuOpen={isMenuOpen}>
 									<MenuButton
 										as={StyledLink}
@@ -139,15 +147,16 @@ function App() {
 									<MenuButton as={StyledLink} to={"/userFinder"}>
 										Find Users
 									</MenuButton>
-
+									{(() => {
+										console.log("log inside app.tsx:", hasUnreadMessages);
+										console.log(color)
+										return null;
+									})()}
 									<MenuButton
 										as={StyledLink}
 										to={"/messages"}
 										style={{
-											backgroundColor: (() => {
-												let hasUnread = false;
-												return hasUnread ? "orange" : "#475569";
-											})(),
+											backgroundColor: color
 										}}
 									>
 										Messages
@@ -194,7 +203,7 @@ function App() {
 									<Route path="/user/:userId" element={<UserPage />} />
 									<Route path="/messages" element={<Messages />} />
 								</Routes>
-							</>
+							
 						</MessagesProvider>
 					)}
 				</Router>
