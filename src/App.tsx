@@ -94,7 +94,9 @@ function App() {
 			<Container
 				onClick={() => {
 					setShowGameButtons(false);
-					handleMenuToggle();
+					if (!isLocked) {
+						setIsMenuOpen(false);
+					}
 				}}
 			>
 				<Router>
