@@ -1,4 +1,3 @@
-import { DocumentData } from "firebase/firestore";
 import { MouseEventHandler, ReactNode } from "react";
 
 export interface MessageTextContainerProps {
@@ -38,6 +37,7 @@ export interface DataProps {
 }
 export interface MessageDivProps {
 	sender: string;
+	uid: string;
 }
 
 export interface BasicInfoProps {

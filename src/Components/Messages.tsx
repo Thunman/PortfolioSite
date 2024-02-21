@@ -23,7 +23,6 @@ import useGetMessages from "../Hooks/getMessages";
 import { DocumentData } from "firebase/firestore";
 
 const Messages = () => {
-	const [reRender, setRerender] = useState(false);
 	const [uid, setUid] = useState(auth.currentUser?.uid || "");
 	const [clickedName, setClickedName] = useState("");
 	const [recipient, setRecipient] = useState("");
@@ -69,10 +68,7 @@ const Messages = () => {
 	const onClickHandler = async (id: string) => {
 		setClickedName(id);
 		const recipientUidPromise = getUidFromName(id);
-		await setReadTrue(uid, id).then(() => {
-			if (reRender) setRerender(false);
-			else setRerender(true);
-		});
+		await setReadTrue(uid, id);
 		const [recipientUid] = await Promise.all([recipientUidPromise]);
 		if (!recipientUid) return;
 		if (!uid) return;
@@ -86,7 +82,7 @@ const Messages = () => {
 		if (doc) {
 			setMessagesArray(doc.messages);
 		}
-		scrollToBottom()
+		scrollToBottom();
 	}, [clickedName]);
 	const handleKeyPress = (event: React.KeyboardEvent) => {
 		if (event.key === "Enter") {
@@ -131,9 +127,7 @@ const Messages = () => {
 						) : (
 							cardClicked && (
 								<>
-									<MessageBubble
-										sender={clickedName}
-									/>
+									<MessageBubble sender={clickedName} uid={uid} />
 									<div style={{ flex: 1 }} />
 									<div
 										style={{

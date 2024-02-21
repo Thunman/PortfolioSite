@@ -4,14 +4,13 @@ import { DocumentData } from "firebase/firestore";
 
 interface MessagesContextType {
 	messages: DocumentData[];
-	hasUnreadMessages: boolean;
 }
 const MessagesContext = createContext<MessagesContextType | null>(null);
 
 export const MessagesProvider = ({ children }: { children: ReactNode }) => {
-	const { messages, hasUnreadMessages } = useGetMessages();
+	const { messages } = useGetMessages();
 	return (
-		<MessagesContext.Provider value={{ messages, hasUnreadMessages }}>
+		<MessagesContext.Provider value={{ messages }}>
 			{children}
 		</MessagesContext.Provider>
 	);

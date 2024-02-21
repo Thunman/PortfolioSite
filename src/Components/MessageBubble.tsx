@@ -2,14 +2,16 @@ import { useState } from "react";
 import { MessageDivProps, MessageProps } from "../Interfaces/Interfaces";
 import { MessageContentBubble, MessageTextContainer } from "../Styles/Styles";
 import useGetMessages from "../Hooks/getMessages";
+import { setReadTrue } from "../Services/Setters";
 
-const MessageBubble: React.FC<MessageDivProps> = ({ sender }) => {
+const MessageBubble: React.FC<MessageDivProps> = ({ sender, uid }) => {
 	const [showDate, setShowDate] = useState(false);
 	const toggleDate = () => {
 		setShowDate((prevShowDate) => !prevShowDate);
 	};
 	const { messages } = useGetMessages();
 	const doc = messages.find((msg) => msg.id === sender);
+	setReadTrue(uid, sender);
 	return (
 		<>
 			{doc?.messages.map((item: MessageProps, index: number) => {
