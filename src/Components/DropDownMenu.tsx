@@ -2,7 +2,6 @@ import { slideInMenu } from "../Animations/Animations";
 import { Menu } from "../Styles/Styles";
 import { DropDownMenuProps } from "../Interfaces/Interfaces";
 
-
 const DropDownMenu: React.FC<DropDownMenuProps> = ({
 	isMenuOpen,
 	children,
@@ -19,5 +18,4 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
 		</Menu>
 	);
 };
-
 export default DropDownMenu;

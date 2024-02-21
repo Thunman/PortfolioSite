@@ -1,6 +1,3 @@
-import { auth, db } from "../firebase";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import {
 	Button,
@@ -15,13 +12,13 @@ const PasswordReset = () => {
 	const [email, setEmail] = useState<string>("");
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-        resetPassword(email).then((res) => {
-            if (res?.success) {
-                alert(res?.message);
-            } else {
-                alert(res?.message);
-            }
-        });
+		resetPassword(email).then((res) => {
+			if (res?.success) {
+				alert(res?.message);
+			} else {
+				alert(res?.message);
+			}
+		});
 	};
 
 	return (

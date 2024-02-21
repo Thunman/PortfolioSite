@@ -22,6 +22,7 @@ import Messages from "./Components/Messages";
 import { MessagesProvider } from "./Hooks/MessageContext";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { DataProps } from "./Interfaces/Interfaces";
+import { GiPadlock, GiPadlockOpen } from "react-icons/gi";
 
 function App() {
 	const [userName, setUserName] = useState<string>("");
@@ -29,10 +30,14 @@ function App() {
 	const [showGameButtons, setShowGameButtons] = useState(false);
 	const [color, setColor] = useState("#475569");
 	const [uid, setUid] = useState("");
+	const [isLocked, setIsLocked] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(true);
+	const toggleMenuLock = () => {
+		setIsLocked(!isLocked);
+	};
 	const toggleGameButtons = () => {
 		setShowGameButtons(!showGameButtons);
 	};
-
 	useEffect(() => {
 		if (uid) {
 			const messageRef = collection(doc(db, "Users", uid), "messages");
@@ -58,7 +63,6 @@ function App() {
 					setColor("#475569");
 				}
 			});
-
 			return () => unsubscribe();
 		}
 	}, [userName]);
@@ -68,8 +72,9 @@ function App() {
 		});
 		return () => unsubscribe();
 	}, []);
-	const [isMenuOpen, setIsMenuOpen] = useState(true);
+
 	const handleMenuToggle = () => {
+		if (isLocked) return;
 		setIsMenuOpen(!isMenuOpen);
 	};
 	const getUserName = async () => {
@@ -89,7 +94,7 @@ function App() {
 			<Container
 				onClick={() => {
 					setShowGameButtons(false);
-					setIsMenuOpen(false);
+					handleMenuToggle();
 				}}
 			>
 				<Router>
@@ -198,6 +203,21 @@ function App() {
 									Games
 								</MenuButton>
 								<GameButtons showGameButtons={showGameButtons} />
+								{isLocked ? (
+									<MenuButton
+										style={{ paddingTop: 15, background: "#1a202c" }}
+										onClick={toggleMenuLock}
+									>
+										<GiPadlock />
+									</MenuButton>
+								) : (
+									<MenuButton
+										style={{ paddingTop: 15 }}
+										onClick={toggleMenuLock}
+									>
+										<GiPadlockOpen />
+									</MenuButton>
+								)}
 								<div style={{ flexGrow: 1 }}></div>
 								<LogoutButton setIsLoggedIn={setIsLoggedIn} />
 							</DropDownMenu>
